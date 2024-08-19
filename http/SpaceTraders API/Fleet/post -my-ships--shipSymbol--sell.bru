@@ -1,0 +1,22 @@
+meta {
+  name: post -my-ships--shipSymbol--sell
+  type: http
+  seq: 20
+}
+
+post {
+  url: https://api.spacetraders.io/v2/my/ships/{shipSymbol}/sell
+  body: json
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{token}}
+}
+
+body:json {
+  {
+    "symbol": "",
+    "units": ""
+  }
+}

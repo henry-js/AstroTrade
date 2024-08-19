@@ -1,0 +1,22 @@
+meta {
+  name: post -my-ships--shipSymbol--refuel
+  type: http
+  seq: 24
+}
+
+post {
+  url: https://api.spacetraders.io/v2/my/ships/{shipSymbol}/refuel
+  body: json
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{token}}
+}
+
+body:json {
+  {
+    "units": "",
+    "fromCargo": ""
+  }
+}

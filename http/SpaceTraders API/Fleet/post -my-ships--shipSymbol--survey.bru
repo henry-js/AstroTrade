@@ -1,0 +1,15 @@
+meta {
+  name: post -my-ships--shipSymbol--survey
+  type: http
+  seq: 10
+}
+
+post {
+  url: https://api.spacetraders.io/v2/my/ships/{shipSymbol}/survey
+  body: none
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{token}}
+}

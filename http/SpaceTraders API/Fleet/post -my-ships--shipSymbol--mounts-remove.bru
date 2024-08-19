@@ -1,0 +1,21 @@
+meta {
+  name: post -my-ships--shipSymbol--mounts-remove
+  type: http
+  seq: 30
+}
+
+post {
+  url: https://api.spacetraders.io/v2/my/ships/{shipSymbol}/mounts/remove
+  body: json
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{token}}
+}
+
+body:json {
+  {
+    "symbol": ""
+  }
+}

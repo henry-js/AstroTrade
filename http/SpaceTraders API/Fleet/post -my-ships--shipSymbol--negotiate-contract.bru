@@ -1,0 +1,15 @@
+meta {
+  name: post -my-ships--shipSymbol--negotiate-contract
+  type: http
+  seq: 27
+}
+
+post {
+  url: https://api.spacetraders.io/v2/my/ships/{shipSymbol}/negotiate/contract
+  body: none
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{token}}
+}

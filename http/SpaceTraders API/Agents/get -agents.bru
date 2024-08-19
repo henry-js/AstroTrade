@@ -1,0 +1,16 @@
+meta {
+  name: get -agents
+  type: http
+  seq: 2
+}
+
+get {
+  url: https://api.spacetraders.io/v2/agents
+  body: none
+  auth: none
+}
+
+params:query {
+  ~page: 
+  ~limit: 
+}

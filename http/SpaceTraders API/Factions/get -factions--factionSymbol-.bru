@@ -1,0 +1,15 @@
+meta {
+  name: get -factions--factionSymbol-
+  type: http
+  seq: 2
+}
+
+get {
+  url: https://api.spacetraders.io/v2/factions/{factionSymbol}
+  body: none
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{token}}
+}

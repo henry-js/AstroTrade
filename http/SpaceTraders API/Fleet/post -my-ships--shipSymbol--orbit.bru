@@ -1,0 +1,15 @@
+meta {
+  name: post -my-ships--shipSymbol--orbit
+  type: http
+  seq: 5
+}
+
+post {
+  url: https://api.spacetraders.io/v2/my/ships/{shipSymbol}/orbit
+  body: none
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{token}}
+}

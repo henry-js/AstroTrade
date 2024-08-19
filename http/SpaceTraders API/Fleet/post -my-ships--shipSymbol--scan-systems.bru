@@ -1,0 +1,15 @@
+meta {
+  name: post -my-ships--shipSymbol--scan-systems
+  type: http
+  seq: 21
+}
+
+post {
+  url: https://api.spacetraders.io/v2/my/ships/{shipSymbol}/scan/systems
+  body: none
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{token}}
+}

@@ -1,0 +1,33 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.0.31903.59
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "tests", "tests\tests.csproj", "{244D2F7D-1D48-40C4-BEA6-595D83187621}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{54470AA0-2DB7-4831-A75A-BA2B83FFE71E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AstroTrade", "src\AstroTrade\AstroTrade.csproj", "{45427253-F6F3-4B60-8641-9238AE85DEEC}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{244D2F7D-1D48-40C4-BEA6-595D83187621}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{244D2F7D-1D48-40C4-BEA6-595D83187621}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{244D2F7D-1D48-40C4-BEA6-595D83187621}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{244D2F7D-1D48-40C4-BEA6-595D83187621}.Release|Any CPU.Build.0 = Release|Any CPU
+		{45427253-F6F3-4B60-8641-9238AE85DEEC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{45427253-F6F3-4B60-8641-9238AE85DEEC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{45427253-F6F3-4B60-8641-9238AE85DEEC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{45427253-F6F3-4B60-8641-9238AE85DEEC}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{45427253-F6F3-4B60-8641-9238AE85DEEC} = {54470AA0-2DB7-4831-A75A-BA2B83FFE71E}
+	EndGlobalSection
+EndGlobal

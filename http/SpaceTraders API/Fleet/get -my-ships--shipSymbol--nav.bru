@@ -1,0 +1,15 @@
+meta {
+  name: get -my-ships--shipSymbol--nav
+  type: http
+  seq: 18
+}
+
+get {
+  url: https://api.spacetraders.io/v2/my/ships/{shipSymbol}/nav
+  body: none
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{token}}
+}

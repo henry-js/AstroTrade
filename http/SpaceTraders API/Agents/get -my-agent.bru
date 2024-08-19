@@ -1,0 +1,15 @@
+meta {
+  name: get -my-agent
+  type: http
+  seq: 1
+}
+
+get {
+  url: https://api.spacetraders.io/v2/my/agent
+  body: none
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{token}}
+}

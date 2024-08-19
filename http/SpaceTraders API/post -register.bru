@@ -1,0 +1,23 @@
+meta {
+  name: post -register
+  type: http
+  seq: 2
+}
+
+post {
+  url: https://api.spacetraders.io/v2/register
+  body: json
+  auth: bearer
+}
+
+auth:bearer {
+  token: 
+}
+
+body:json {
+  {
+    "faction": "",
+    "symbol": "",
+    "email": ""
+  }
+}

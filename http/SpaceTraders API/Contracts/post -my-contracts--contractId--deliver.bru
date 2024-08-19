@@ -1,0 +1,23 @@
+meta {
+  name: post -my-contracts--contractId--deliver
+  type: http
+  seq: 4
+}
+
+post {
+  url: https://api.spacetraders.io/v2/my/contracts/{contractId}/deliver
+  body: json
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{token}}
+}
+
+body:json {
+  {
+    "shipSymbol": "",
+    "tradeSymbol": "",
+    "units": ""
+  }
+}
