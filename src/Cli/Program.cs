@@ -9,6 +9,8 @@ using Microsoft.Extensions.Hosting;
 using Serilog;
 using Spectre.Console;
 using Velopack;
+using AstroTrade.Cli.Commands;
+using AstroTrade.Application;
 
 
 var loggerConfiguration = new LoggerConfiguration()
@@ -16,7 +18,7 @@ var loggerConfiguration = new LoggerConfiguration()
             .WriteTo.File(path: "logs/startup_.log",
             outputTemplate: "{Timestamp:yyyy-MM-dd HH:mm:ss.fff zzz} [{Level:u}] {SourceContext}: {Message:lj}{NewLine}{Exception}",
             rollingInterval: RollingInterval.Day)
-            .Enrich.WithProperty("Application Name", "TaskTitan");
+            .Enrich.WithProperty("Application Name", "AstroTrade");
 Log.Logger = loggerConfiguration.CreateBootstrapLogger();
 
 ConfigHelper.CreateConfigFile();
@@ -27,7 +29,12 @@ VelopackApp.Build()
 
 // services.AddScoped<BogusCommand>();
 
-var rootCommand = new RootCommand("task");
+var rootCommand = new RootCommand("astro");
+
+var authCommand = new Command("auth", "Authenication commands");
+authCommand.AddCommand(new RegisterCommand());
+rootCommand.AddCommand(authCommand);
+
 // rootCommand.AddCommand(new ListCommand());
 // rootCommand.AddCommand(new AddCommand());
 // rootCommand.AddCommand(new StartCommand());
@@ -43,7 +50,7 @@ var parser = cmdLineBuilder
     .UseHost(_ => Host.CreateDefaultBuilder(args), builder =>
     {
         builder.ConfigureServices(ConfigureServices)
-        // .UseCommandHandler<ListCommand, ListCommand.Handler>()
+        .UseCommandHandler<RegisterCommand, RegisterCommand.Handler>()
         // .UseCommandHandler<AddCommand, AddCommand.Handler>()
         // .UseCommandHandler<StartCommand, StartCommand.Handler>()
         // .UseCommandHandler<ModifyCommand, ModifyCommand.Handler>()
@@ -66,14 +73,14 @@ static void ConfigureServices(HostBuilderContext context, IServiceCollection ser
 {
     services.AddSingleton(_ => AnsiConsole.Console);
     services.AddSingleton(TimeProvider.System);
-    // services.AddInfrastructure();
+    services.AddSpaceTradersApi();
 }
 result = await parser.InvokeAsync(args);
 
-#if DEBUG
-Console.WriteLine();
-Console.WriteLine("Press any key to exit.");
-System.Console.ReadKey(intercept: true);
-#endif
+// #if DEBUG
+// Console.WriteLine();
+// Console.WriteLine("Press any key to exit.");
+// System.Console.ReadKey(intercept: true);
+// #endif
 
 return result;
