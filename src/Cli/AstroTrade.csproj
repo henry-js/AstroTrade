@@ -35,5 +35,6 @@
     <ProjectReference Include="..\Interfaces\Interfaces.csproj" />
     <ProjectReference Include="..\Application\Application.csproj" />
     <ProjectReference Include="..\Domain\Domain.csproj" />
+    <ProjectReference Include="..\SpaceTraders\Api\SpaceTraders.Api.csproj" />
   </ItemGroup>
 </Project>
