@@ -11,6 +11,7 @@ using Spectre.Console;
 using Velopack;
 using AstroTrade.Cli.Commands;
 using AstroTrade.Application;
+using Application.Extensions;
 
 
 var loggerConfiguration = new LoggerConfiguration()
@@ -73,7 +74,7 @@ static void ConfigureServices(HostBuilderContext context, IServiceCollection ser
 {
     services.AddSingleton(_ => AnsiConsole.Console);
     services.AddSingleton(TimeProvider.System);
-    services.AddSpaceTradersApi();
+    services.AddSpaceTradersApi(context.Configuration);
 }
 result = await parser.InvokeAsync(args);
 

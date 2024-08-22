@@ -1,17 +1,16 @@
 using AstroTrade.Domain.SpaceTraders.Models;
 using AstroTrade.Services;
-using Flurl.Http;
-using Flurl.Http.Configuration;
+using SpaceTraders.Api;
 
 namespace AstroTrade.Application.Services;
 
 public class SpaceTradersService : ISpaceTradersService
 {
-    private readonly IFlurlClient _client;
+    private readonly SpaceTradersClient client;
 
-    public SpaceTradersService(IOptionsManager options, IFlurlClientCache clients)
+    public SpaceTradersService(SpaceTradersClient client)
     {
-        _client = clients.Get(nameof(SpaceTradersApi));
+        this.client = client;
     }
     public async Task<RegisterAgentResponse> RegisterSpaceTrader(string faction, string symbol, string email)
     {
@@ -21,18 +20,24 @@ public class SpaceTradersService : ISpaceTradersService
             Symbol = symbol,
             Email = email,
         };
+        try
+        {
+            var response = await client.GetAsGetResponseAsync();
+            Console.WriteLine(response);
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine(ex);
+        }
 
-        var response = await _client.Request("register")
-            .PostJsonAsync(requestBody)
-            .ReceiveJson<RegisterAgentResponse>();
-
-        return response;
+        var response2 = await client.Register.PostAsRegisterPostResponseAsync(new SpaceTraders.Api.Register.RegisterPostRequestBody { Faction = SpaceTraders.Api.Models.FactionSymbol.COSMIC, Symbol = symbol, Email = "jh@example.com" });
+        return new RegisterAgentResponse();
+        // return response;
     }
 }
 
 public interface IOptionsManager
 {
-
     void Save(object Value);
 }
 

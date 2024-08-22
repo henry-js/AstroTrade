@@ -22,7 +22,7 @@ namespace SpaceTraders.Api
     /// The main entry point of the SDK, exposes the configuration and the fluent API.
     /// </summary>
     [global::System.CodeDom.Compiler.GeneratedCode("Kiota", "1.17.0")]
-    public partial class Client : BaseRequestBuilder
+    public partial class SpaceTradersClient : BaseRequestBuilder
     {
         /// <summary>The agents property</summary>
         public global::SpaceTraders.Api.Agents.AgentsRequestBuilder Agents
@@ -50,10 +50,10 @@ namespace SpaceTraders.Api
             get => new global::SpaceTraders.Api.Systems.SystemsRequestBuilder(PathParameters, RequestAdapter);
         }
         /// <summary>
-        /// Instantiates a new <see cref="global::SpaceTraders.Api.Client"/> and sets the default values.
+        /// Instantiates a new <see cref="global::SpaceTraders.Api.SpaceTradersClient"/> and sets the default values.
         /// </summary>
         /// <param name="requestAdapter">The request adapter to use to execute the requests.</param>
-        public Client(IRequestAdapter requestAdapter) : base(requestAdapter, "{+baseurl}", new Dictionary<string, object>())
+        public SpaceTradersClient(IRequestAdapter requestAdapter) : base(requestAdapter, "{+baseurl}", new Dictionary<string, object>())
         {
             ApiClientBuilder.RegisterDefaultSerializer<JsonSerializationWriterFactory>();
             ApiClientBuilder.RegisterDefaultSerializer<TextSerializationWriterFactory>();
