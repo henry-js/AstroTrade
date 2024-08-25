@@ -1,5 +1,4 @@
 ﻿using AstroTrade.Cli;
-// using AstroTrade.Cli.Commands;
 using System.CommandLine;
 using System.CommandLine.Builder;
 using System.CommandLine.Hosting;
@@ -10,9 +9,9 @@ using Serilog;
 using Spectre.Console;
 using Velopack;
 using AstroTrade.Cli.Commands;
+using AstroTrade.Application.Extensions;
 using AstroTrade.Application;
-using Application.Extensions;
-
+using AstroTrade.Application.Configuration;
 
 var loggerConfiguration = new LoggerConfiguration()
     .MinimumLevel.Debug()
@@ -74,7 +73,7 @@ static void ConfigureServices(HostBuilderContext context, IServiceCollection ser
 {
     services.AddSingleton(_ => AnsiConsole.Console);
     services.AddSingleton(TimeProvider.System);
-    services.AddSpaceTradersApi(context.Configuration);
+    services.AddSpaceTraders(context.Configuration);
 }
 result = await parser.InvokeAsync(args);
 

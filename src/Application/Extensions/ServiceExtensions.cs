@@ -1,14 +1,15 @@
+using AstroTrade.Application.Configuration;
 using AstroTrade.Application.Services;
 using AstroTrade.Services;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using SpaceTraders.Api;
 
-namespace Application.Extensions;
+namespace AstroTrade.Application.Extensions;
 
 public static class ServiceExtensions
 {
-    public static IServiceCollection AddSpaceTradersApi(this IServiceCollection services, IConfiguration configuration)
+    public static IServiceCollection AddSpaceTraders(this IServiceCollection services, IConfiguration configuration)
     {
         services.AddKiotaHandlers();
         services.AddHttpClient<SpaceTradersClientFactory>((sp, client) =>
@@ -20,17 +21,15 @@ public static class ServiceExtensions
         services.AddTransient(sp =>
             sp.GetRequiredService<SpaceTradersClientFactory>().GetClient(configuration["SpaceTraders:AccessToken"]));
 
-        // services.AddSingleton(sp => new FlurlClientCache()
-        // .Add(nameof(SpaceTradersApi), SpaceTradersApi.BaseUrl, builder => builder
-        //     .WithHeaders(new
-        //     {
-        //         Content_Type = "application/json",
-        //         Accept = "application/json"
-        //     }))
-        // );
-
-        services.AddSingleton<ISpaceTradersService, SpaceTradersService>();
+        services.AddTransient<ISpaceTradersService, SpaceTradersService>();
 
         return services;
+    }
+
+    public static IConfigurationBuilder AddSpaceTradersConfiguration(this IConfigurationBuilder builder)
+    {
+        ConfigHelper.CreateConfigFile();
+        builder.AddJsonFile(ConfigHelper.ConfigFilePath,false);
+        return builder;
     }
 }

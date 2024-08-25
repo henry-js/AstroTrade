@@ -45,7 +45,7 @@ public class RegisterCommand : Command
 
         public async Task<int> InvokeAsync(InvocationContext context)
         {
-            var result = service.RegisterSpaceTrader(Faction, Symbol, Email);
+            var result = await service.RegisterSpaceTrader(Faction, Symbol, Email);
             return 0;
         }
     }

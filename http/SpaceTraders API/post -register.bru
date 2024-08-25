@@ -7,17 +7,13 @@ meta {
 post {
   url: {{baseUrl}}/register
   body: json
-  auth: bearer
-}
-
-auth:bearer {
-  token:
+  auth: inherit
 }
 
 body:json {
   {
-    "faction": "",
-    "symbol": "",
-    "email": ""
+    "faction": "COSMIC",
+    "symbol": "alsjlflksaa",
+    "email": "1@example.com"
   }
 }

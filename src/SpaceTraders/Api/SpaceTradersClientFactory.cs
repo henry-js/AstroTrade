@@ -1,4 +1,6 @@
+using Microsoft.Kiota.Abstractions;
 using Microsoft.Kiota.Abstractions.Authentication;
+using Microsoft.Kiota.Authentication.Azure;
 using Microsoft.Kiota.Http.HttpClientLibrary;
 
 namespace SpaceTraders.Api;
@@ -15,17 +17,30 @@ public class SpaceTradersClientFactory
 
     public SpaceTradersClient GetClient(string accessToken)
     {
-        _authenticationProvider = new BaseBearerTokenAuthenticationProvider(new TokenProvider(accessToken));
+        _authenticationProvider = new CustomAuthenticationProvider(accessToken, ["/register"]);
         return new(new HttpClientRequestAdapter(_authenticationProvider, httpClient: _httpClient));
     }
 }
 
-internal class TokenProvider(string accessToken = "") : IAccessTokenProvider
+public class CustomAuthenticationProvider : IAuthenticationProvider
 {
-    public AllowedHostsValidator AllowedHostsValidator { get; } = new AllowedHostsValidator();
+    private readonly string accessToken;
+    private readonly IEnumerable<string> excludeEndpoints;
 
-    public Task<string> GetAuthorizationTokenAsync(Uri uri, Dictionary<string, object>? additionalAuthenticationContext = null, CancellationToken cancellationToken = default)
+    public CustomAuthenticationProvider(string accessToken, IEnumerable<string> excludeEndpoints)
     {
-        return Task.FromResult(accessToken);
+        this.accessToken = accessToken;
+        this.excludeEndpoints = new HashSet<string>(excludeEndpoints);
+    }
+
+    public Task AuthenticateRequestAsync(RequestInformation request, Dictionary<string, object>? additionalAuthenticationContext = null, CancellationToken cancellationToken = default)
+    {
+        string registerEndpoint = "https://api.spacetraders.io/v2";
+        if (!registerEndpoint.Equals(request.URI.AbsoluteUri))
+        {
+            request.Headers.Add("Authorization", $"Bearer {accessToken}");
+        }
+
+        return Task.CompletedTask;
     }
 }
