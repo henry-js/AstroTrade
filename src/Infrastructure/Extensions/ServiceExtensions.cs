@@ -1,11 +1,11 @@
-using AstroTrade.Application.Configuration;
-using AstroTrade.Application.Services;
-using AstroTrade.Services;
+using AstroTrade.Application;
+using AstroTrade.Infrastructure.Configuration;
+using AstroTrade.Infrastructure.Services;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using SpaceTraders.Api;
 
-namespace AstroTrade.Application.Extensions;
+namespace AstroTrade.Infrastructure.Extensions;
 
 public static class ServiceExtensions
 {
@@ -29,7 +29,7 @@ public static class ServiceExtensions
     public static IConfigurationBuilder AddSpaceTradersConfiguration(this IConfigurationBuilder builder)
     {
         ConfigHelper.CreateConfigFile();
-        builder.AddJsonFile(ConfigHelper.ConfigFilePath,false);
+        builder.AddJsonFile(ConfigHelper.ConfigFilePath, false);
         return builder;
     }
 }

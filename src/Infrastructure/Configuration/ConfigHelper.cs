@@ -1,7 +1,7 @@
 using System.Runtime.InteropServices;
 using System.Text.Json;
 
-namespace AstroTrade.Application.Configuration;
+namespace AstroTrade.Infrastructure.Configuration;
 
 public static class ConfigHelper
 {

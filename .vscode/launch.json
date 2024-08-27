@@ -10,17 +10,18 @@
             "request": "launch",
             "preLaunchTask": "build",
             // If you have changed target frameworks, make sure to update the program path.
-            "program": "${workspaceFolder}/src/Cli/bin/Debug/net8.0/AstroTrade.dll",
+            "program": "${workspaceFolder}/src/Cli/bin/Debug/net8.0/astrade.dll",
             "args": [
-                "auth",
-                "register",
-                "1",
-                "2",
-                "3"
+                // "auth",
+                // "register",
+                // "1",
+                // "2",
+                // "3",
+                "status"
             ],
             "cwd": "${workspaceFolder}/src/Cli",
             // For more information about the 'console' field, see https://aka.ms/VSCode-CS-LaunchJson-Console
-            "console": "internalConsole",
+            "console": "externalTerminal",
             "stopAtEntry": false
         },
         {

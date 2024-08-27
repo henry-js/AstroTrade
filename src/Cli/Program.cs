@@ -1,5 +1,4 @@
-﻿using AstroTrade.Cli;
-using System.CommandLine;
+﻿using System.CommandLine;
 using System.CommandLine.Builder;
 using System.CommandLine.Hosting;
 using System.CommandLine.Parsing;
@@ -9,10 +8,8 @@ using Serilog;
 using Spectre.Console;
 using Velopack;
 using AstroTrade.Cli.Commands;
-using AstroTrade.Application.Extensions;
-using AstroTrade.Application;
-using AstroTrade.Application.Configuration;
-using AstroTrade.Application.Services;
+using AstroTrade.Infrastructure.Configuration;
+using AstroTrade.Infrastructure.Extensions;
 
 var loggerConfiguration = new LoggerConfiguration()
     .MinimumLevel.Debug()

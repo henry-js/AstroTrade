@@ -1,8 +1,8 @@
 dotnet tool restore
 
 $url = "https://stoplight.io/api/v1/projects/spacetraders/spacetraders/nodes/reference/SpaceTraders.json?fromExportButton=true&snapshotType=http_service&deref=optimizedBundle"
-$output = "Api"
-$namespace = "SpaceTraders.Api"
+$output = "./ApiClient"
+$namespace = "SpaceTraders.ApiClient"
 
 dotnet kiota generate `
     --language csharp `
@@ -15,7 +15,7 @@ dotnet kiota generate `
 
 dotnet new classlib --output $output --framework net8.0 --language 'C#' --name $namespace --force
 
-Remove-Item .\Api\Class1.cs
+Remove-Item $output\Class1.cs
 
 dotnet kiota info -d $url -l CSharp
 

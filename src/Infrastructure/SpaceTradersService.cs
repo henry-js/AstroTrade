@@ -1,10 +1,10 @@
+using AstroTrade.Application;
+using AstroTrade.Domain;
 using AstroTrade.Domain.SpaceTraders;
-using AstroTrade.Services;
-using FluentResults;
-using Riok.Mapperly.Abstractions;
+using AstroTrade.Infrastructure.Mappers;
 using SpaceTraders.Api;
 
-namespace AstroTrade.Application.Services;
+namespace AstroTrade.Infrastructure.Services;
 
 public class SpaceTradersService : ISpaceTradersService
 {
@@ -17,22 +17,19 @@ public class SpaceTradersService : ISpaceTradersService
 
     public async Task<Result<SpaceTradersStatus>> GetSpaceTradersStatus()
     {
-        GetResponse response;
         try
         {
-            response = await client.GetAsGetResponseAsync();
+            var response = await client.GetAsGetResponseAsync();
+            return response.ToSpaceTradersStatus();
         }
         catch (Exception ex)
         {
-            var failure = Result.Fail<SpaceTradersStatus>("failed");
-            return await Task.FromResult(failure);
+            return ex;
         }
-        var mapper = new SpaceTradersStatusMapper();
 
-        return mapper.GetResponseToSpaceTradersStatus(response);
     }
 
-    public async Task<RegisterAgentResponse> RegisterSpaceTrader(string faction, string symbol, string email)
+    public async Task<Result<RegisterAgentResponse>> RegisterSpaceTrader(string faction, string symbol, string email)
     {
         RegisterAgentRequest requestBody = new()
         {
@@ -68,8 +65,8 @@ internal class RegisterAgentRequest
     public string Email { get; internal set; }
 }
 
-[Mapper]
-public partial class SpaceTradersStatusMapper
-{
-    public partial SpaceTradersStatus GetResponseToSpaceTradersStatus(GetResponse response);
-}
+// [Mapper]
+// public partial class SpaceTradersStatusMapper
+// {
+//     public partial SpaceTradersStatus GetResponseToSpaceTradersStatus(GetResponse response);
+// }

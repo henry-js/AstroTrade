@@ -1,7 +1,7 @@
 using System.CommandLine;
 using System.CommandLine.Invocation;
+using AstroTrade.Application;
 using AstroTrade.Domain;
-using AstroTrade.Services;
 using Microsoft.Extensions.Logging;
 
 namespace AstroTrade.Cli.Commands;

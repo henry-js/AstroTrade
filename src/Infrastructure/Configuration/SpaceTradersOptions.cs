@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace AstroTrade.Application.Configuration;
+namespace AstroTrade.Infrastructure.Configuration;
 public class SpaceTradersOptions
 {
     public string AccessToken { get; set; } = string.Empty;
