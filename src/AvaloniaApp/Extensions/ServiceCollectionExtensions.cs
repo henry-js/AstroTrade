@@ -1,5 +1,5 @@
 ﻿using AstroTrade.Application.Extensions;
-using AvaloniaApp.ViewModels;
+using AstroTrade.ViewModels;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using System;
@@ -8,7 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace AvaloniaApp.Extensions;
+namespace AstroTrade.Extensions;
 public static class ServiceCollectionExtensions
 {
     //public static IServiceCollection AddCommonServices(this IServiceCollection services, IConfiguration configuration)

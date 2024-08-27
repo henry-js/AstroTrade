@@ -1,9 +1,11 @@
 
-using AstroTrade.Domain.SpaceTraders.Models;
+using AstroTrade.Domain.SpaceTraders;
+using FluentResults;
 
 namespace AstroTrade.Services;
 
 public interface ISpaceTradersService
 {
-    public Task<RegisterAgentResponse> RegisterSpaceTrader(string faction, string symbol, string email);
+    Task<Result<SpaceTradersStatus>> GetSpaceTradersStatus();
+    Task<RegisterAgentResponse> RegisterSpaceTrader(string faction, string symbol, string email);
 }

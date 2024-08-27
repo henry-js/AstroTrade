@@ -1,15 +1,15 @@
 ﻿using AstroTrade.Application.Services;
+using AstroTrade.Services;
 using Microsoft.Extensions.Logging;
-using SpaceTraders.Api;
 
-namespace AvaloniaApp.ViewModels;
+namespace AstroTrade.ViewModels;
 
 public partial class MainViewModel : ViewModelBase
 {
     private readonly ILogger<MainViewModel> logger;
-    private readonly SpaceTradersService service;
+    private readonly ISpaceTradersService service;
 
-    public MainViewModel(ILogger<MainViewModel> logger, SpaceTradersService service)
+    public MainViewModel(ILogger<MainViewModel> logger, ISpaceTradersService service)
     {
         this.logger = logger;
         this.service = service;

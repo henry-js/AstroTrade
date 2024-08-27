@@ -1,4 +1,4 @@
-﻿namespace AstroTrade.Domain.SpaceTraders.Models;
+﻿namespace AstroTrade.Domain.SpaceTraders;
 
 using System;
 using System.Text.Json;

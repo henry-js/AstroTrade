@@ -10,12 +10,16 @@
         Icon="/Assets/avalonia-logo.ico"
         Title="AvaloniaApp">
 
-    <Design.DataContext>
-        <!-- This only sets the DataContext for the previewer in an IDE,
-             to set the actual DataContext for runtime, set the DataContext property in code (look at App.axaml.cs) -->
-        <vm:MainViewModel/>
-    </Design.DataContext>
-
-    <TextBlock Text="{Binding Greeting}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+  <Design.DataContext>
+    <vm:MainViewModel/>
+  </Design.DataContext>
+  <Grid RowDefinitions="Auto, *">
+    <Border Grid.Row="0">
+      <TextBlock Text="{Binding Title, RelativeSource= FindAncestor, AncestorType=Window}" 
+                 VerticalAlignment="Center"
+                 Margin="10 0"/>
+    </Border>
+    <SplitView Grid.Row="1"></SplitView>
+  </Grid>
 
 </Window>

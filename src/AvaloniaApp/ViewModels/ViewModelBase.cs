@@ -1,6 +1,6 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 
-namespace AvaloniaApp.ViewModels;
+namespace AstroTrade.ViewModels;
 public class ViewModelBase : ObservableObject
 {
 }

@@ -12,6 +12,7 @@ using AstroTrade.Cli.Commands;
 using AstroTrade.Application.Extensions;
 using AstroTrade.Application;
 using AstroTrade.Application.Configuration;
+using AstroTrade.Application.Services;
 
 var loggerConfiguration = new LoggerConfiguration()
     .MinimumLevel.Debug()
@@ -30,10 +31,11 @@ VelopackApp.Build()
 // services.AddScoped<BogusCommand>();
 
 var rootCommand = new RootCommand("astro");
-
 var authCommand = new Command("auth", "Authenication commands");
 authCommand.AddCommand(new RegisterCommand());
 rootCommand.AddCommand(authCommand);
+
+rootCommand.AddCommand(new StatusCommand());
 
 // rootCommand.AddCommand(new ListCommand());
 // rootCommand.AddCommand(new AddCommand());
@@ -51,6 +53,7 @@ var parser = cmdLineBuilder
     {
         builder.ConfigureServices(ConfigureServices)
         .UseCommandHandler<RegisterCommand, RegisterCommand.Handler>()
+        .UseCommandHandler<StatusCommand, StatusCommand.Handler>()
         // .UseCommandHandler<AddCommand, AddCommand.Handler>()
         // .UseCommandHandler<StartCommand, StartCommand.Handler>()
         // .UseCommandHandler<ModifyCommand, ModifyCommand.Handler>()

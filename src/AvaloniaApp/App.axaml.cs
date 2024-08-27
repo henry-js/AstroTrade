@@ -4,14 +4,14 @@ using Avalonia.Controls.ApplicationLifetimes;
 using Avalonia.Data.Core;
 using Avalonia.Data.Core.Plugins;
 using Avalonia.Markup.Xaml;
-using AvaloniaApp.Extensions;
-using AvaloniaApp.ViewModels;
-using AvaloniaApp.Views;
+using AstroTrade.Extensions;
+using AstroTrade.ViewModels;
+using AstroTrade.Views;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Serilog;
 
-namespace AvaloniaApp;
+namespace AstroTrade;
 public partial class App : Application
 {
     public override void Initialize()

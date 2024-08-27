@@ -1,5 +1,7 @@
-using AstroTrade.Domain.SpaceTraders.Models;
+using AstroTrade.Domain.SpaceTraders;
 using AstroTrade.Services;
+using FluentResults;
+using Riok.Mapperly.Abstractions;
 using SpaceTraders.Api;
 
 namespace AstroTrade.Application.Services;
@@ -12,6 +14,24 @@ public class SpaceTradersService : ISpaceTradersService
     {
         this.client = client;
     }
+
+    public async Task<Result<SpaceTradersStatus>> GetSpaceTradersStatus()
+    {
+        GetResponse response;
+        try
+        {
+            response = await client.GetAsGetResponseAsync();
+        }
+        catch (Exception ex)
+        {
+            var failure = Result.Fail<SpaceTradersStatus>("failed");
+            return await Task.FromResult(failure);
+        }
+        var mapper = new SpaceTradersStatusMapper();
+
+        return mapper.GetResponseToSpaceTradersStatus(response);
+    }
+
     public async Task<RegisterAgentResponse> RegisterSpaceTrader(string faction, string symbol, string email)
     {
         RegisterAgentRequest requestBody = new()
@@ -46,4 +66,10 @@ internal class RegisterAgentRequest
     public string Faction { get; internal set; }
     public string Symbol { get; internal set; }
     public string Email { get; internal set; }
+}
+
+[Mapper]
+public partial class SpaceTradersStatusMapper
+{
+    public partial SpaceTradersStatus GetResponseToSpaceTradersStatus(GetResponse response);
 }

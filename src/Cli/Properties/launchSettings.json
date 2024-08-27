@@ -2,7 +2,7 @@
   "profiles": {
     "AstroTrade": {
       "commandName": "Project",
-      "commandLineArgs": "auth register 1 2 3"
+      "commandLineArgs": "status"
     }
   }
 }

@@ -1,7 +1,7 @@
 ﻿using Avalonia;
 using System;
 
-namespace AvaloniaApp;
+namespace AstroTrade;
 
 internal sealed class Program
 {

@@ -1,9 +1,9 @@
 using Avalonia.Controls;
 using Avalonia.Controls.Templates;
-using AvaloniaApp.ViewModels;
+using AstroTrade.ViewModels;
 using System;
 
-namespace AvaloniaApp;
+namespace AstroTrade;
 public class ViewLocator : IDataTemplate
 {
 
