@@ -1,10 +1,5 @@
 ﻿namespace AstroTrade.Domain.SpaceTraders;
 
-// public class RegistrationResponse
-// {
-//     public Data Data { get; set; }
-// }
-
 public class RegistrationResponse
 {
     public Agent Agent { get; set; }

@@ -6,5 +6,5 @@ public class Cargo
 
     public long Units { get; set; }
 
-    public Trait[] Inventory { get; set; }
+    public Trait[] Inventory { get; set; } = [];
 }

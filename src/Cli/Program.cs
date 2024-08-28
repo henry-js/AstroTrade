@@ -10,6 +10,7 @@ using Velopack;
 using AstroTrade.Cli.Commands;
 using AstroTrade.Infrastructure.Configuration;
 using AstroTrade.Infrastructure.Extensions;
+using Cli.Commands;
 
 var loggerConfiguration = new LoggerConfiguration()
     .MinimumLevel.Debug()
@@ -27,20 +28,14 @@ VelopackApp.Build()
 
 // services.AddScoped<BogusCommand>();
 
-var rootCommand = new RootCommand("astro");
-var authCommand = new Command("auth", "Authenication commands");
-authCommand.AddCommand(new RegisterCommand());
-rootCommand.AddCommand(authCommand);
-
+var rootCommand = new RootCommand("astrade");
+var authBranch = new Command("auth", "Authenication commands");
+rootCommand.AddCommand(authBranch);
+authBranch.AddCommand(new RegisterCommand());
 rootCommand.AddCommand(new StatusCommand());
 
-// rootCommand.AddCommand(new ListCommand());
-// rootCommand.AddCommand(new AddCommand());
-// rootCommand.AddCommand(new StartCommand());
-// rootCommand.AddCommand(new ModifyCommand());
-// rootCommand.AddCommand(new DeleteCommand());
-// rootCommand.AddAdminCommands();
-// rootCommand.AddBackupCommands();
+// var getBranch = new Command("get", "get information from SpaceTraders");
+rootCommand.AddCommand(new GetCommand());
 
 var cmdLineBuilder = new CommandLineBuilder(rootCommand);
 int result = 0;
@@ -52,13 +47,8 @@ var parser = cmdLineBuilder
         builder.ConfigureServices(ConfigureServices)
         .UseCommandHandler<RegisterCommand, RegisterCommand.Handler>()
         .UseCommandHandler<StatusCommand, StatusCommand.Handler>()
-        // .UseCommandHandler<AddCommand, AddCommand.Handler>()
-        // .UseCommandHandler<StartCommand, StartCommand.Handler>()
-        // .UseCommandHandler<ModifyCommand, ModifyCommand.Handler>()
-        // .UseCommandHandler<DeleteCommand, DeleteCommand.Handler>()
-        // .UseAdminCommandHandlers()
-        // .UseBackupCommandHandlers()
-        ;
+        .UseCommandHandler<GetCommand, GetCommand.Handler>()
+        .UseConsoleLifetime();
 
         builder.UseSerilog((context, services, configuration) =>
         configuration.ReadFrom.Configuration(context.Configuration));
