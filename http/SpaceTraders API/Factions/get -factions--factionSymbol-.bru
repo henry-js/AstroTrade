@@ -5,9 +5,13 @@ meta {
 }
 
 get {
-  url: {{baseUrl}}/factions/{factionSymbol}
+  url: {{baseUrl}}/factions/:factionSymbol
   body: none
-  auth: bearer
+  auth: inherit
+}
+
+params:path {
+  factionSymbol: COSMIC
 }
 
 auth:bearer {

@@ -17,3 +17,8 @@ body:json {
     "email": "1@example.com"
   }
 }
+
+script:pre-request {
+  let url = req.getUrl();
+  console.log(url);
+}

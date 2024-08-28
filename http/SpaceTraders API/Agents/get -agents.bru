@@ -5,12 +5,12 @@ meta {
 }
 
 get {
-  url: {{baseUrl}}/agents
+  url: {{baseUrl}}/agents?limit=30
   body: none
-  auth: none
+  auth: inherit
 }
 
 params:query {
-  ~page:
-  ~limit:
+  limit: 30
+  ~page: 1
 }

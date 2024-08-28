@@ -7,14 +7,10 @@ meta {
 get {
   url: {{baseUrl}}/my/contracts
   body: none
-  auth: bearer
+  auth: inherit
 }
 
 params:query {
-  ~page:
-  ~limit:
-}
-
-auth:bearer {
-  token: {{token}}
+  ~page: 
+  ~limit: 
 }
