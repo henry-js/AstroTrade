@@ -12,12 +12,11 @@
             // If you have changed target frameworks, make sure to update the program path.
             "program": "${workspaceFolder}/src/Cli/bin/Debug/net8.0/astrade.dll",
             "args": [
-                // "auth",
-                // "register",
-                // "1",
-                // "2",
-                // "3",
-                "status"
+                "auth",
+                "register",
+                "AEGIS",
+                "aaaabbbbccccdd",
+                // "status"
             ],
             "cwd": "${workspaceFolder}/src/Cli",
             // For more information about the 'console' field, see https://aka.ms/VSCode-CS-LaunchJson-Console

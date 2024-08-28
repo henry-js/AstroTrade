@@ -35,8 +35,12 @@ public class CustomAuthenticationProvider : IAuthenticationProvider
 
     public Task AuthenticateRequestAsync(RequestInformation request, Dictionary<string, object>? additionalAuthenticationContext = null, CancellationToken cancellationToken = default)
     {
-        string registerEndpoint = "https://api.spacetraders.io/v2";
-        if (!registerEndpoint.Equals(request.URI.AbsoluteUri))
+        // string registerEndpoint = "https://api.spacetraders.io/v2";
+        if (request.URI.AbsolutePath == "/v2/register")
+        {
+
+        }
+        else
         {
             request.Headers.Add("Authorization", $"Bearer {accessToken}");
         }

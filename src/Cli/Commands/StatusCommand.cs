@@ -14,7 +14,7 @@ internal class StatusCommand : Command
 
     }
 
-    new public class Handler(IAnsiConsole console, ISpaceTradersService service, ILogger<StatusCommand> logger)
+    new public class Handler(IAnsiConsole console, ISpaceTradersApiService service, ILogger<StatusCommand> logger)
         : ICommandHandler
     {
         public int Invoke(InvocationContext context) => InvokeAsync(context).Result;

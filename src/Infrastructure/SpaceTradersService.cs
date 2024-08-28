@@ -1,22 +1,29 @@
 using AstroTrade.Application;
 using AstroTrade.Domain;
+using AstroTrade.Domain.Exceptions;
 using AstroTrade.Domain.SpaceTraders;
 using AstroTrade.Infrastructure.Mappers;
+using Microsoft.Extensions.Logging;
+using Microsoft.Kiota.Abstractions;
 using SpaceTraders.Api;
+using SpaceTraders.Api.Register;
 
 namespace AstroTrade.Infrastructure.Services;
 
-public class SpaceTradersService : ISpaceTradersService
+public class SpaceTradersApiService : ISpaceTradersApiService
 {
     private readonly SpaceTradersClient client;
+    private readonly ILogger<SpaceTradersApiService> logger;
 
-    public SpaceTradersService(SpaceTradersClient client)
+    public SpaceTradersApiService(SpaceTradersClient client, ILogger<SpaceTradersApiService> logger)
     {
         this.client = client;
+        this.logger = logger;
     }
 
     public async Task<Result<SpaceTradersStatus>> GetSpaceTradersStatus()
     {
+        logger.LogInformation("Fetching SpaceTraders status");
         try
         {
             var response = await client.GetAsGetResponseAsync();
@@ -24,49 +31,35 @@ public class SpaceTradersService : ISpaceTradersService
         }
         catch (Exception ex)
         {
+            logger.LogError(ex, "Encountered error");
             return ex;
         }
-
     }
 
-    public async Task<Result<RegisterAgentResponse>> RegisterSpaceTrader(string faction, string symbol, string email)
+    public async Task<Result<RegistrationResponse>> RegisterSpaceTrader(RegistrationRequest request)
     {
-        RegisterAgentRequest requestBody = new()
+        logger.LogInformation("Registering new space trader");
+
+        var body = new RegisterPostRequestBody
         {
-            Faction = faction,
-            Symbol = symbol,
-            Email = email,
+            Faction = Enum.Parse<SpaceTraders.Api.Models.FactionSymbol>(request.Faction.ToString()),
+            Symbol = request.Symbol,
+            Email = request.Email
         };
+
         try
         {
-            var response = await client.GetAsGetResponseAsync();
-            Console.WriteLine(response);
+            var response = await client.Register.PostAsRegisterPostResponseAsync(body);
+            var data = response!.Data!.ToRegistrationResponse();
+            logger.LogInformation("Created new agent, CallSign: {CallSign}", data.Agent.Symbol);
+            return data;
         }
-        catch (Exception ex)
+        catch (Exception ex) when (ex is ApiException apiException && apiException.ResponseStatusCode == 409)
         {
-            Console.WriteLine(ex);
-        }
+            var exception = new AgentAlreadyExistsException(apiException);
+            logger.LogInformation(exception, "Encountered Error, {StatusCode}", apiException.ResponseStatusCode);
 
-        var response2 = await client.Register.PostAsRegisterPostResponseAsync(new SpaceTraders.Api.Register.RegisterPostRequestBody { Faction = SpaceTraders.Api.Models.FactionSymbol.COSMIC, Symbol = symbol, Email = "jh@example.com" });
-        return new RegisterAgentResponse();
-        // return response;
+            return exception;
+        }
     }
 }
-
-public interface IOptionsManager
-{
-    void Save(object Value);
-}
-
-internal class RegisterAgentRequest
-{
-    public string Faction { get; internal set; }
-    public string Symbol { get; internal set; }
-    public string Email { get; internal set; }
-}
-
-// [Mapper]
-// public partial class SpaceTradersStatusMapper
-// {
-//     public partial SpaceTradersStatus GetResponseToSpaceTradersStatus(GetResponse response);
-// }

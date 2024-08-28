@@ -21,14 +21,13 @@ public static class ServiceExtensions
         services.AddTransient(sp =>
             sp.GetRequiredService<SpaceTradersClientFactory>().GetClient(configuration["SpaceTraders:AccessToken"]));
 
-        services.AddTransient<ISpaceTradersService, SpaceTradersService>();
+        services.AddTransient<ISpaceTradersApiService, SpaceTradersApiService>();
 
         return services;
     }
 
     public static IConfigurationBuilder AddSpaceTradersConfiguration(this IConfigurationBuilder builder)
     {
-        ConfigHelper.CreateConfigFile();
         builder.AddJsonFile(ConfigHelper.ConfigFilePath, false);
         return builder;
     }

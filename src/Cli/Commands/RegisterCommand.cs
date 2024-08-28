@@ -1,8 +1,12 @@
 using System.CommandLine;
 using System.CommandLine.Invocation;
+using System.Text.Json;
 using AstroTrade.Application;
 using AstroTrade.Domain;
+using AstroTrade.Domain.SpaceTraders;
+using AstroTrade.Infrastructure.Configuration;
 using Microsoft.Extensions.Logging;
+using Spectre.Console;
 
 namespace AstroTrade.Cli.Commands;
 
@@ -15,26 +19,24 @@ public class RegisterCommand : Command
 
     private void AddOptions(Command command)
     {
-        var quantityOption = new Option<int>(
-            aliases: ["-q", "--quantity"]
-        );
-        command.AddOption(quantityOption);
-
-        var factionArgument = new Argument<string>("FACTION", "The symbol of the faction");
+        var factionArgument = new Argument<FactionSymbol>("FACTION", "The symbol of the faction");
         command.AddArgument(factionArgument);
         var symbolArgument = new Argument<string>("SYMBOL", "Your desired agent symbol");
         command.AddArgument(symbolArgument);
-        var emailArgument = new Argument<string>("EMAIL", "Your email address, used if you reserved your call sign between resets");
+        var emailArgument = new Argument<string?>(
+            name: "EMAIL",
+            description: "Your email address, used if you reserved your call sign between resets",
+            getDefaultValue: () => null);
         command.AddArgument(emailArgument);
     }
 
-    new public class Handler(ISpaceTradersService service, ILogger<RegisterCommand> logger)
+    new public class Handler(IAnsiConsole console, ISpaceTradersApiService service, ILogger<RegisterCommand> logger)
     : ICommandHandler
     {
-        public string Faction { get; set; }
+        public FactionSymbol Faction { get; set; }
         public string Symbol { get; set; }
-        public string Email { get; set; }
-        private readonly ISpaceTradersService service = service;
+        public string? Email { get; set; }
+        private readonly ISpaceTradersApiService service = service;
         private readonly ILogger<RegisterCommand> logger = logger;
 
         public int Quantity { get; set; }
@@ -45,7 +47,16 @@ public class RegisterCommand : Command
 
         public async Task<int> InvokeAsync(InvocationContext context)
         {
-            var result = await service.RegisterSpaceTrader(Faction, Symbol, Email);
+            var request = new RegistrationRequest() { Symbol = Symbol, Faction = Faction, Email = string.Empty };
+            var response = await service.RegisterSpaceTrader(request);
+
+            if (response.IsFailure)
+            {
+                console.WriteException(response.Exception);
+                return -1;
+            }
+            ConfigHelper.SaveAccessToken(response.Value.Token);
+            console.WriteLine(JsonSerializer.Serialize(response.Value));
             return 0;
         }
     }

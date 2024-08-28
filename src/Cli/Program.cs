@@ -48,6 +48,7 @@ int result = 0;
 var parser = cmdLineBuilder
     .UseHost(_ => Host.CreateDefaultBuilder(args), builder =>
     {
+        builder.ConfigureAppConfiguration(builder => builder.AddSpaceTradersConfiguration());
         builder.ConfigureServices(ConfigureServices)
         .UseCommandHandler<RegisterCommand, RegisterCommand.Handler>()
         .UseCommandHandler<StatusCommand, StatusCommand.Handler>()
@@ -77,10 +78,10 @@ static void ConfigureServices(HostBuilderContext context, IServiceCollection ser
 }
 result = await parser.InvokeAsync(args);
 
-// #if DEBUG
-// Console.WriteLine();
-// Console.WriteLine("Press any key to exit.");
-// System.Console.ReadKey(intercept: true);
-// #endif
+#if DEBUG
+Console.WriteLine();
+Console.WriteLine("Press any key to exit.");
+System.Console.ReadKey(intercept: true);
+#endif
 
 return result;
