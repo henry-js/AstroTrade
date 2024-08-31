@@ -1,0 +1,19 @@
+meta {
+  name: get -my-ships--shipSymbol--mounts
+  type: http
+  seq: 28
+}
+
+get {
+  url: {{baseUrl}}/my/ships/:shipSymbol/mounts
+  body: none
+  auth: inherit
+}
+
+params:path {
+  shipSymbol: 
+}
+
+auth:bearer {
+  token: {{token}}
+}

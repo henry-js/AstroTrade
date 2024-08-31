@@ -1,0 +1,27 @@
+meta {
+  name: post -my-ships--shipSymbol--transfer
+  type: http
+  seq: 26
+}
+
+post {
+  url: {{baseUrl}}/my/ships/:shipSymbol/transfer
+  body: json
+  auth: inherit
+}
+
+params:path {
+  shipSymbol: 
+}
+
+auth:bearer {
+  token: {{token}}
+}
+
+body:json {
+  {
+    "tradeSymbol": "",
+    "units": "",
+    "shipSymbol": ""
+  }
+}

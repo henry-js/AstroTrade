@@ -1,0 +1,26 @@
+meta {
+  name: post -my-ships--shipSymbol--purchase
+  type: http
+  seq: 25
+}
+
+post {
+  url: {{baseUrl}}/my/ships/:shipSymbol/purchase
+  body: json
+  auth: inherit
+}
+
+params:path {
+  shipSymbol: 
+}
+
+auth:bearer {
+  token: {{token}}
+}
+
+body:json {
+  {
+    "symbol": "",
+    "units": ""
+  }
+}

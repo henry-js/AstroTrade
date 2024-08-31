@@ -1,0 +1,25 @@
+meta {
+  name: post -my-ships--shipSymbol--mounts-install
+  type: http
+  seq: 29
+}
+
+post {
+  url: {{baseUrl}}/my/ships/:shipSymbol/mounts/install
+  body: json
+  auth: inherit
+}
+
+params:path {
+  shipSymbol: 
+}
+
+auth:bearer {
+  token: {{token}}
+}
+
+body:json {
+  {
+    "symbol": ""
+  }
+}

@@ -1,0 +1,19 @@
+meta {
+  name: post -my-ships--shipSymbol--dock
+  type: http
+  seq: 9
+}
+
+post {
+  url: {{baseUrl}}/my/ships/:shipSymbol/dock
+  body: none
+  auth: inherit
+}
+
+params:path {
+  shipSymbol: 
+}
+
+auth:bearer {
+  token: {{token}}
+}

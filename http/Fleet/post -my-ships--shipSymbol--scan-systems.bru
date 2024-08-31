@@ -1,0 +1,19 @@
+meta {
+  name: post -my-ships--shipSymbol--scan-systems
+  type: http
+  seq: 21
+}
+
+post {
+  url: {{baseUrl}}/my/ships/:shipSymbol/scan/systems
+  body: none
+  auth: inherit
+}
+
+params:path {
+  shipSymbol: 
+}
+
+auth:bearer {
+  token: {{token}}
+}

@@ -1,0 +1,15 @@
+meta {
+  name: get -systems--systemSymbol-
+  type: http
+  seq: 2
+}
+
+get {
+  url: {{baseUrl}}/systems/:systemSymbol
+  body: none
+  auth: inherit
+}
+
+params:path {
+  systemSymbol:
+}

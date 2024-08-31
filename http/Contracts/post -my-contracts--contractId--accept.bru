@@ -1,0 +1,19 @@
+meta {
+  name: post -my-contracts--contractId--accept
+  type: http
+  seq: 3
+}
+
+post {
+  url: {{baseUrl}}/my/contracts/:contractId/accept
+  body: none
+  auth: inherit
+}
+
+params:path {
+  contractId: 
+}
+
+auth:bearer {
+  token: {{token}}
+}

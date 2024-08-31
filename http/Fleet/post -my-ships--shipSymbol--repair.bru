@@ -1,0 +1,19 @@
+meta {
+  name: post -my-ships--shipSymbol--repair
+  type: http
+  seq: 34
+}
+
+post {
+  url: {{baseUrl}}/my/ships/:shipSymbol/repair
+  body: none
+  auth: inherit
+}
+
+params:path {
+  shipSymbol: 
+}
+
+auth:bearer {
+  token: {{token}}
+}

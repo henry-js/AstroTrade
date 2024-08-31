@@ -1,0 +1,16 @@
+meta {
+  name: get -agents
+  type: http
+  seq: 2
+}
+
+get {
+  url: {{baseUrl}}/agents?limit=20
+  body: none
+  auth: inherit
+}
+
+params:query {
+  limit: 20
+  ~page: 1
+}

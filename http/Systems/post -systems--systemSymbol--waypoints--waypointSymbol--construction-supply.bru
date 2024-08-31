@@ -1,0 +1,28 @@
+meta {
+  name: post -systems--systemSymbol--waypoints--waypointSymbol--construction-supply
+  type: http
+  seq: 9
+}
+
+post {
+  url: {{baseUrl}}/systems/:systemSymbol/waypoints/:waypointSymbol/construction/supply
+  body: json
+  auth: inherit
+}
+
+auth:bearer {
+  token: {{token}}
+}
+
+body:json {
+  {
+    "shipSymbol": "",
+    "tradeSymbol": "",
+    "units": ""
+  }
+}
+
+params:path {
+  systemSymbol:
+  waypointSymbol:
+}
