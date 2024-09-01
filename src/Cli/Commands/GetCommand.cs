@@ -1,7 +1,4 @@
-using System.CommandLine;
-using System.CommandLine.Invocation;
-
-namespace Cli.Commands;
+namespace AstroTrade.Cli.Commands;
 
 public class GetCommand : Command
 {

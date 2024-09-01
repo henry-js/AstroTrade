@@ -1,12 +1,6 @@
-using System.CommandLine;
-using System.CommandLine.Invocation;
-using System.Text.Json;
 using AstroTrade.Application;
-using AstroTrade.Domain;
 using AstroTrade.Domain.SpaceTraders;
 using AstroTrade.Infrastructure.Configuration;
-using Microsoft.Extensions.Logging;
-using Spectre.Console;
 
 namespace AstroTrade.Cli.Commands;
 
@@ -47,7 +41,13 @@ public class RegisterCommand : Command
 
         public async Task<int> InvokeAsync(InvocationContext context)
         {
-            var request = new RegistrationRequest() { Symbol = Symbol, Faction = Faction, Email = string.Empty };
+            RegistrationRequest request = new()
+            {
+                Symbol = Symbol,
+                Faction = Faction,
+                Email = string.Empty
+            };
+
             var response = await service.RegisterSpaceTrader(request);
 
             if (response.IsFailure)

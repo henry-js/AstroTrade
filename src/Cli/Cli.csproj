@@ -6,6 +6,7 @@
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
     <AssemblyName>astrade</AssemblyName>
+    <RootNamespace>AstroTrade.Cli</RootNamespace>
   </PropertyGroup>
 
   <ItemGroup>
@@ -28,14 +29,24 @@
     <PackageReference Include="System.CommandLine.NamingConventionBinder" Version="2.0.0-beta4.22272.1" />
     <PackageReference Include="Velopack" Version="0.0.589-g4087722" />
   </ItemGroup>
+
   <ItemGroup>
     <None Include="appsettings.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>
+
   <ItemGroup>
     <ProjectReference Include="..\Application\Application.csproj" />
     <ProjectReference Include="..\Domain\Domain.csproj" />
     <ProjectReference Include="..\Infrastructure\Infrastructure.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Using Include="Microsoft.Extensions.Logging" />
+    <Using Include="Spectre.Console" />
+    <Using Include="System.CommandLine" />
+    <Using Include="System.CommandLine.Invocation" />
+    <Using Include="System.Text.Json" />
   </ItemGroup>
 </Project>
