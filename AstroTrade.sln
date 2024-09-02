@@ -1,25 +1,29 @@
-﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.0.31903.59
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{5D0F09AA-C4B5-41F9-9321-8C3BC4F41E2C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Application", "src\Application\Application.csproj", "{78FBD665-5B48-4677-8597-351531578C01}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Application", "src\Application\Application.csproj", "{78FBD665-5B48-4677-8597-351531578C01}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Cli", "src\Cli\Cli.csproj", "{2D7C535C-EEEB-498A-8C1A-BED93ABA0250}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Cli", "src\Cli\Cli.csproj", "{2D7C535C-EEEB-498A-8C1A-BED93ABA0250}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Domain", "src\Domain\Domain.csproj", "{40214571-75E6-43AD-846C-4A3C882A433B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Domain", "src\Domain\Domain.csproj", "{40214571-75E6-43AD-846C-4A3C882A433B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Infrastructure", "src\Infrastructure\Infrastructure.csproj", "{70D86FE6-9D14-42A9-8404-D00E6FB1F6D2}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Infrastructure", "src\Infrastructure\Infrastructure.csproj", "{70D86FE6-9D14-42A9-8404-D00E6FB1F6D2}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "SpaceTraders", "SpaceTraders", "{D1C963D0-4184-48FD-AB97-ED85D63310CA}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SpaceTraders.Api", "src\SpaceTraders\Api\SpaceTraders.Api.csproj", "{A04FB128-62FA-4F67-800E-BD5AFB155FAC}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SpaceTraders.Api", "src\SpaceTraders\Api\SpaceTraders.Api.csproj", "{A04FB128-62FA-4F67-800E-BD5AFB155FAC}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "tests", "tests\tests.csproj", "{D2996A10-DEBF-48A5-92AD-D09D897F7185}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "tests", "tests\tests.csproj", "{D2996A10-DEBF-48A5-92AD-D09D897F7185}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DesktopUI", "src\DesktopUI\DesktopUI.csproj", "{367558FC-E493-4D63-97D8-FA3CCB3539A8}"
 EndProject
 Global
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {A526EFAF-CFFA-4902-849F-D9D3B10FACDC}
+	EndGlobalSection
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
 		Release|Any CPU = Release|Any CPU
@@ -52,8 +56,13 @@ Global
 		{D2996A10-DEBF-48A5-92AD-D09D897F7185}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D2996A10-DEBF-48A5-92AD-D09D897F7185}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D2996A10-DEBF-48A5-92AD-D09D897F7185}.Release|Any CPU.Build.0 = Release|Any CPU
+		{367558FC-E493-4D63-97D8-FA3CCB3539A8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{367558FC-E493-4D63-97D8-FA3CCB3539A8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{367558FC-E493-4D63-97D8-FA3CCB3539A8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{367558FC-E493-4D63-97D8-FA3CCB3539A8}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
+		{367558FC-E493-4D63-97D8-FA3CCB3539A8} = {5D0F09AA-C4B5-41F9-9321-8C3BC4F41E2C}
 		{78FBD665-5B48-4677-8597-351531578C01} = {5D0F09AA-C4B5-41F9-9321-8C3BC4F41E2C}
 		{2D7C535C-EEEB-498A-8C1A-BED93ABA0250} = {5D0F09AA-C4B5-41F9-9321-8C3BC4F41E2C}
 		{40214571-75E6-43AD-846C-4A3C882A433B} = {5D0F09AA-C4B5-41F9-9321-8C3BC4F41E2C}
