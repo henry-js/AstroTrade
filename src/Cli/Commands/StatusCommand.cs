@@ -1,8 +1,4 @@
 ﻿using AstroTrade.Application;
-using Microsoft.Extensions.Logging;
-using Spectre.Console;
-using System.CommandLine;
-using System.CommandLine.Invocation;
 
 namespace AstroTrade.Cli.Commands;
 

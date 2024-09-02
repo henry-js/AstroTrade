@@ -1,0 +1,25 @@
+meta {
+  name: post -my-ships--shipSymbol--warp
+  type: http
+  seq: 19
+}
+
+post {
+  url: {{baseUrl}}/my/ships/:shipSymbol/warp
+  body: json
+  auth: inherit
+}
+
+params:path {
+  shipSymbol: 
+}
+
+auth:bearer {
+  token: {{token}}
+}
+
+body:json {
+  {
+    "waypointSymbol": ""
+  }
+}

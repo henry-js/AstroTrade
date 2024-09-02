@@ -1,0 +1,15 @@
+meta {
+  name: get -agents--agentSymbol-
+  type: http
+  seq: 3
+}
+
+get {
+  url: {{baseUrl}}/agents/:agentSymbol
+  body: none
+  auth: inherit
+}
+
+params:path {
+  agentSymbol: 04KFGTZAJKTPF
+}

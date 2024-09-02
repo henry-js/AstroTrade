@@ -1,0 +1,25 @@
+meta {
+  name: patch -my-ships--shipSymbol--nav
+  type: http
+  seq: 17
+}
+
+patch {
+  url: {{baseUrl}}/my/ships/:shipSymbol/nav
+  body: json
+  auth: inherit
+}
+
+params:path {
+  shipSymbol: 
+}
+
+auth:bearer {
+  token: {{token}}
+}
+
+body:json {
+  {
+    "flightMode": ""
+  }
+}

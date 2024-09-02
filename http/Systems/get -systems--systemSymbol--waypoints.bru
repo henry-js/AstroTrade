@@ -1,0 +1,22 @@
+meta {
+  name: get -systems--systemSymbol--waypoints
+  type: http
+  seq: 3
+}
+
+get {
+  url: {{baseUrl}}/systems/:systemSymbol/waypoints
+  body: none
+  auth: inherit
+}
+
+params:query {
+  ~page: 
+  ~limit: 
+  ~type: 
+  ~traits: 
+}
+
+params:path {
+  systemSymbol: 
+}

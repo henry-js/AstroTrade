@@ -1,0 +1,19 @@
+meta {
+  name: get -my-ships--shipSymbol--cooldown
+  type: http
+  seq: 8
+}
+
+get {
+  url: {{baseUrl}}/my/ships/:shipSymbol/cooldown
+  body: none
+  auth: inherit
+}
+
+params:path {
+  shipSymbol: 
+}
+
+auth:bearer {
+  token: {{token}}
+}

@@ -1,0 +1,26 @@
+meta {
+  name: post -my-ships--shipSymbol--refuel
+  type: http
+  seq: 24
+}
+
+post {
+  url: {{baseUrl}}/my/ships/:shipSymbol/refuel
+  body: json
+  auth: inherit
+}
+
+params:path {
+  shipSymbol: 
+}
+
+auth:bearer {
+  token: {{token}}
+}
+
+body:json {
+  {
+    "units": "",
+    "fromCargo": ""
+  }
+}

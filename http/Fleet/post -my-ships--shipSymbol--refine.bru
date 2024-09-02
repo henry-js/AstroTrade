@@ -1,0 +1,25 @@
+meta {
+  name: post -my-ships--shipSymbol--refine
+  type: http
+  seq: 6
+}
+
+post {
+  url: {{baseUrl}}/my/ships/:shipSymbol/refine
+  body: json
+  auth: inherit
+}
+
+params:path {
+  shipSymbol: 
+}
+
+auth:bearer {
+  token: {{token}}
+}
+
+body:json {
+  {
+    "produce": ""
+  }
+}

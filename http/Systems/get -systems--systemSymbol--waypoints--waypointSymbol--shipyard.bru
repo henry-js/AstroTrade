@@ -1,0 +1,16 @@
+meta {
+  name: get -systems--systemSymbol--waypoints--waypointSymbol--shipyard
+  type: http
+  seq: 6
+}
+
+get {
+  url: {{baseUrl}}/systems/:systemSymbol/waypoints/:waypointSymbol/shipyard
+  body: none
+  auth: inherit
+}
+
+params:path {
+  systemSymbol:
+  waypointSymbol:
+}

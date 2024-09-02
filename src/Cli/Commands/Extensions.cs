@@ -1,6 +1,4 @@
-using System.CommandLine;
-
-namespace Cli.Commands;
+namespace AstroTrade.Cli.Commands;
 
 static class Extensions
 {

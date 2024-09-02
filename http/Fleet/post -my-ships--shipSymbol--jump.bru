@@ -1,0 +1,25 @@
+meta {
+  name: post -my-ships--shipSymbol--jump
+  type: http
+  seq: 15
+}
+
+post {
+  url: {{baseUrl}}/my/ships/:shipSymbol/jump
+  body: json
+  auth: inherit
+}
+
+params:path {
+  shipSymbol: 
+}
+
+auth:bearer {
+  token: {{token}}
+}
+
+body:json {
+  {
+    "waypointSymbol": ""
+  }
+}

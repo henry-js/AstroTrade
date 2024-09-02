@@ -1,0 +1,19 @@
+meta {
+  name: get -my-ships--shipSymbol--cargo
+  type: http
+  seq: 4
+}
+
+get {
+  url: {{baseUrl}}/my/ships/:shipSymbol/cargo
+  body: none
+  auth: inherit
+}
+
+params:path {
+  shipSymbol: 
+}
+
+auth:bearer {
+  token: {{token}}
+}

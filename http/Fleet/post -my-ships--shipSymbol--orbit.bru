@@ -1,0 +1,19 @@
+meta {
+  name: post -my-ships--shipSymbol--orbit
+  type: http
+  seq: 5
+}
+
+post {
+  url: {{baseUrl}}/my/ships/:shipSymbol/orbit
+  body: none
+  auth: inherit
+}
+
+params:path {
+  shipSymbol: 
+}
+
+auth:bearer {
+  token: {{token}}
+}

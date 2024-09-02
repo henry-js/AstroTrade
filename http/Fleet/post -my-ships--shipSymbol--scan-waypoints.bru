@@ -1,0 +1,19 @@
+meta {
+  name: post -my-ships--shipSymbol--scan-waypoints
+  type: http
+  seq: 22
+}
+
+post {
+  url: {{baseUrl}}/my/ships/:shipSymbol/scan/waypoints
+  body: none
+  auth: inherit
+}
+
+params:path {
+  shipSymbol: 
+}
+
+auth:bearer {
+  token: {{token}}
+}

@@ -1,0 +1,19 @@
+meta {
+  name: post -my-ships--shipSymbol--negotiate-contract
+  type: http
+  seq: 27
+}
+
+post {
+  url: {{baseUrl}}/my/ships/:shipSymbol/negotiate/contract
+  body: none
+  auth: inherit
+}
+
+params:path {
+  shipSymbol: 
+}
+
+auth:bearer {
+  token: {{token}}
+}

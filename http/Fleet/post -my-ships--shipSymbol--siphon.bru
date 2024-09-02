@@ -1,0 +1,19 @@
+meta {
+  name: post -my-ships--shipSymbol--siphon
+  type: http
+  seq: 12
+}
+
+post {
+  url: {{baseUrl}}/my/ships/:shipSymbol/siphon
+  body: none
+  auth: inherit
+}
+
+params:path {
+  shipSymbol: 
+}
+
+auth:bearer {
+  token: {{token}}
+}

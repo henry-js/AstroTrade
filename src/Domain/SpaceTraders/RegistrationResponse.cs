@@ -2,13 +2,13 @@
 
 public class RegistrationResponse
 {
-    public Agent Agent { get; set; }
+    public required Agent Agent { get; set; }
 
-    public Contract Contract { get; set; }
+    public required Contract Contract { get; set; }
 
-    public Faction Faction { get; set; }
+    public required Faction Faction { get; set; }
 
-    public Ship Ship { get; set; }
+    public required Ship Ship { get; set; }
 
-    public string Token { get; set; }
+    public required string Token { get; set; }
 }
