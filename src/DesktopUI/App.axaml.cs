@@ -8,6 +8,7 @@ using DesktopUI.Views;
 using Microsoft.Extensions.DependencyInjection;
 using AstroTrade.Infrastructure.Extensions;
 using Microsoft.Extensions.Configuration;
+using CommunityToolkit.Mvvm.DependencyInjection;
 
 namespace DesktopUI;
 
@@ -29,12 +30,13 @@ public partial class App : Application
             var configuration = new ConfigurationBuilder()
                 .AddSpaceTradersConfiguration()
                 .Build() ;
-            var services = new ServiceCollection()
-                .AddTransient<MainWindowViewModel>()
+            Ioc.Default.ConfigureServices(
+                new ServiceCollection()
+                .AddTransient<MainViewModel>()
                 .AddSpaceTraders(configuration)
-                .BuildServiceProvider();
+                .BuildServiceProvider());
 
-            var vm = services.GetRequiredService<MainWindowViewModel>();
+            var vm = Ioc.Default.GetRequiredService<MainViewModel>();
             desktop.MainWindow = new MainWindow
             {
                 DataContext = vm,

@@ -20,7 +20,7 @@ public class StartCommand : Command
 
         public Task<int> InvokeAsync(InvocationContext context)
         {
-
+            throw new NotImplementedException();
         }
     }
 }

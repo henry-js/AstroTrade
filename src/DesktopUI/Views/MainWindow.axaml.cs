@@ -1,5 +1,6 @@
-using AstroTrade.Application;
+using AstroTrade.Infrastructure.Services;
 using Avalonia.Controls;
+using DesktopUI.ViewModels;
 
 namespace DesktopUI.Views;
 
@@ -8,9 +9,11 @@ public partial class MainWindow : Window
 
     public MainWindow()
     {
+        if (Design.IsDesignMode)
+        {
+            Design.SetDataContext(this, new MainViewModel(new SpaceTradersApiService(null, null)));
+        }    
         InitializeComponent();
-        MaxWidth = 800;
-        MaxHeight = 400;
         MinWidth = 400;
         MinHeight = 200;
     }
