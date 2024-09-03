@@ -1,4 +1,6 @@
 ﻿using AstroTrade.Application;
+using Avalonia.Media.Imaging;
+using Avalonia.Platform;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using System;
@@ -15,6 +17,8 @@ public partial class MainViewModel : ViewModelBase
 
     [ObservableProperty] private string _greeting = "Hello there.";
 
+     public string Icon { get; } = "/Assets/icons/Document/folder-open-fill.svg";
+
     private readonly ISpaceTradersApiService service;
 
     public MainViewModel(ISpaceTradersApiService service) : base()
@@ -25,6 +29,8 @@ public partial class MainViewModel : ViewModelBase
     [RelayCommand]
     private async Task Login()
     {
+
+        service.
         await Task.Delay(4000);
 
         Greeting = "Login success";

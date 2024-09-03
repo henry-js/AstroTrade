@@ -14,7 +14,6 @@ public partial class MainWindow : Window
             Design.SetDataContext(this, new MainViewModel(new SpaceTradersApiService(null, null)));
         }    
         InitializeComponent();
-        MinWidth = 400;
-        MinHeight = 200;
+        //this.SizeToContent = SizeToContent.WidthAndHeight;
     }
 }
