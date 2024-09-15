@@ -30,7 +30,6 @@ public partial class MainViewModel : ViewModelBase
     private async Task Login()
     {
 
-        service.
         await Task.Delay(4000);
 
         Greeting = "Login success";

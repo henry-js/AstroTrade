@@ -5,6 +5,7 @@ using AstroTrade.Domain.SpaceTraders;
 using AstroTrade.Infrastructure.Mappers;
 using Microsoft.Extensions.Logging;
 using Microsoft.Kiota.Abstractions;
+using Microsoft.Kiota.Http.HttpClientLibrary.Middleware.Options;
 using SpaceTraders.Api;
 using SpaceTraders.Api.Register;
 
@@ -26,7 +27,13 @@ public class SpaceTradersApiService : ISpaceTradersApiService
         logger.LogInformation("Fetching SpaceTraders status");
         try
         {
-            var response = await client.GetAsGetResponseAsync();
+            var response = await client.GetAsGetResponseAsync(conf =>
+            {
+                conf.Options = [new RetryHandlerOption()
+                {
+
+                }];
+            });
             return response.ToSpaceTradersStatus();
         }
         catch (Exception ex)

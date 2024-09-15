@@ -38,12 +38,14 @@ var parser = cmdLineBuilder
     .UseHost(_ => Host.CreateDefaultBuilder(args), builder =>
     {
         builder.ConfigureAppConfiguration(builder => builder.AddSpaceTradersConfiguration());
-        builder.ConfigureServices(ConfigureServices)
-        .UseCommandHandler<RegisterCommand, RegisterCommand.Handler>()
-        .UseCommandHandler<StartCommand, StartCommand.Handler>()
-        .UseCommandHandler<StatusCommand, StatusCommand.Handler>()
-        .UseCommandHandler<GetCommand, GetCommand.Handler>()
-        .UseConsoleLifetime();
+        builder.ConfigureServices((context, services) =>
+            {
+                services.AddSingleton(_ => AnsiConsole.Console);
+                services.AddSingleton(TimeProvider.System);
+                services.AddSpaceTraders(context.Configuration);
+            });
+        builder.RegisterCommandHandlers()
+            .UseConsoleLifetime();
 
         builder.UseSerilog((context, services, configuration) =>
         configuration.ReadFrom.Configuration(context.Configuration));
@@ -55,12 +57,6 @@ var parser = cmdLineBuilder
         Log.Fatal(ex, "Application terminated unexpectedly");
     }).Build();
 
-static void ConfigureServices(HostBuilderContext context, IServiceCollection services)
-{
-    services.AddSingleton(_ => AnsiConsole.Console);
-    services.AddSingleton(TimeProvider.System);
-    services.AddSpaceTraders(context.Configuration);
-}
 result = await parser.InvokeAsync(args);
 
 #if DEBUG
