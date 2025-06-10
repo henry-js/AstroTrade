@@ -4,7 +4,7 @@ using System;
 namespace SpaceTraders.Api.Models
 {
     /// <summary>The good&apos;s symbol.</summary>
-    [global::System.CodeDom.Compiler.GeneratedCode("Kiota", "1.17.0")]
+    [global::System.CodeDom.Compiler.GeneratedCode("Kiota", "1.0.0")]
     public enum TradeSymbol
     {
         [EnumMember(Value = "PRECIOUS_STONES")]
@@ -355,6 +355,10 @@ namespace SpaceTraders.Api.Models
         #pragma warning disable CS1591
         FRAME_CARRIER,
         #pragma warning restore CS1591
+        [EnumMember(Value = "FRAME_BULK_FREIGHTER")]
+        #pragma warning disable CS1591
+        FRAME_BULK_FREIGHTER,
+        #pragma warning restore CS1591
         [EnumMember(Value = "REACTOR_SOLAR_I")]
         #pragma warning disable CS1591
         REACTOR_SOLAR_I,
@@ -578,6 +582,10 @@ namespace SpaceTraders.Api.Models
         [EnumMember(Value = "SHIP_SURVEYOR")]
         #pragma warning disable CS1591
         SHIP_SURVEYOR,
+        #pragma warning restore CS1591
+        [EnumMember(Value = "SHIP_BULK_FREIGHTER")]
+        #pragma warning disable CS1591
+        SHIP_BULK_FREIGHTER,
         #pragma warning restore CS1591
     }
 }

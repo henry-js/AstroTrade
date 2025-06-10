@@ -4,7 +4,7 @@ using System;
 namespace SpaceTraders.Api.Models
 {
     /// <summary>The symbol of the module.</summary>
-    [global::System.CodeDom.Compiler.GeneratedCode("Kiota", "1.17.0")]
+    [global::System.CodeDom.Compiler.GeneratedCode("Kiota", "1.0.0")]
     public enum ShipModule_symbol
     {
         [EnumMember(Value = "MODULE_MINERAL_PROCESSOR_I")]

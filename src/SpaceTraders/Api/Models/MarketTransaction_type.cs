@@ -4,7 +4,7 @@ using System;
 namespace SpaceTraders.Api.Models
 {
     /// <summary>The type of transaction.</summary>
-    [global::System.CodeDom.Compiler.GeneratedCode("Kiota", "1.17.0")]
+    [global::System.CodeDom.Compiler.GeneratedCode("Kiota", "1.0.0")]
     public enum MarketTransaction_type
     {
         [EnumMember(Value = "PURCHASE")]

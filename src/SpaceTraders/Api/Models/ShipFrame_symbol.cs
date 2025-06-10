@@ -4,7 +4,7 @@ using System;
 namespace SpaceTraders.Api.Models
 {
     /// <summary>Symbol of the frame.</summary>
-    [global::System.CodeDom.Compiler.GeneratedCode("Kiota", "1.17.0")]
+    [global::System.CodeDom.Compiler.GeneratedCode("Kiota", "1.0.0")]
     public enum ShipFrame_symbol
     {
         [EnumMember(Value = "FRAME_PROBE")]
@@ -66,6 +66,10 @@ namespace SpaceTraders.Api.Models
         [EnumMember(Value = "FRAME_CARRIER")]
         #pragma warning disable CS1591
         FRAME_CARRIER,
+        #pragma warning restore CS1591
+        [EnumMember(Value = "FRAME_BULK_FREIGHTER")]
+        #pragma warning disable CS1591
+        FRAME_BULK_FREIGHTER,
         #pragma warning restore CS1591
     }
 }

@@ -8,7 +8,7 @@ public class RegistrationResponse
 
     public required Faction Faction { get; set; }
 
-    public required Ship Ship { get; set; }
+    public required List<Ship>? Ships { get; set; }
 
     public required string Token { get; set; }
 }

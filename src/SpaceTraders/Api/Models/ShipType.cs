@@ -4,7 +4,7 @@ using System;
 namespace SpaceTraders.Api.Models
 {
     /// <summary>Type of ship</summary>
-    [global::System.CodeDom.Compiler.GeneratedCode("Kiota", "1.17.0")]
+    [global::System.CodeDom.Compiler.GeneratedCode("Kiota", "1.0.0")]
     public enum ShipType
     {
         [EnumMember(Value = "SHIP_PROBE")]
@@ -54,6 +54,10 @@ namespace SpaceTraders.Api.Models
         [EnumMember(Value = "SHIP_SURVEYOR")]
         #pragma warning disable CS1591
         SHIP_SURVEYOR,
+        #pragma warning restore CS1591
+        [EnumMember(Value = "SHIP_BULK_FREIGHTER")]
+        #pragma warning disable CS1591
+        SHIP_BULK_FREIGHTER,
         #pragma warning restore CS1591
     }
 }

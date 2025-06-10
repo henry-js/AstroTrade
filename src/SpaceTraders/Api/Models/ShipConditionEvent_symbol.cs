@@ -3,10 +3,9 @@ using System.Runtime.Serialization;
 using System;
 namespace SpaceTraders.Api.Models
 {
-    [global::System.CodeDom.Compiler.GeneratedCode("Kiota", "1.17.0")]
-    #pragma warning disable CS1591
+    /// <summary>The symbol of the event that occurred.</summary>
+    [global::System.CodeDom.Compiler.GeneratedCode("Kiota", "1.0.0")]
     public enum ShipConditionEvent_symbol
-    #pragma warning restore CS1591
     {
         [EnumMember(Value = "REACTOR_OVERLOAD")]
         #pragma warning disable CS1591

@@ -4,7 +4,7 @@ using System;
 namespace SpaceTraders.Api.Models
 {
     /// <summary>The rotation of crew shifts. A stricter shift improves the ship&apos;s performance. A more relaxed shift improves the crew&apos;s morale.</summary>
-    [global::System.CodeDom.Compiler.GeneratedCode("Kiota", "1.17.0")]
+    [global::System.CodeDom.Compiler.GeneratedCode("Kiota", "1.0.0")]
     public enum ShipCrew_rotation
     {
         [EnumMember(Value = "STRICT")]

@@ -51,7 +51,6 @@ public class SpaceTradersApiService : ISpaceTradersApiService
         {
             Faction = Enum.Parse<SpaceTraders.Api.Models.FactionSymbol>(request.Faction.ToString()),
             Symbol = request.Symbol,
-            Email = request.Email
         };
 
         try

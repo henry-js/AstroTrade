@@ -3,8 +3,8 @@ using System.Runtime.Serialization;
 using System;
 namespace SpaceTraders.Api.Models
 {
-    /// <summary>Symbo of this mount.</summary>
-    [global::System.CodeDom.Compiler.GeneratedCode("Kiota", "1.17.0")]
+    /// <summary>Symbol of this mount.</summary>
+    [global::System.CodeDom.Compiler.GeneratedCode("Kiota", "1.0.0")]
     public enum ShipMount_symbol
     {
         [EnumMember(Value = "MOUNT_GAS_SIPHON_I")]

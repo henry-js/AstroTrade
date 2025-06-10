@@ -4,7 +4,7 @@ using System;
 namespace SpaceTraders.Api.My.Ships.Item.Refine
 {
     /// <summary>The type of good to produce out of the refining process.</summary>
-    [global::System.CodeDom.Compiler.GeneratedCode("Kiota", "1.17.0")]
+    [global::System.CodeDom.Compiler.GeneratedCode("Kiota", "1.0.0")]
     public enum RefinePostRequestBody_produce
     {
         [EnumMember(Value = "IRON")]
