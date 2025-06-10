@@ -1,0 +1,25 @@
+meta {
+  name: Navigate Ship
+  type: http
+  seq: 17
+}
+
+post {
+  url: {{baseUrl}}/my/ships/:shipSymbol/navigate
+  body: json
+  auth: bearer
+}
+
+params:path {
+  shipSymbol: 
+}
+
+auth:bearer {
+  token: {{token}}
+}
+
+body:json {
+  {
+    "waypointSymbol": ""
+  }
+}

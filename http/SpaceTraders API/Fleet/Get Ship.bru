@@ -1,0 +1,19 @@
+meta {
+  name: Get Ship
+  type: http
+  seq: 3
+}
+
+get {
+  url: {{baseUrl}}/my/ships/:shipSymbol
+  body: none
+  auth: bearer
+}
+
+params:path {
+  shipSymbol: 
+}
+
+auth:bearer {
+  token: {{token}}
+}

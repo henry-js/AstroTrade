@@ -1,0 +1,19 @@
+meta {
+  name: Get Ship Cooldown
+  type: http
+  seq: 6
+}
+
+get {
+  url: {{baseUrl}}/my/ships/:shipSymbol/cooldown
+  body: none
+  auth: bearer
+}
+
+params:path {
+  shipSymbol: 
+}
+
+auth:bearer {
+  token: {{token}}
+}

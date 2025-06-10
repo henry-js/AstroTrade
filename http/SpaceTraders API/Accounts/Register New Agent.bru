@@ -1,0 +1,22 @@
+meta {
+  name: Register New Agent
+  type: http
+  seq: 2
+}
+
+post {
+  url: {{baseUrl}}/register
+  body: json
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{accountToken}}
+}
+
+body:json {
+  {
+    "symbol": "12345",
+    "faction": "AEGIS"
+  }
+}

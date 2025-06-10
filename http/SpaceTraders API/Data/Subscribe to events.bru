@@ -1,0 +1,15 @@
+meta {
+  name: Subscribe to events
+  type: http
+  seq: 2
+}
+
+get {
+  url: {{baseUrl}}/my/socket.io
+  body: none
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{token}}
+}

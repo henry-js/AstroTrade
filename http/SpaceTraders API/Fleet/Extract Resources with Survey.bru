@@ -1,0 +1,33 @@
+meta {
+  name: Extract Resources with Survey
+  type: http
+  seq: 9
+}
+
+post {
+  url: {{baseUrl}}/my/ships/:shipSymbol/extract/survey
+  body: json
+  auth: bearer
+}
+
+params:path {
+  shipSymbol: 
+}
+
+auth:bearer {
+  token: {{token}}
+}
+
+body:json {
+  {
+    "signature": "",
+    "symbol": "",
+    "deposits": [
+      {
+        "symbol": ""
+      }
+    ],
+    "expiration": "",
+    "size": ""
+  }
+}

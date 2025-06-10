@@ -1,0 +1,25 @@
+meta {
+  name: Jump Ship
+  type: http
+  seq: 11
+}
+
+post {
+  url: {{baseUrl}}/my/ships/:shipSymbol/jump
+  body: json
+  auth: bearer
+}
+
+params:path {
+  shipSymbol: 
+}
+
+auth:bearer {
+  token: {{token}}
+}
+
+body:json {
+  {
+    "waypointSymbol": ""
+  }
+}

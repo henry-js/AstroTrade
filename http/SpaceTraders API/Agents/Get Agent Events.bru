@@ -1,0 +1,15 @@
+meta {
+  name: Get Agent Events
+  type: http
+  seq: 4
+}
+
+get {
+  url: {{baseUrl}}/my/agent/events
+  body: none
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{token}}
+}

@@ -1,0 +1,15 @@
+meta {
+  name: Get System
+  type: http
+  seq: 2
+}
+
+get {
+  url: {{baseUrl}}/systems/:systemSymbol
+  body: none
+  auth: none
+}
+
+params:path {
+  systemSymbol: 
+}

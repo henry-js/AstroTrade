@@ -1,0 +1,26 @@
+meta {
+  name: Sell Cargo
+  type: http
+  seq: 25
+}
+
+post {
+  url: {{baseUrl}}/my/ships/:shipSymbol/sell
+  body: json
+  auth: bearer
+}
+
+params:path {
+  shipSymbol: 
+}
+
+auth:bearer {
+  token: {{token}}
+}
+
+body:json {
+  {
+    "symbol": "",
+    "units": ""
+  }
+}

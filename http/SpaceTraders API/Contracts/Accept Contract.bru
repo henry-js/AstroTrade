@@ -1,0 +1,19 @@
+meta {
+  name: Accept Contract
+  type: http
+  seq: 3
+}
+
+post {
+  url: {{baseUrl}}/my/contracts/:contractId/accept
+  body: none
+  auth: bearer
+}
+
+params:path {
+  contractId: 
+}
+
+auth:bearer {
+  token: {{token}}
+}

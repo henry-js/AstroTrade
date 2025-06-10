@@ -1,0 +1,19 @@
+meta {
+  name: Get Repair Ship
+  type: http
+  seq: 24
+}
+
+get {
+  url: {{baseUrl}}/my/ships/:shipSymbol/repair
+  body: none
+  auth: bearer
+}
+
+params:path {
+  shipSymbol: 
+}
+
+auth:bearer {
+  token: {{token}}
+}

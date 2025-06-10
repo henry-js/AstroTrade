@@ -1,0 +1,16 @@
+meta {
+  name: Get Jump Gate
+  type: http
+  seq: 8
+}
+
+get {
+  url: {{baseUrl}}/systems/:systemSymbol/waypoints/:waypointSymbol/jump-gate
+  body: none
+  auth: none
+}
+
+params:path {
+  systemSymbol: 
+  waypointSymbol: 
+}

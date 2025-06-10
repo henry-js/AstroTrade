@@ -1,0 +1,28 @@
+meta {
+  name: Supply Construction Site
+  type: http
+  seq: 6
+}
+
+post {
+  url: {{baseUrl}}/systems/:systemSymbol/waypoints/:waypointSymbol/construction/supply
+  body: json
+  auth: bearer
+}
+
+params:path {
+  systemSymbol: 
+  waypointSymbol: 
+}
+
+auth:bearer {
+  token: {{token}}
+}
+
+body:json {
+  {
+    "shipSymbol": "",
+    "tradeSymbol": "",
+    "units": ""
+  }
+}

@@ -1,0 +1,22 @@
+meta {
+  name: Purchase Ship
+  type: http
+  seq: 2
+}
+
+post {
+  url: {{baseUrl}}/my/ships
+  body: json
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{token}}
+}
+
+body:json {
+  {
+    "shipType": "",
+    "waypointSymbol": ""
+  }
+}

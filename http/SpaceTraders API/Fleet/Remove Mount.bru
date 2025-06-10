@@ -1,0 +1,25 @@
+meta {
+  name: Remove Mount
+  type: http
+  seq: 35
+}
+
+post {
+  url: {{baseUrl}}/my/ships/:shipSymbol/mounts/remove
+  body: json
+  auth: bearer
+}
+
+params:path {
+  shipSymbol: 
+}
+
+auth:bearer {
+  token: {{token}}
+}
+
+body:json {
+  {
+    "symbol": ""
+  }
+}

@@ -1,0 +1,16 @@
+meta {
+  name: List factions
+  type: http
+  seq: 1
+}
+
+get {
+  url: {{baseUrl}}/factions
+  body: none
+  auth: none
+}
+
+params:query {
+  ~page: 
+  ~limit: 
+}

@@ -1,0 +1,25 @@
+meta {
+  name: Remove Ship Module
+  type: http
+  seq: 32
+}
+
+post {
+  url: {{baseUrl}}/my/ships/:shipSymbol/modules/remove
+  body: json
+  auth: bearer
+}
+
+params:path {
+  shipSymbol: 
+}
+
+auth:bearer {
+  token: {{token}}
+}
+
+body:json {
+  {
+    "symbol": ""
+  }
+}

@@ -1,0 +1,19 @@
+meta {
+  name: Extract Resources
+  type: http
+  seq: 8
+}
+
+post {
+  url: {{baseUrl}}/my/ships/:shipSymbol/extract
+  body: none
+  auth: bearer
+}
+
+params:path {
+  shipSymbol: 
+}
+
+auth:bearer {
+  token: {{token}}
+}

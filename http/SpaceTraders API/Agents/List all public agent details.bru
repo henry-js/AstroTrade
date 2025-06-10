@@ -1,0 +1,16 @@
+meta {
+  name: List all public agent details.
+  type: http
+  seq: 1
+}
+
+get {
+  url: {{baseUrl}}/agents
+  body: none
+  auth: none
+}
+
+params:query {
+  ~page: 
+  ~limit: 
+}

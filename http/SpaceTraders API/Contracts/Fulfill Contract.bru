@@ -1,0 +1,19 @@
+meta {
+  name: Fulfill Contract
+  type: http
+  seq: 4
+}
+
+post {
+  url: {{baseUrl}}/my/contracts/:contractId/fulfill
+  body: none
+  auth: bearer
+}
+
+params:path {
+  contractId: 
+}
+
+auth:bearer {
+  token: {{token}}
+}

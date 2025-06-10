@@ -1,0 +1,19 @@
+meta {
+  name: Faction details
+  type: http
+  seq: 2
+}
+
+get {
+  url: {{baseUrl}}/factions/:factionSymbol
+  body: none
+  auth: bearer
+}
+
+params:path {
+  factionSymbol: 
+}
+
+auth:bearer {
+  token: {{token}}
+}

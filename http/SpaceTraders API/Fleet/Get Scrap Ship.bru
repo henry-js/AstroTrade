@@ -1,0 +1,19 @@
+meta {
+  name: Get Scrap Ship
+  type: http
+  seq: 16
+}
+
+get {
+  url: {{baseUrl}}/my/ships/:shipSymbol/scrap
+  body: none
+  auth: bearer
+}
+
+params:path {
+  shipSymbol: 
+}
+
+auth:bearer {
+  token: {{token}}
+}

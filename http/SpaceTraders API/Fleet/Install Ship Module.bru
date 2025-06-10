@@ -1,0 +1,25 @@
+meta {
+  name: Install Ship Module
+  type: http
+  seq: 31
+}
+
+post {
+  url: {{baseUrl}}/my/ships/:shipSymbol/modules/install
+  body: json
+  auth: bearer
+}
+
+params:path {
+  shipSymbol: 
+}
+
+auth:bearer {
+  token: {{token}}
+}
+
+body:json {
+  {
+    "symbol": ""
+  }
+}

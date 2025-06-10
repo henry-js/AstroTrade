@@ -1,0 +1,19 @@
+meta {
+  name: Siphon Resources
+  type: http
+  seq: 26
+}
+
+post {
+  url: {{baseUrl}}/my/ships/:shipSymbol/siphon
+  body: none
+  auth: bearer
+}
+
+params:path {
+  shipSymbol: 
+}
+
+auth:bearer {
+  token: {{token}}
+}

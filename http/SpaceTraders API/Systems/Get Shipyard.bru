@@ -1,0 +1,16 @@
+meta {
+  name: Get Shipyard
+  type: http
+  seq: 9
+}
+
+get {
+  url: {{baseUrl}}/systems/:systemSymbol/waypoints/:waypointSymbol/shipyard
+  body: none
+  auth: none
+}
+
+params:path {
+  systemSymbol: 
+  waypointSymbol: 
+}

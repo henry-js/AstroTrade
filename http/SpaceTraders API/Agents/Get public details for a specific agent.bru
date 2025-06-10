@@ -1,0 +1,21 @@
+meta {
+  name: Get public details for a specific agent.
+  type: http
+  seq: 2
+}
+
+get {
+  url: {{baseUrl}}/agents/:agentSymbol
+  body: none
+  auth: none
+}
+
+params:path {
+  agentSymbol: 12345
+}
+
+script:post-response {
+  let data = res.getBody();
+  console.log(bru.getEnvVar("token"));
+  console.log(data);
+}

@@ -1,0 +1,16 @@
+meta {
+  name: Get Waypoint
+  type: http
+  seq: 4
+}
+
+get {
+  url: {{baseUrl}}/systems/:systemSymbol/waypoints/:waypointSymbol
+  body: none
+  auth: none
+}
+
+params:path {
+  systemSymbol: 
+  waypointSymbol: 
+}

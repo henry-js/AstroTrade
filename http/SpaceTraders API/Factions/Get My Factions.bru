@@ -1,0 +1,20 @@
+meta {
+  name: Get My Factions
+  type: http
+  seq: 3
+}
+
+get {
+  url: {{baseUrl}}/my/factions
+  body: none
+  auth: bearer
+}
+
+params:query {
+  ~page: 
+  ~limit: 
+}
+
+auth:bearer {
+  token: {{token}}
+}

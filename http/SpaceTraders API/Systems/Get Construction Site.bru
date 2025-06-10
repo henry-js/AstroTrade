@@ -1,0 +1,16 @@
+meta {
+  name: Get Construction Site
+  type: http
+  seq: 5
+}
+
+get {
+  url: {{baseUrl}}/systems/:systemSymbol/waypoints/:waypointSymbol/construction
+  body: none
+  auth: none
+}
+
+params:path {
+  systemSymbol: 
+  waypointSymbol: 
+}

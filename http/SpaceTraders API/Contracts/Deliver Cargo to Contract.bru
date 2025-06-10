@@ -1,0 +1,27 @@
+meta {
+  name: Deliver Cargo to Contract
+  type: http
+  seq: 5
+}
+
+post {
+  url: {{baseUrl}}/my/contracts/:contractId/deliver
+  body: json
+  auth: bearer
+}
+
+params:path {
+  contractId: 
+}
+
+auth:bearer {
+  token: {{token}}
+}
+
+body:json {
+  {
+    "shipSymbol": "",
+    "tradeSymbol": "",
+    "units": ""
+  }
+}
