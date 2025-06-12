@@ -6,4 +6,8 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\AstroTrade.Core\AstroTrade.Core.csproj" />
+  </ItemGroup>
+
 </Project>

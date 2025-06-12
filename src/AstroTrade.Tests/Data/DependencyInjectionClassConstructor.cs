@@ -2,7 +2,7 @@
 
 using TUnit.Core.Interfaces;
 
-namespace AstroTrade.Lib.Tests;
+namespace AstroTrade.Core.Tests;
 
 public class DependencyInjectionClassConstructor : IClassConstructor
 {

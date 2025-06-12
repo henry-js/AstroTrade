@@ -1,4 +1,4 @@
-﻿namespace AstroTrade.Lib.Tests;
+﻿namespace AstroTrade.Core.Tests;
 
 [Arguments("Hello")]
 [Arguments("World")]

@@ -1,4 +1,4 @@
-﻿namespace AstroTrade.Lib.Tests;
+﻿namespace AstroTrade.Core.Tests;
 
 [ClassDataSource<DataClass>]
 [ClassConstructor<DependencyInjectionClassConstructor>]

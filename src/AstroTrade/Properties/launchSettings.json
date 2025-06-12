@@ -2,8 +2,7 @@
     "profiles": {
         "AstroTrade": {
             "commandName": "Project",
-            "commandLineArgs": "",
-            "workingDirectory": "..\\"
+            "commandLineArgs": "config",
         }
     }
 }

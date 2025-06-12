@@ -1,4 +1,4 @@
-﻿namespace AstroTrade.Lib.Tests.Data;
+﻿namespace AstroTrade.Core.Tests.Data;
 
 public class DataGenerator : DataSourceGeneratorAttribute<int, int, int>
 {

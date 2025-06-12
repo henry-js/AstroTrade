@@ -12,7 +12,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\AstroTrade.Lib\AstroTrade.Lib.csproj" />
+    <ProjectReference Include="..\AstroTrade.Core\AstroTrade.Core.csproj" />
   </ItemGroup>
 
 </Project>

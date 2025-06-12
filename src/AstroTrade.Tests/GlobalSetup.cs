@@ -4,7 +4,7 @@
 [assembly: Retry(3)]
 [assembly: System.Diagnostics.CodeAnalysis.ExcludeFromCodeCoverage]
 
-namespace AstroTrade.Lib.Tests;
+namespace AstroTrade.Core.Tests;
 
 public class GlobalHooks
 {
