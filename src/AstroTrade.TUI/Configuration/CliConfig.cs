@@ -1,4 +1,4 @@
-namespace AstroTrade.Configuration;
+namespace AstroTrade.TUI.Configuration;
 
 public class SpaceTradersConfiguration
 {

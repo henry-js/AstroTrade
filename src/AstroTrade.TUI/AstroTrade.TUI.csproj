@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <OutputType>Exe</OutputType>
-    <RootNamespace>AstroTrade</RootNamespace>
+    <RootNamespace>AstroTrade.TUI</RootNamespace>
     <TargetFramework>net10.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
@@ -52,18 +52,17 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Using Include="AstroTrade.TUI.Commands" />
+    <Using Include="AstroTrade.TUI.Configuration" />
+    <Using Include="AstroTrade.TUI.Filters" />
+    <Using Include="AstroTrade.TUI.DependencyInjection" />
     <Using Include="Serilog" />
     <Using Include="Serilog.Sinks.File" />
     <Using Include="Serilog.Sinks.SystemConsole.Themes" />
-    <Using Include="AstroTrade.Commands" />
-    <Using Include="AstroTrade.Configuration" />
-    <Using Include="AstroTrade.Filters" />
-    <Using Include="AstroTrade.Services" />
     <Using Include="ConsoleAppFramework" />
     <Using Include="Spectre.Console" />
     <Using Include="Microsoft.Extensions.Configuration" />
     <Using Include="Microsoft.Extensions.Logging" />
-    <Using Include="Microsoft.Extensions.Logging.LoggerFactory" Alias="MSLogger" />
     <Using Include="Microsoft.Extensions.Options" />
     <Using Include="System.Text.Json" />
     <Using Include="System.Text.Json.Serialization" />

@@ -1,4 +1,4 @@
-namespace AstroTrade.Filters;
+namespace AstroTrade.TUI.Filters;
 
 internal sealed class ExceptionFilter(ConsoleAppFilter next, ILoggerFactory factory)
     : ConsoleAppFilter(next)

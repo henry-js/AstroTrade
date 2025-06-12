@@ -1,9 +1,4 @@
-﻿using AstroTrade.DependencyInjection;
-
-using Microsoft.Kiota.Abstractions;
-using Microsoft.Kiota.Serialization.Json;
-
-#if DEBUG
+﻿#if DEBUG
 #else
 using AstroTrade;
 using Velopack;
@@ -13,7 +8,6 @@ VelopackApp.Build().Run();
 SetupHelper.EnsureUserConfigFileExists();
 SetupHelper.EnsureCurrentApplicationDirectoryIsInPath();
 #endif
-
 
 var app = ConsoleApp.Create()
     .ConfigureLogging(builder => builder.ConfigureSerilog())

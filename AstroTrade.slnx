@@ -1,0 +1,17 @@
+<Solution>
+  <Configurations>
+    <Platform Name="Any CPU" />
+    <Platform Name="x64" />
+    <Platform Name="x86" />
+  </Configurations>
+  <Folder Name="/Solution Items/">
+    <File Path=".editorconfig" />
+  </Folder>
+  <Folder Name="/src/">
+    <Project Path="src/AstroTrade.Core/AstroTrade.Core.csproj" />
+    <Project Path="src/AstroTrade.Infrastructure/AstroTrade.Infrastructure.csproj" />
+    <Project Path="src/AstroTrade.Tests/AstroTrade.Tests.csproj" />
+    <Project Path="src/AstroTrade.TUI/AstroTrade.TUI.csproj" />
+    <Project Path="src/SpaceTraders.Api/SpaceTraders.Api.csproj" />
+  </Folder>
+</Solution>

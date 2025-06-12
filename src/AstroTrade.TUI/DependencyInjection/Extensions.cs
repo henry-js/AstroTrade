@@ -12,7 +12,7 @@ using Serilog.Templates;
 
 using SpaceTraders.Api;
 
-namespace AstroTrade.DependencyInjection;
+namespace AstroTrade.TUI.DependencyInjection;
 
 public static class Extensions
 {

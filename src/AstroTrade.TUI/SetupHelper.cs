@@ -1,7 +1,7 @@
 using System.Runtime.InteropServices;
 using System.Security;
 
-namespace AstroTrade;
+namespace AstroTrade.TUI;
 
 public static class SetupHelper
 {

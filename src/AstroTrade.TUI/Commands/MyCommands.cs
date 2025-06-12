@@ -2,7 +2,7 @@ using AstroTrade.Core.Features.Agents.Register;
 
 using Mediator;
 
-namespace AstroTrade.Commands;
+namespace AstroTrade.TUI.Commands;
 
 public class MyCommands([FromServices] ILogger<MyCommands> logger, IOptions<SpaceTradersConfiguration> options, IMediator mediator, IConfiguration configuration)
 {
