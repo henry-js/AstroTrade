@@ -1,10 +1,8 @@
 namespace AstroTrade.Configuration;
 
-public class CliConfig
+public class SpaceTradersConfiguration
 {
-    public int Port { get; set; }
-    public bool Enabled { get; set; }
-    public string? ApiUrl { get; set; }
+    public string? AccountToken { get; set; }
 }
 
 [JsonSourceGenerationOptions(
@@ -14,5 +12,5 @@ public class CliConfig
     PropertyNamingPolicy = JsonKnownNamingPolicy.CamelCase,
     PropertyNameCaseInsensitive = true
 )]
-[JsonSerializable(typeof(CliConfig))]
-public partial class CliConfigContext : JsonSerializerContext;
+[JsonSerializable(typeof(SpaceTradersConfiguration))]
+public partial class SpaceTradersConfigurationContext : JsonSerializerContext;
