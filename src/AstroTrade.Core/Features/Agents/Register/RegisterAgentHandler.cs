@@ -1,3 +1,5 @@
+using System.Text.Json;
+
 using AstroTrade.Core.Abstractions;
 using AstroTrade.Core.Security;
 
@@ -36,11 +38,19 @@ public sealed class RegisterAgentHandler : ICommandHandler<RegisterAgentCommand,
             Faction = Enum.Parse<FactionSymbol>(command.Faction, true)
         };
 
-        var response = await registrationClient.Register.PostAsRegisterPostResponseAsync(requestBody, cancellationToken: cancellationToken)
-            ?? throw new InvalidOperationException("API response data was null");
+        try
+        {
+            var response = await registrationClient.Register.PostAsRegisterPostResponseAsync(requestBody, cancellationToken: cancellationToken)
+                ?? throw new InvalidOperationException("API response data was null");
 
-        await _tokenRepository.SaveTokenAsync(response.Data.Token);
+            await _tokenRepository.SaveTokenAsync(response.Data.Token);
 
-        return response.Data.Agent;
+            return response.Data.Agent;
+        }
+        catch (Register409Error ex)
+        {
+            Console.WriteLine(JsonSerializer.Serialize(ex.Data));
+            throw;
+        }
     }
 }

@@ -13,7 +13,7 @@ public class MyCommands([FromServices] ILogger<MyCommands> logger, IOptions<Spac
     [Command("config")]
     public async Task Config()
     {
-        var command = new RegisterAgentCommand("TEST123", "aegis", _configuration["SpaceTraders:AccountToken"]);
+        var command = new RegisterAgentCommand("TESTABC", "aegis", _configuration["SpaceTraders:AccountToken"]);
         var newAgent = await _mediator.Send(command);
         var opts = options;
         logger.LogInformation("Displaying IOptions wrapped config");
