@@ -2,7 +2,7 @@
   "applicationName": "application",
   "apiDependencies": {
     "ApiClient": {
-      "apiDescriptionUrl": "./spacetraders.json",
+      "apiDescriptionUrl": "./http/SpaceTraders API/spacetraders.json",
       "apiDeploymentBaseUrl": "https://api.spacetraders.io/v2/",
       "requests": [
         {
@@ -262,7 +262,7 @@
         }
       ],
       "extensions": {
-        "x-ms-kiota-hash": "7381E81C6E18682B60CED54695C1517C5AC187C228A485ED41B97889768979E4",
+        "x-ms-kiota-hash": "BA514BDC0A3B3F50D4EF64CEB1EF84A5B9FAFA536FF301D76A17BAF374DE143B",
         "x-ms-kiota-version": "1.27.0"
       }
     }

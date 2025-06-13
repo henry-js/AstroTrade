@@ -15,7 +15,7 @@
       "includeAdditionalData": true,
       "excludeBackwardCompatible": false,
       "disabledValidationRules": [],
-      "descriptionLocation": "./spacetraders.json",
+      "descriptionLocation": "./http/SpaceTraders API/spacetraders.json",
       "includePatterns": [
         "/",
         "/agents",
