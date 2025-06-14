@@ -1,6 +1,8 @@
 using AstroTrade.Core.Abstractions;
+using AstroTrade.Core.Features.Shell;
 using AstroTrade.Core.Security;
 using AstroTrade.Infrastructure.Persistence;
+using AstroTrade.TUI.Views;
 
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Kiota.Abstractions;
@@ -46,9 +48,16 @@ public static class Extensions
             .AddMediator(options => options.Assemblies = [typeof(Core.AssemblyMarker).Assembly]);
 
         services.AddKiotaClientServices();
+        services.AddTUIViews();
     }
 
-    public static void AddKiotaClientServices(this IServiceCollection services)
+    private static void AddTUIViews(this IServiceCollection services)
+    {
+        services.AddTransient<ShellView>();
+        services.AddTransient<ShellViewModel>();
+    }
+
+    private static void AddKiotaClientServices(this IServiceCollection services)
     {
         ApiClientBuilder.RegisterDefaultSerializer<JsonSerializationWriterFactory>();
         ApiClientBuilder.RegisterDefaultDeserializer<JsonParseNodeFactory>();

@@ -9,18 +9,33 @@ SetupHelper.EnsureUserConfigFileExists();
 SetupHelper.EnsureCurrentApplicationDirectoryIsInPath();
 #endif
 
-var app = ConsoleApp.Create()
-    .ConfigureLogging(builder => builder.ConfigureSerilog())
-    .ConfigureServices(services =>
-    {
-        var configuration = Extensions.CreateConfiguration();
-        services.AddProjectServices(configuration);
-    });
+using AstroTrade.TUI.Views;
 
-app.Add<MyCommands>();
+using Microsoft.Extensions.DependencyInjection;
 
-app.UseFilter<ExceptionFilter>();
+using Terminal.Gui.App;
 
-await app.RunAsync(args);
+var configuration = Extensions.CreateConfiguration();
+var services = new ServiceCollection();
+services.AddLogging(Extensions.ConfigureSerilog);
+services.AddProjectServices(configuration);
 
-Console.ReadLine();
+var provider = services.BuildServiceProvider();
+Application.Init();
+Application.Run(provider.GetRequiredService<ShellView>());
+Application.Top?.Dispose();
+Application.Shutdown();
+
+// var app = ConsoleApp.Create()
+//     .ConfigureLogging(builder => builder.ConfigureSerilog())
+//     .ConfigureServices(services =>
+//     {
+//         var configuration = Extensions.CreateConfiguration();
+//         services.AddProjectServices(configuration);
+//     });
+
+// app.Add<MyCommands>();
+
+// app.UseFilter<ExceptionFilter>();
+
+// await app.RunAsync(args);
