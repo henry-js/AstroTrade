@@ -1,19 +1,32 @@
-﻿#if DEBUG
-#else
-using AstroTrade;
-
+﻿using AstroTrade;
+using AstroTrade.Commands;
+using AstroTrade.Filters;
+using AstroTrade.Services;
+using ConsoleAppFramework;
+using DotNetPathUtils;
+using Microsoft.Extensions.DependencyInjection;
 using Velopack;
 
-VelopackApp.Build().Run();
+if (OperatingSystem.IsWindows())
+{
+    var appDirectory = Path.GetDirectoryName(AppContext.BaseDirectory)!;
+    var pathHelper = new PathEnvironmentHelper(new PathUtilsOptions() { PrefixWithPeriod = false });
+    VelopackApp
+        .Build()
+        .OnAfterInstallFastCallback(v => pathHelper.EnsureDirectoryIsInPath(appDirectory))
+        .OnBeforeUninstallFastCallback(v => pathHelper.RemoveDirectoryFromPath(appDirectory!))
+        .Run();
+}
 
-SetupHelper.EnsureUserConfigFileExists();
-SetupHelper.EnsureCurrentApplicationDirectoryIsInPath();
-#endif
+AppInitializer.Initialize();
 
-MyServiceProvider sp = new();
+var services = new ServiceCollection();
 
-ConsoleApp.ServiceProvider = sp;
+services.RegisterAppServices();
+ConsoleApp.ServiceProvider = services.BuildServiceProvider();
+
 var app = ConsoleApp.Create();
+
 app.Add<MyCommands>();
 
 app.UseFilter<ExceptionFilter>();

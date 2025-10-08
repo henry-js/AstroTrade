@@ -1,3 +1,5 @@
+using System.Text.Json.Serialization;
+
 namespace AstroTrade.Configuration;
 
 public class CliConfig

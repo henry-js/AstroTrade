@@ -1,6 +1,20 @@
+using System.Text.Json;
+using AstroTrade.Configuration;
+using AstroTrade.Data.Sqlite;
+using AstroTrade.Services;
+using ConsoleAppFramework;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
+
 namespace AstroTrade.Commands;
 
-public class MyCommands([FromServices] ILogger<MyCommands> logger, IService service, IOptions<CliConfig> options)
+public class MyCommands(
+    ILogger<MyCommands> logger,
+    IService service,
+    IOptions<CliConfig> options,
+    AppDbContext dbContext
+)
 {
     private readonly CliConfig config = options.Value;
 
@@ -32,5 +46,25 @@ public class MyCommands([FromServices] ILogger<MyCommands> logger, IService serv
         var text = JsonSerializer.Serialize(config, typeof(CliConfig), CliConfigContext.Default);
 
         Console.WriteLine(text);
+    }
+
+    /// <summary>
+    /// Applies any pending Entity Framework migrations to the database.
+    /// </summary>
+    [Command("migrate-db")]
+    public async Task MigrateDatabase()
+    {
+        logger.LogInformation("Checking for and applying pending database migrations...");
+
+        var pendingMigrations = await dbContext.Database.GetPendingMigrationsAsync();
+        if (!pendingMigrations.Any())
+        {
+            logger.LogInformation("Database is already up to date. No migrations to apply.");
+            return;
+        }
+
+        await dbContext.Database.MigrateAsync();
+
+        logger.LogInformation("Successfully applied all pending migrations.");
     }
 }
