@@ -7,13 +7,9 @@ meta {
 get {
   url: {{baseUrl}}/my/ships/:shipSymbol/cooldown
   body: none
-  auth: bearer
+  auth: inherit
 }
 
 params:path {
   shipSymbol: 
-}
-
-auth:bearer {
-  token: {{token}}
 }

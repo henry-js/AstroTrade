@@ -7,15 +7,11 @@ meta {
 patch {
   url: {{baseUrl}}/my/ships/:shipSymbol/nav
   body: json
-  auth: bearer
+  auth: inherit
 }
 
 params:path {
   shipSymbol: 
-}
-
-auth:bearer {
-  token: {{token}}
 }
 
 body:json {

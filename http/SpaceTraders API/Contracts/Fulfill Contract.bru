@@ -7,13 +7,9 @@ meta {
 post {
   url: {{baseUrl}}/my/contracts/:contractId/fulfill
   body: none
-  auth: bearer
+  auth: inherit
 }
 
 params:path {
   contractId: 
-}
-
-auth:bearer {
-  token: {{token}}
 }

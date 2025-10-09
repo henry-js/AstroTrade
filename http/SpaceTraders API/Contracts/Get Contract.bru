@@ -7,13 +7,9 @@ meta {
 get {
   url: {{baseUrl}}/my/contracts/:contractId
   body: none
-  auth: bearer
+  auth: inherit
 }
 
 params:path {
   contractId: cmbqqcrt48d6pui6wkkom5dti
-}
-
-auth:bearer {
-  token: {{token}}
 }

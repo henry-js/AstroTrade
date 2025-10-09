@@ -7,13 +7,9 @@ meta {
 get {
   url: {{baseUrl}}/factions/:factionSymbol
   body: none
-  auth: bearer
+  auth: inherit
 }
 
 params:path {
   factionSymbol: 
-}
-
-auth:bearer {
-  token: {{token}}
 }

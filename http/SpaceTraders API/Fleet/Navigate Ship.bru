@@ -7,15 +7,11 @@ meta {
 post {
   url: {{baseUrl}}/my/ships/:shipSymbol/navigate
   body: json
-  auth: bearer
+  auth: inherit
 }
 
 params:path {
   shipSymbol: 
-}
-
-auth:bearer {
-  token: {{token}}
 }
 
 body:json {

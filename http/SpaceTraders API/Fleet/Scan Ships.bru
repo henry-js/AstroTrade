@@ -7,13 +7,9 @@ meta {
 post {
   url: {{baseUrl}}/my/ships/:shipSymbol/scan/ships
   body: none
-  auth: bearer
+  auth: inherit
 }
 
 params:path {
   shipSymbol: 
-}
-
-auth:bearer {
-  token: {{token}}
 }

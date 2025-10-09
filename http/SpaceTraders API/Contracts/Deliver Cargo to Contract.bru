@@ -7,15 +7,11 @@ meta {
 post {
   url: {{baseUrl}}/my/contracts/:contractId/deliver
   body: json
-  auth: bearer
+  auth: inherit
 }
 
 params:path {
   contractId: 
-}
-
-auth:bearer {
-  token: {{token}}
 }
 
 body:json {

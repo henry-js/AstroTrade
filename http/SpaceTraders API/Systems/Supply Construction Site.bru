@@ -7,16 +7,12 @@ meta {
 post {
   url: {{baseUrl}}/systems/:systemSymbol/waypoints/:waypointSymbol/construction/supply
   body: json
-  auth: bearer
+  auth: inherit
 }
 
 params:path {
   systemSymbol: 
   waypointSymbol: 
-}
-
-auth:bearer {
-  token: {{token}}
 }
 
 body:json {
