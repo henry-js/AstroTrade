@@ -10,6 +10,7 @@
     <DebugType>embedded</DebugType>
     <MinVerDefaultPreReleaseIdentifiers>preview.0</MinVerDefaultPreReleaseIdentifiers>
     <EnableConfigurationBindingGenerator>true</EnableConfigurationBindingGenerator>
+    <UserSecretsId>f3fd1fcc-b57e-4c97-8dd4-fd02807153cf</UserSecretsId>
   </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="CommunityToolkit.Mvvm" Version="8.4.0" />

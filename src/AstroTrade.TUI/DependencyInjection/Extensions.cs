@@ -25,11 +25,9 @@ public static class Extensions
 {
     public static IConfiguration CreateConfiguration()
     {
-        var configBuilder = new ConfigurationBuilder().AddJsonFile(
-            "config.json",
-            optional: false,
-            reloadOnChange: true
-        );
+        var configBuilder = new ConfigurationBuilder()
+            .AddJsonFile("config.json", optional: false, reloadOnChange: true)
+            .AddUserSecrets(typeof(Program).Assembly);
 
         return configBuilder.Build();
     }
