@@ -1,3 +1,5 @@
+using System.Text.Json.Serialization;
+
 namespace AstroTrade.TUI.Configuration;
 
 public class SpaceTradersConfiguration
@@ -13,4 +15,4 @@ public class SpaceTradersConfiguration
     PropertyNameCaseInsensitive = true
 )]
 [JsonSerializable(typeof(SpaceTradersConfiguration))]
-public partial class SpaceTradersConfigurationContext : JsonSerializerContext;
+public partial class SpaceTradersConfigurationContext : JsonSerializerContext { }

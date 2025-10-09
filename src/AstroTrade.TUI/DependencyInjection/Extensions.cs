@@ -2,16 +2,21 @@ using AstroTrade.Core.Abstractions;
 using AstroTrade.Core.Features.Shell;
 using AstroTrade.Core.Security;
 using AstroTrade.Infrastructure.Persistence;
+using AstroTrade.TUI.Commands;
+using AstroTrade.TUI.Configuration;
+using AstroTrade.TUI.Logging;
 using AstroTrade.TUI.Views;
-
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
 using Microsoft.Kiota.Abstractions;
 using Microsoft.Kiota.Abstractions.Authentication;
 using Microsoft.Kiota.Http.HttpClientLibrary;
 using Microsoft.Kiota.Serialization.Json;
-
-using Serilog.Templates;
-
+using Serilog;
+using Serilog.Events;
+using Serilog.Formatting.Display;
+using Serilog.Sinks.SystemConsole.Themes;
 using SpaceTraders.Api;
 
 namespace AstroTrade.TUI.DependencyInjection;
@@ -19,30 +24,50 @@ namespace AstroTrade.TUI.DependencyInjection;
 public static class Extensions
 {
     public static IConfiguration CreateConfiguration()
-        => new ConfigurationBuilder()
-            .AddJsonFile("./config.json", false)
-            .Build();
+    {
+        var configBuilder = new ConfigurationBuilder().AddJsonFile(
+            "config.json",
+            optional: false,
+            reloadOnChange: true
+        );
+
+        return configBuilder.Build();
+    }
 
     public static void ConfigureSerilog(this ILoggingBuilder builder)
     {
+        const string outputTemplate =
+            "[{Timestamp:HH:mm:ss} {Level:u3}] ({SourceClass}) {Message:lj}{NewLine}{Exception}";
         builder.AddSerilog(
-                   new LoggerConfiguration()
-                           .WriteTo.File(
-                               formatter: new ExpressionTemplate(
-                                   "[{@t:HH:mm:ss} {@l:u3}] {@m}\n{@x}"),
-                                   Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "logs", "app-.log"),
-                               shared: true,
-                               rollingInterval: RollingInterval.Day)
-                           .Enrich.WithProperty("Application Name", "<APP NAME>")
-                       .WriteTo.Console(theme: AnsiConsoleTheme.Sixteen)
-                       .CreateLogger());
+            new LoggerConfiguration()
+                .MinimumLevel.Debug()
+                .WriteTo.File(
+                    formatter: new MessageTemplateTextFormatter(outputTemplate),
+                    Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "logs", "app-.log"),
+                    restrictedToMinimumLevel: LogEventLevel.Debug,
+                    shared: true,
+                    rollingInterval: RollingInterval.Day
+                )
+                .Enrich.WithProperty("ApplicationName", "<APP NAME>")
+                .Enrich.With<SourceClassEnricher>()
+                .WriteTo.Console(
+                    outputTemplate: outputTemplate,
+                    theme: AnsiConsoleTheme.Sixteen,
+                    restrictedToMinimumLevel: LogEventLevel.Information
+                )
+                .CreateLogger()
+        );
     }
 
-    public static void AddProjectServices(this IServiceCollection services, IConfiguration configuration)
+    public static void AddProjectServices(this IServiceCollection services)
     {
+        var configuration = CreateConfiguration();
         services
             .AddSingleton(configuration)
-            .Configure<SpaceTradersConfiguration>(configuration.GetSection(nameof(SpaceTradersConfiguration)))
+            .AddLogging(ConfigureSerilog)
+            .Configure<SpaceTradersConfiguration>(
+                configuration.GetSection(nameof(SpaceTradersConfiguration))
+            )
             .AddSingleton<MyCommands>()
             .AddSingleton<ITokenRepository, FileTokenRepository>()
             .AddMediator(options => options.Assemblies = [typeof(Core.AssemblyMarker).Assembly]);

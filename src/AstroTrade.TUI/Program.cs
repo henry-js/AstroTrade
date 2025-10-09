@@ -1,24 +1,30 @@
-﻿#if DEBUG
-#else
-using AstroTrade;
+﻿using AstroTrade.TUI;
+using AstroTrade.TUI.Commands;
+using AstroTrade.TUI.DependencyInjection;
+using AstroTrade.TUI.Filters;
+using AstroTrade.TUI.Views;
+using ConsoleAppFramework;
+using DotNetPathUtils;
+using Microsoft.Extensions.DependencyInjection;
+using Terminal.Gui.App;
 using Velopack;
 
-VelopackApp.Build().Run();
+if (OperatingSystem.IsWindows())
+{
+    var appDirectory = Path.GetDirectoryName(AppContext.BaseDirectory)!;
+    var pathHelper = new PathEnvironmentHelper(new PathUtilsOptions() { PrefixWithPeriod = false });
+    VelopackApp
+        .Build()
+        .OnAfterInstallFastCallback(v => pathHelper.EnsureDirectoryIsInPath(appDirectory))
+        .OnBeforeUninstallFastCallback(v => pathHelper.RemoveDirectoryFromPath(appDirectory!))
+        .Run();
+}
 
-SetupHelper.EnsureUserConfigFileExists();
-SetupHelper.EnsureCurrentApplicationDirectoryIsInPath();
-#endif
+AppInitializer.Initialize();
 
-using AstroTrade.TUI.Views;
-
-using Microsoft.Extensions.DependencyInjection;
-
-using Terminal.Gui.App;
-
-var configuration = Extensions.CreateConfiguration();
 var services = new ServiceCollection();
-services.AddLogging(Extensions.ConfigureSerilog);
-services.AddProjectServices(configuration);
+
+services.AddProjectServices();
 
 var provider = services.BuildServiceProvider();
 Application.Init();
@@ -26,16 +32,12 @@ Application.Run(provider.GetRequiredService<ShellView>());
 Application.Top?.Dispose();
 Application.Shutdown();
 
-// var app = ConsoleApp.Create()
-//     .ConfigureLogging(builder => builder.ConfigureSerilog())
-//     .ConfigureServices(services =>
-//     {
-//         var configuration = Extensions.CreateConfiguration();
-//         services.AddProjectServices(configuration);
-//     });
+ConsoleApp.ServiceProvider = services.BuildServiceProvider();
 
-// app.Add<MyCommands>();
+var app = ConsoleApp.Create();
 
-// app.UseFilter<ExceptionFilter>();
+app.Add<MyCommands>();
 
-// await app.RunAsync(args);
+app.UseFilter<ExceptionFilter>();
+
+await app.RunAsync(args);
