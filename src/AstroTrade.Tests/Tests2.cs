@@ -1,4 +1,4 @@
-﻿namespace AstroTrade.Core.Tests;
+﻿namespace AstroTrade.Tests;
 
 [Arguments("Hello")]
 [Arguments("World")]
@@ -8,7 +8,7 @@ public class MoreTests(string title)
     public void ClassLevelDataRow()
     {
         Console.WriteLine(title);
-        Console.WriteLine("Did I forget that data injection works on classes too?");
+        Console.WriteLine(@"Did I forget that data injection works on classes too?");
     }
 
     // You can even inject in ClassDataSources as properties to avoid repetitive constructors if you're using inheritance!
@@ -24,11 +24,11 @@ public class MoreTests(string title)
     )
     {
         Console.WriteLine(
-            "A new test will be created for each data row, whether it's on the class or method level!"
+            @"A new test will be created for each data row, whether it's on the class or method level!"
         );
 
         Console.WriteLine(
-            "Oh and this is a matrix test. That means all combinations of inputs are attempted."
+            @"Oh and this is a matrix test. That means all combinations of inputs are attempted."
         );
     }
 }

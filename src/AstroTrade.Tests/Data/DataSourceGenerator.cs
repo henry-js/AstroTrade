@@ -1,8 +1,8 @@
-﻿namespace AstroTrade.Core.Tests.Data;
+﻿namespace AstroTrade.Tests.Data;
 
 public class DataGenerator : DataSourceGeneratorAttribute<int, int, int>
 {
-    public override IEnumerable<Func<(int, int, int)>> GenerateDataSources(
+    protected override IEnumerable<Func<(int, int, int)>> GenerateDataSources(
         DataGeneratorMetadata dataGeneratorMetadata
     )
     {

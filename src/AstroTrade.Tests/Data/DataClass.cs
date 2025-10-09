@@ -1,6 +1,6 @@
 ﻿using TUnit.Core.Interfaces;
 
-namespace AstroTrade.Core.Tests;
+namespace AstroTrade.Tests;
 
 public class DataClass : IAsyncInitializer, IAsyncDisposable
 {

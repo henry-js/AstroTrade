@@ -1,6 +1,6 @@
-﻿using AstroTrade.Core.Tests.Data;
+﻿using AstroTrade.Tests.Data;
 
-namespace AstroTrade.Core.Tests;
+namespace AstroTrade.Tests;
 
 public class Tests
 {

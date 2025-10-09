@@ -1,15 +1,14 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
+
   <PropertyGroup>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
     <OutputType>Exe</OutputType>
-    <TargetFramework>net10.0</TargetFramework>
+    <TargetFramework>net8.0</TargetFramework>
   </PropertyGroup>
+
   <ItemGroup>
-    <PackageReference Include="Microsoft.Testing.Extensions.CodeCoverage" Version="17.14.2" />
-    <PackageReference Include="TUnit" Version="0.57.24" />
+    <PackageReference Include="TUnit" Version="0.67.4" />
   </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\AstroTrade.Core\AstroTrade.Core.csproj" />
-  </ItemGroup>
+
 </Project>
