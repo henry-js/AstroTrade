@@ -90,6 +90,8 @@ public class TestScreen : IScreenView
 {
     public string Title => "Test Screen";
 
+    public object? ViewModel => null;
+
     public IEnumerable<MenuBarItemv2> GetMenuItems() => Array.Empty<MenuBarItemv2>();
 
     public void HandleMenuAction(string action) { }
@@ -111,6 +113,8 @@ public class TestScreen : IScreenView
 public class AnotherTestScreen : IScreenView
 {
     public string Title => "Another Test Screen";
+
+    public object? ViewModel => null;
 
     public IEnumerable<MenuBarItemv2> GetMenuItems() => Array.Empty<MenuBarItemv2>();
 

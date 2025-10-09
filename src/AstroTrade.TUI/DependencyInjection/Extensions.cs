@@ -83,7 +83,6 @@ public static class Extensions
     private static void AddTUIViews(this IServiceCollection services)
     {
         services.AddSingleton<INavigationManager, NavigationManager>();
-        services.AddSingleton<INavigationService, NavigationService>();
         services.AddTransient<ShellView>();
         services.AddTransient<ShellViewModel>();
         services.AddTransient<DashboardView>();

@@ -6,35 +6,29 @@ namespace AstroTrade.Core.Features.Dashboard;
 
 public partial class DashboardViewModel : ObservableObject
 {
-    private readonly INavigationService _navigationService;
-
-    public DashboardViewModel(INavigationService navigationService)
-    {
-        _navigationService =
-            navigationService ?? throw new ArgumentNullException(nameof(navigationService));
-    }
+    public event EventHandler<NavigationEventArgs>? NavigationRequested;
 
     [RelayCommand]
     private void NavigateToShips()
     {
-        _navigationService.NavigateToShips();
+        NavigationRequested?.Invoke(this, new NavigationEventArgs("ships"));
     }
 
     [RelayCommand]
     private void NavigateToMarkets()
     {
-        _navigationService.NavigateToMarkets();
+        NavigationRequested?.Invoke(this, new NavigationEventArgs("markets"));
     }
 
     [RelayCommand]
     private void NavigateToContracts()
     {
-        _navigationService.NavigateToContracts();
+        NavigationRequested?.Invoke(this, new NavigationEventArgs("contracts"));
     }
 
     [RelayCommand]
     private void NavigateToSystems()
     {
-        _navigationService.NavigateToSystems();
+        NavigationRequested?.Invoke(this, new NavigationEventArgs("systems"));
     }
 }

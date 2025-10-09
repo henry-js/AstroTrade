@@ -6,18 +6,12 @@ namespace AstroTrade.Core.Features.Ships;
 
 public partial class ShipsViewModel : ObservableObject
 {
-    private readonly INavigationService _navigationService;
-
-    public ShipsViewModel(INavigationService navigationService)
-    {
-        _navigationService =
-            navigationService ?? throw new ArgumentNullException(nameof(navigationService));
-    }
+    public event EventHandler<NavigationEventArgs>? NavigationRequested;
 
     [RelayCommand]
     private void NavigateToDashboard()
     {
-        _navigationService.NavigateToDashboard();
+        NavigationRequested?.Invoke(this, new NavigationEventArgs("dashboard"));
     }
 
     // Placeholder commands for future ship functionality

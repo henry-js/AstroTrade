@@ -1,4 +1,6 @@
+using AstroTrade.Core.Abstractions;
 using AstroTrade.Core.Features.Markets;
+using AstroTrade.TUI.Navigation;
 using Terminal.Gui.ViewBase;
 using Terminal.Gui.Views;
 
@@ -6,11 +8,16 @@ namespace AstroTrade.TUI.Views;
 
 public class MarketsView : BaseScreenView
 {
+    private readonly INavigationManager _navigationManager;
+
     public override string Title => "Markets";
 
-    public MarketsView(MarketsViewModel viewModel)
+    public MarketsView(MarketsViewModel viewModel, INavigationManager navigationManager)
     {
         ViewModel = viewModel ?? throw new ArgumentNullException(nameof(viewModel));
+        _navigationManager = navigationManager ?? throw new ArgumentNullException(nameof(navigationManager));
+
+        viewModel.NavigationRequested += OnNavigationRequested;
 
         // Initialize markets layout
         var label = new Label()
@@ -20,6 +27,16 @@ public class MarketsView : BaseScreenView
             Y = Pos.Center(),
         };
         Add(label);
+    }
+
+    private void OnNavigationRequested(object? sender, NavigationEventArgs e)
+    {
+        switch (e.Target)
+        {
+            case "dashboard":
+                _navigationManager.NavigateTo<DashboardView>();
+                break;
+        }
     }
 
     public override IEnumerable<MenuBarItemv2> GetMenuItems()

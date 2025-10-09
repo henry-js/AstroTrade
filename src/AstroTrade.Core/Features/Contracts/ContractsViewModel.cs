@@ -6,18 +6,12 @@ namespace AstroTrade.Core.Features.Contracts;
 
 public partial class ContractsViewModel : ObservableObject
 {
-    private readonly INavigationService _navigationService;
-
-    public ContractsViewModel(INavigationService navigationService)
-    {
-        _navigationService =
-            navigationService ?? throw new ArgumentNullException(nameof(navigationService));
-    }
+    public event EventHandler<NavigationEventArgs>? NavigationRequested;
 
     [RelayCommand]
     private void NavigateToDashboard()
     {
-        _navigationService.NavigateToDashboard();
+        NavigationRequested?.Invoke(this, new NavigationEventArgs("dashboard"));
     }
 
     // Placeholder commands for future contract functionality
