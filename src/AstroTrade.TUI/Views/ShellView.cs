@@ -15,9 +15,13 @@ public partial class ShellView
 
     public ShellViewModel ViewModel { get; }
 
-    public ShellView() { }
+    public ShellView()
+    {
+        InitializeComponent();
+    }
 
     public ShellView(ShellViewModel viewModel, INavigationManager navigationManager)
+        : this()
     {
         _navigationManager =
             navigationManager ?? throw new ArgumentNullException(nameof(navigationManager));
@@ -28,16 +32,19 @@ public partial class ShellView
         Title = "AstroTrade";
 
         // Subscribe to navigation changes
-        _navigationManager.ScreenChanged += OnScreenChanged;
+        // _navigationManager.ScreenChanged += OnScreenChanged;
 
         // Navigate to default screen
-        _navigationManager.NavigateTo<DashboardView>();
+        // _navigationManager.NavigateTo<DashboardView>();
 
-        var headerVal = new HeaderLabel() { NameText = "AGENT", ValueText = "TEST" };
-        // headerVal.Border.Thickness = new Terminal.Gui.Drawing.Thickness(1);
-        headerVal.Y = 1;
-        headerVal.Width = Dim.Auto();
-        headerVal.Height = Dim.Auto();
+        var headerVal = new HeaderLabel
+        {
+            NameText = "AGENT",
+            ValueText = "TEST", // headerVal.Border.Thickness = new Terminal.Gui.Drawing.Thickness(1);
+            Y = 1,
+            Width = Dim.Auto(),
+            Height = Dim.Auto(),
+        };
         headerFrame.Add(headerVal);
         // headerFrame.Border.Thickness = new(1, 0, 1, 0);
 
@@ -72,10 +79,10 @@ public partial class ShellView
         {
             defaultItems.AddRange(screenMenus);
         }
-        menuBar = new(defaultItems);
+        // menuBar.Menus = defaultItems.ToArray();
     }
 
-    private static IEnumerable<MenuBarItemv2> ShellMenuItems =>
+    public MenuBarItemv2[] ShellMenuItems =>
         [
             new(
                 "_File",
