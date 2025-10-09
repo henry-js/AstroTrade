@@ -97,9 +97,15 @@ public class TestScreen : IScreenView
     public bool WasActivated { get; private set; }
     public bool WasDeactivated { get; private set; }
 
-    public void OnActivated() { WasActivated = true; }
+    public void OnActivated()
+    {
+        WasActivated = true;
+    }
 
-    public void OnDeactivated() { WasDeactivated = true; }
+    public void OnDeactivated()
+    {
+        WasDeactivated = true;
+    }
 }
 
 public class AnotherTestScreen : IScreenView
@@ -113,7 +119,13 @@ public class AnotherTestScreen : IScreenView
     public bool WasActivated { get; private set; }
     public bool WasDeactivated { get; private set; }
 
-    public void OnActivated() { WasActivated = true; }
+    public void OnActivated()
+    {
+        WasActivated = true;
+    }
 
-    public void OnDeactivated() { WasDeactivated = true; }
+    public void OnDeactivated()
+    {
+        WasDeactivated = true;
+    }
 }

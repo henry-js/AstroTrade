@@ -1,3 +1,4 @@
+using AstroTrade.Core.Features.Markets;
 using Terminal.Gui.ViewBase;
 using Terminal.Gui.Views;
 
@@ -7,8 +8,10 @@ public class MarketsView : BaseScreenView
 {
     public override string Title => "Markets";
 
-    public MarketsView()
+    public MarketsView(MarketsViewModel viewModel)
     {
+        ViewModel = viewModel ?? throw new ArgumentNullException(nameof(viewModel));
+
         // Initialize markets layout
         var label = new Label()
         {
@@ -26,27 +29,31 @@ public class MarketsView : BaseScreenView
             new(
                 "_Trade",
                 [
-                    new MenuItemv2("_Buy Goods", "", () => HandleMenuAction("buy")),
-                    new MenuItemv2("_Sell Goods", "", () => HandleMenuAction("sell")),
-                    new MenuItemv2("_View Prices", "", () => HandleMenuAction("prices")),
-                    new MenuItemv2("_Back to Dashboard", "", () => HandleMenuAction("back")),
+                    new MenuItemv2(
+                        "_Buy Goods",
+                        "",
+                        () => (ViewModel as MarketsViewModel)?.BuyGoodsCommand.Execute(null)
+                    ),
+                    new MenuItemv2(
+                        "_Sell Goods",
+                        "",
+                        () => (ViewModel as MarketsViewModel)?.SellGoodsCommand.Execute(null)
+                    ),
+                    new MenuItemv2(
+                        "_View Prices",
+                        "",
+                        () => (ViewModel as MarketsViewModel)?.ViewPricesCommand.Execute(null)
+                    ),
+                    new MenuItemv2(
+                        "_Back to Dashboard",
+                        "",
+                        () =>
+                            (ViewModel as MarketsViewModel)?.NavigateToDashboardCommand.Execute(
+                                null
+                            )
+                    ),
                 ]
             ),
         };
-    }
-
-    public override void HandleMenuAction(string action)
-    {
-        // For now, just show a message - will be replaced with actual functionality
-        var message = action switch
-        {
-            "buy" => "Buy goods not implemented yet",
-            "sell" => "Sell goods not implemented yet",
-            "prices" => "Price view not implemented yet",
-            "back" => "Back navigation not implemented yet",
-            _ => $"Unknown action: {action}",
-        };
-
-        MessageBox.Query("Markets", message, "OK");
     }
 }

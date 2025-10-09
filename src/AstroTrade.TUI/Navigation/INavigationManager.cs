@@ -26,6 +26,7 @@ public class ScreenChangedEventArgs : EventArgs
 public interface IScreenView
 {
     string Title { get; }
+    object? ViewModel { get; }
     IEnumerable<MenuBarItemv2> GetMenuItems();
     void HandleMenuAction(string action);
     void OnActivated(); // Called when screen becomes active

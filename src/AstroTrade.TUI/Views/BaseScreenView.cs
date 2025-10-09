@@ -8,6 +8,8 @@ public abstract class BaseScreenView : View, IScreenView
 {
     public abstract string Title { get; }
 
+    public virtual object? ViewModel { get; protected set; }
+
     public virtual IEnumerable<MenuBarItemv2> GetMenuItems() => [];
 
     public virtual void HandleMenuAction(string action)

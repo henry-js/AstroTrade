@@ -11,17 +11,11 @@ namespace AstroTrade.TUI.Views;
 
 public partial class ShellView
 {
-    private readonly INavigationManager _navigationManager;
+    private readonly INavigationManager _navigationManager = default!;
 
-    public ShellViewModel ViewModel { get; }
-
-    public ShellView()
-    {
-        InitializeComponent();
-    }
+    public ShellViewModel ViewModel { get; } = default!;
 
     public ShellView(ShellViewModel viewModel, INavigationManager navigationManager)
-        : this()
     {
         _navigationManager =
             navigationManager ?? throw new ArgumentNullException(nameof(navigationManager));

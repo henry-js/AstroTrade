@@ -1,4 +1,4 @@
-using AstroTrade.TUI.Navigation;
+using AstroTrade.Core.Features.Dashboard;
 using Terminal.Gui.ViewBase;
 using Terminal.Gui.Views;
 
@@ -6,14 +6,11 @@ namespace AstroTrade.TUI.Views;
 
 public class DashboardView : BaseScreenView
 {
-    private readonly INavigationManager _navigationManager;
-
     public override string Title => "Dashboard";
 
-    public DashboardView(INavigationManager navigationManager)
+    public DashboardView(DashboardViewModel viewModel)
     {
-        _navigationManager =
-            navigationManager ?? throw new ArgumentNullException(nameof(navigationManager));
+        ViewModel = viewModel ?? throw new ArgumentNullException(nameof(viewModel));
 
         // Initialize dashboard layout
         var label = new Label()
@@ -27,6 +24,43 @@ public class DashboardView : BaseScreenView
 
     public override IEnumerable<MenuBarItemv2> GetMenuItems()
     {
-        return new List<MenuBarItemv2> { new($"_{Title}") };
+        return new List<MenuBarItemv2>
+        {
+            new(
+                "_Game",
+                [
+                    new MenuItemv2(
+                        "_Ships",
+                        "",
+                        () =>
+                            (ViewModel as DashboardViewModel)?.NavigateToShipsCommand.Execute(null)
+                    ),
+                    new MenuItemv2(
+                        "_Markets",
+                        "",
+                        () =>
+                            (ViewModel as DashboardViewModel)?.NavigateToMarketsCommand.Execute(
+                                null
+                            )
+                    ),
+                    new MenuItemv2(
+                        "_Contracts",
+                        "",
+                        () =>
+                            (ViewModel as DashboardViewModel)?.NavigateToContractsCommand.Execute(
+                                null
+                            )
+                    ),
+                    new MenuItemv2(
+                        "_Systems",
+                        "",
+                        () =>
+                            (ViewModel as DashboardViewModel)?.NavigateToSystemsCommand.Execute(
+                                null
+                            )
+                    ),
+                ]
+            ),
+        };
     }
 }

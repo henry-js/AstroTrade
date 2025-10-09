@@ -26,7 +26,7 @@ public class MyCommands(
         var command = new RegisterAgentCommand(
             "TESTABC",
             "aegis",
-            _configuration["SpaceTraders:AccountToken"]
+            _configuration["SpaceTraders:AccountToken"] ?? throw new Exception()
         );
         var newAgent = await _mediator.Send(command);
         var opts = options;

@@ -1,3 +1,4 @@
+using AstroTrade.Core.Features.Ships;
 using Terminal.Gui.ViewBase;
 using Terminal.Gui.Views;
 
@@ -7,8 +8,10 @@ public class ShipsView : BaseScreenView
 {
     public override string Title => "Ships";
 
-    public ShipsView()
+    public ShipsView(ShipsViewModel viewModel)
     {
+        ViewModel = viewModel ?? throw new ArgumentNullException(nameof(viewModel));
+
         // Initialize ships layout
         var label = new Label()
         {
@@ -26,27 +29,29 @@ public class ShipsView : BaseScreenView
             new(
                 "_Fleet",
                 [
-                    new MenuItemv2("_Purchase Ship", "", () => HandleMenuAction("purchase")),
-                    new MenuItemv2("_View Cargo", "", () => HandleMenuAction("cargo")),
-                    new MenuItemv2("_Navigate", "", () => HandleMenuAction("navigate")),
-                    new MenuItemv2("_Back to Dashboard", "", () => HandleMenuAction("back")),
+                    new MenuItemv2(
+                        "_Purchase Ship",
+                        "",
+                        () => (ViewModel as ShipsViewModel)?.PurchaseShipCommand.Execute(null)
+                    ),
+                    new MenuItemv2(
+                        "_View Cargo",
+                        "",
+                        () => (ViewModel as ShipsViewModel)?.ViewCargoCommand.Execute(null)
+                    ),
+                    new MenuItemv2(
+                        "_Navigate",
+                        "",
+                        () => (ViewModel as ShipsViewModel)?.NavigateShipCommand.Execute(null)
+                    ),
+                    new MenuItemv2(
+                        "_Back to Dashboard",
+                        "",
+                        () =>
+                            (ViewModel as ShipsViewModel)?.NavigateToDashboardCommand.Execute(null)
+                    ),
                 ]
             ),
         };
-    }
-
-    public override void HandleMenuAction(string action)
-    {
-        // For now, just show a message - will be replaced with actual functionality
-        var message = action switch
-        {
-            "purchase" => "Ship purchase not implemented yet",
-            "cargo" => "Cargo view not implemented yet",
-            "navigate" => "Navigation not implemented yet",
-            "back" => "Back navigation not implemented yet",
-            _ => $"Unknown action: {action}",
-        };
-
-        MessageBox.Query("Ships", message, "OK");
     }
 }

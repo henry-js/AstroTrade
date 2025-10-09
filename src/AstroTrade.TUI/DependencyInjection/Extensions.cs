@@ -1,5 +1,10 @@
 using AstroTrade.Core.Abstractions;
+using AstroTrade.Core.Features.Contracts;
+using AstroTrade.Core.Features.Dashboard;
+using AstroTrade.Core.Features.Markets;
 using AstroTrade.Core.Features.Shell;
+using AstroTrade.Core.Features.Ships;
+using AstroTrade.Core.Features.Systems;
 using AstroTrade.Core.Security;
 using AstroTrade.Infrastructure.Persistence;
 using AstroTrade.TUI.Commands;
@@ -78,13 +83,19 @@ public static class Extensions
     private static void AddTUIViews(this IServiceCollection services)
     {
         services.AddSingleton<INavigationManager, NavigationManager>();
+        services.AddSingleton<INavigationService, NavigationService>();
         services.AddTransient<ShellView>();
         services.AddTransient<ShellViewModel>();
         services.AddTransient<DashboardView>();
+        services.AddTransient<DashboardViewModel>();
         services.AddTransient<ShipsView>();
+        services.AddTransient<ShipsViewModel>();
         services.AddTransient<MarketsView>();
+        services.AddTransient<MarketsViewModel>();
         services.AddTransient<ContractsView>();
+        services.AddTransient<ContractsViewModel>();
         services.AddTransient<SystemsView>();
+        services.AddTransient<SystemsViewModel>();
     }
 
     private static void AddKiotaClientServices(this IServiceCollection services)

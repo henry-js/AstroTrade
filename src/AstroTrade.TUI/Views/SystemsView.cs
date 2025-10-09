@@ -1,3 +1,4 @@
+using AstroTrade.Core.Features.Systems;
 using Terminal.Gui.ViewBase;
 using Terminal.Gui.Views;
 
@@ -7,8 +8,10 @@ public class SystemsView : BaseScreenView
 {
     public override string Title => "Systems";
 
-    public SystemsView()
+    public SystemsView(SystemsViewModel viewModel)
     {
+        ViewModel = viewModel ?? throw new ArgumentNullException(nameof(viewModel));
+
         // Initialize systems layout
         var label = new Label()
         {
@@ -26,27 +29,31 @@ public class SystemsView : BaseScreenView
             new(
                 "_Systems",
                 [
-                    new MenuItemv2("_Explore Waypoints", "", () => HandleMenuAction("explore")),
-                    new MenuItemv2("_Jump Gates", "", () => HandleMenuAction("jump")),
-                    new MenuItemv2("_View Map", "", () => HandleMenuAction("map")),
-                    new MenuItemv2("_Back to Dashboard", "", () => HandleMenuAction("back")),
+                    new MenuItemv2(
+                        "_Explore Waypoints",
+                        "",
+                        () => (ViewModel as SystemsViewModel)?.ExploreWaypointsCommand.Execute(null)
+                    ),
+                    new MenuItemv2(
+                        "_Jump Gates",
+                        "",
+                        () => (ViewModel as SystemsViewModel)?.JumpGatesCommand.Execute(null)
+                    ),
+                    new MenuItemv2(
+                        "_View Map",
+                        "",
+                        () => (ViewModel as SystemsViewModel)?.ViewMapCommand.Execute(null)
+                    ),
+                    new MenuItemv2(
+                        "_Back to Dashboard",
+                        "",
+                        () =>
+                            (ViewModel as SystemsViewModel)?.NavigateToDashboardCommand.Execute(
+                                null
+                            )
+                    ),
                 ]
             ),
         };
-    }
-
-    public override void HandleMenuAction(string action)
-    {
-        // For now, just show a message - will be replaced with actual functionality
-        var message = action switch
-        {
-            "explore" => "Waypoint exploration not implemented yet",
-            "jump" => "Jump gate navigation not implemented yet",
-            "map" => "System map not implemented yet",
-            "back" => "Back navigation not implemented yet",
-            _ => $"Unknown action: {action}",
-        };
-
-        MessageBox.Query("Systems", message, "OK");
     }
 }
