@@ -15,7 +15,8 @@ public class SystemsView : BaseScreenView
     public SystemsView(SystemsViewModel viewModel, INavigationManager navigationManager)
     {
         ViewModel = viewModel ?? throw new ArgumentNullException(nameof(viewModel));
-        _navigationManager = navigationManager ?? throw new ArgumentNullException(nameof(navigationManager));
+        _navigationManager =
+            navigationManager ?? throw new ArgumentNullException(nameof(navigationManager));
 
         viewModel.NavigationRequested += OnNavigationRequested;
 
