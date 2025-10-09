@@ -54,38 +54,38 @@ public class DashboardView : BaseScreenView
         return new List<MenuBarItemv2>
         {
             new(
-                "_Game",
+                "_Dashboard",
                 [
-                    new MenuItemv2(
-                        "_Ships",
-                        "",
-                        () =>
-                            (ViewModel as DashboardViewModel)?.NavigateToShipsCommand.Execute(null)
-                    ),
-                    new MenuItemv2(
-                        "_Markets",
-                        "",
-                        () =>
-                            (ViewModel as DashboardViewModel)?.NavigateToMarketsCommand.Execute(
-                                null
-                            )
-                    ),
-                    new MenuItemv2(
-                        "_Contracts",
-                        "",
-                        () =>
-                            (ViewModel as DashboardViewModel)?.NavigateToContractsCommand.Execute(
-                                null
-                            )
-                    ),
-                    new MenuItemv2(
-                        "_Systems",
-                        "",
-                        () =>
-                            (ViewModel as DashboardViewModel)?.NavigateToSystemsCommand.Execute(
-                                null
-                            )
-                    ),
+                    // new MenuItemv2(
+                    //     "_Ships",
+                    //     "",
+                    //     () =>
+                    //         (ViewModel as DashboardViewModel)?.NavigateToShipsCommand.Execute(null)
+                    // ),
+                    // new MenuItemv2(
+                    //     "_Markets",
+                    //     "",
+                    //     () =>
+                    //         (ViewModel as DashboardViewModel)?.NavigateToMarketsCommand.Execute(
+                    //             null
+                    //         )
+                    // ),
+                    // new MenuItemv2(
+                    //     "_Contracts",
+                    //     "",
+                    //     () =>
+                    //         (ViewModel as DashboardViewModel)?.NavigateToContractsCommand.Execute(
+                    //             null
+                    //         )
+                    // ),
+                    // new MenuItemv2(
+                    //     "_Systems",
+                    //     "",
+                    //     () =>
+                    //         (ViewModel as DashboardViewModel)?.NavigateToSystemsCommand.Execute(
+                    //             null
+                    //         )
+                    // ),
                 ]
             ),
         };

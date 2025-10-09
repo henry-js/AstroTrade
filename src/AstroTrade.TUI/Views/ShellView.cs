@@ -12,6 +12,7 @@ namespace AstroTrade.TUI.Views;
 public partial class ShellView
 {
     private readonly INavigationManager _navigationManager = default!;
+    private readonly HeaderLabel? _agentHeaderLabel;
 
     public ShellViewModel ViewModel { get; } = default!;
 
@@ -25,32 +26,40 @@ public partial class ShellView
         ViewModel = viewModel;
         Title = "AstroTrade";
 
-        // Subscribe to navigation changes
+        // Subscribe to ViewModel changes for UI updates
+        ViewModel.PropertyChanged += OnViewModelPropertyChanged;
+
         _navigationManager.ScreenChanged += OnScreenChanged;
 
-        // Navigate to default screen
         _navigationManager.NavigateTo<DashboardView>();
 
-        var headerVal = new HeaderLabel
+        _agentHeaderLabel = new HeaderLabel
         {
             NameText = "AGENT",
-            ValueText = "TEST", // headerVal.Border.Thickness = new Terminal.Gui.Drawing.Thickness(1);
+            ValueText = ViewModel.AgentSymbol ?? "Not Registered",
             Y = 1,
             Width = Dim.Auto(),
             Height = Dim.Auto(),
         };
-        headerFrame.Add(headerVal);
-        // headerFrame.Border.Thickness = new(1, 0, 1, 0);
+        headerFrame.Add(_agentHeaderLabel);
+    }
 
-        // headerFrame.Add(agentSymbolLabel);
+    private void OnViewModelPropertyChanged(
+        object? sender,
+        System.ComponentModel.PropertyChangedEventArgs e
+    )
+    {
+        if (e.PropertyName == nameof(ShellViewModel.AgentSymbol) && _agentHeaderLabel != null)
+        {
+            _agentHeaderLabel.ValueText = ViewModel.AgentSymbol ?? "Not Registered";
+            Application.LayoutAndDraw();
+        }
     }
 
     private void OnScreenChanged(object? sender, ScreenChangedEventArgs e)
     {
-        // Clear mainFrame
         mainFrame.RemoveAll();
 
-        // Add new screen if exists
         if (e.NewScreen is View screenView)
         {
             screenView.Width = Dim.Fill();
@@ -58,10 +67,8 @@ public partial class ShellView
             mainFrame.Add(screenView);
         }
 
-        // Update menu
         UpdateMenuBar(e.NewScreen?.GetMenuItems() ?? []);
 
-        // Refresh layout
         Application.LayoutAndDraw();
     }
 
@@ -86,15 +93,15 @@ public partial class ShellView
                         Title = "_Quit",
                         HelpText = "Quit UI Catalog",
                         Key = Application.QuitKey,
-                        // By not specifying TargetView the Key Binding will be Application-level
                         Command = Command.Quit,
                     },
                 ]
             ),
             new(
-                "_Game",
+                "_Home",
                 [
                     new MenuItemv2("_Home", "", () => HandleMenuAction("home")),
+                    new MenuItemv2("_Register Agent", "", () => HandleMenuAction("register")),
                     new MenuItemv2("_Ships", "", () => HandleMenuAction("ships")),
                     new MenuItemv2("_Markets", "", () => HandleMenuAction("markets")),
                     new MenuItemv2("_Contracts", "", () => HandleMenuAction("contracts")),
@@ -109,6 +116,9 @@ public partial class ShellView
         {
             case "home":
                 _navigationManager.NavigateTo<DashboardView>();
+                break;
+            case "register":
+                ViewModel.RegisterAgentCommand.Execute(null);
                 break;
             case "ships":
                 _navigationManager.NavigateTo<ShipsView>();
