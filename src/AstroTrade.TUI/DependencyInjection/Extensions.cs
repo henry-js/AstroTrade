@@ -5,6 +5,7 @@ using AstroTrade.Infrastructure.Persistence;
 using AstroTrade.TUI.Commands;
 using AstroTrade.TUI.Configuration;
 using AstroTrade.TUI.Logging;
+using AstroTrade.TUI.Navigation;
 using AstroTrade.TUI.Views;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -76,8 +77,11 @@ public static class Extensions
 
     private static void AddTUIViews(this IServiceCollection services)
     {
+        services.AddSingleton<INavigationManager, NavigationManager>();
         services.AddTransient<ShellView>();
         services.AddTransient<ShellViewModel>();
+        services.AddTransient<DashboardView>();
+        // Other screen views will be registered here as they're implemented
     }
 
     private static void AddKiotaClientServices(this IServiceCollection services)
