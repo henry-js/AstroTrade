@@ -1,12 +1,8 @@
 using System.Text.Json;
-
 using AstroTrade.Core.Abstractions;
 using AstroTrade.Core.Security;
-
 using Mediator;
-
 using Microsoft.Kiota.Http.HttpClientLibrary;
-
 using SpaceTraders.Api;
 using SpaceTraders.Api.Models;
 using SpaceTraders.Api.Register;
@@ -18,30 +14,42 @@ public sealed class RegisterAgentHandler : ICommandHandler<RegisterAgentCommand,
     private readonly IHttpClientFactory _httpClientFactory;
     private readonly ITokenRepository _tokenRepository;
 
-    public RegisterAgentHandler(IHttpClientFactory httpClientFactory, ITokenRepository tokenRepository)
+    public RegisterAgentHandler(
+        IHttpClientFactory httpClientFactory,
+        ITokenRepository tokenRepository
+    )
     {
         _httpClientFactory = httpClientFactory;
         _tokenRepository = tokenRepository;
     }
 
-    public async ValueTask<Agent> Handle(RegisterAgentCommand command, CancellationToken cancellationToken)
+    public async ValueTask<Agent> Handle(
+        RegisterAgentCommand command,
+        CancellationToken cancellationToken
+    )
     {
         var registrationAuthProvider = new AccountAuthenticationProvider(command.AccountToken);
         var httpClient = _httpClientFactory.CreateClient("RegistrationClient");
 
-        var registrationAdapter = new HttpClientRequestAdapter(registrationAuthProvider, httpClient: httpClient);
+        var registrationAdapter = new HttpClientRequestAdapter(
+            registrationAuthProvider,
+            httpClient: httpClient
+        );
         var registrationClient = new ApiClient(registrationAdapter);
 
         var requestBody = new RegisterPostRequestBody
         {
             Symbol = command.Symbol,
-            Faction = Enum.Parse<FactionSymbol>(command.Faction, true)
+            Faction = Enum.Parse<FactionSymbol>(command.Faction, true),
         };
 
         try
         {
-            var response = await registrationClient.Register.PostAsRegisterPostResponseAsync(requestBody, cancellationToken: cancellationToken)
-                ?? throw new InvalidOperationException("API response data was null");
+            var response =
+                await registrationClient.Register.PostAsRegisterPostResponseAsync(
+                    requestBody,
+                    cancellationToken: cancellationToken
+                ) ?? throw new InvalidOperationException("API response data was null");
 
             await _tokenRepository.SaveTokenAsync(response.Data.Token);
 

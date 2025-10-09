@@ -1,5 +1,4 @@
 using AstroTrade.Core.Abstractions;
-
 using Microsoft.Kiota.Abstractions.Authentication;
 
 namespace AstroTrade.Core.Security;
@@ -16,7 +15,8 @@ public sealed class BearerTokenProvider : IAccessTokenProvider
     public async Task<string> GetAuthorizationTokenAsync(
         Uri uri,
         Dictionary<string, object>? additionalAuthenticationContext = null,
-        CancellationToken cancellationToken = default)
+        CancellationToken cancellationToken = default
+    )
     {
         // Here is the logic from your CustomAuthenticationProvider.
         // If the request is for registration, we don't provide a token.

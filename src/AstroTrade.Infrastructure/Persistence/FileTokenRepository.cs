@@ -12,7 +12,8 @@ public class FileTokenRepository : ITokenRepository
     private readonly string _tokenPath = Path.Combine(
         Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData),
         "AstroTrade",
-        "authtoken.txt");
+        "authtoken.txt"
+    );
 
     public Task SaveTokenAsync(string token)
     {

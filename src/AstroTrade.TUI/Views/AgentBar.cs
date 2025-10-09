@@ -1,7 +1,5 @@
 using System.ComponentModel;
-
 using AstroTrade.Core.Features.Shell;
-
 using Terminal.Gui.App;
 using Terminal.Gui.ViewBase;
 using Terminal.Gui.Views;
@@ -26,7 +24,8 @@ public class AgentBar : Bar
     /// Creates a new instance of the AgentBar.
     /// </summary>
     /// <param name="viewModel">The ViewModel that will provide the data.</param>
-    public AgentBar(ShellViewModel viewModel) : base()
+    public AgentBar(ShellViewModel viewModel)
+        : base()
     {
         _viewModel = viewModel;
 

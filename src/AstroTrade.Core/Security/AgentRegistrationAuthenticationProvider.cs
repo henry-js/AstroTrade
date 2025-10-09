@@ -12,7 +12,11 @@ public class AccountAuthenticationProvider : IAuthenticationProvider
         _accountToken = accountToken;
     }
 
-    public Task AuthenticateRequestAsync(RequestInformation request, Dictionary<string, object>? additionalAuthenticationContext = null, CancellationToken cancellationToken = default)
+    public Task AuthenticateRequestAsync(
+        RequestInformation request,
+        Dictionary<string, object>? additionalAuthenticationContext = null,
+        CancellationToken cancellationToken = default
+    )
     {
         request.Headers.Add("Authorization", $"Bearer {_accountToken}");
         return Task.CompletedTask;

@@ -2,7 +2,6 @@ using Terminal.Gui;
 using Terminal.Gui.ViewBase;
 using Terminal.Gui.Views;
 
-
 public partial class Test : View
 {
     private FrameView frameView;

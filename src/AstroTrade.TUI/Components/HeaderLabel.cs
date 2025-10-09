@@ -76,10 +76,7 @@ namespace YourApp.Views // Or Terminal.Gui.Views if you prefer
         public string ValueText
         {
             get => _valueLabel.Text;
-            set
-            {
-                _valueLabel.Text = value;
-            }
+            set { _valueLabel.Text = value; }
         }
 
         /// <summary>
