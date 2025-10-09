@@ -81,7 +81,10 @@ public static class Extensions
         services.AddTransient<ShellView>();
         services.AddTransient<ShellViewModel>();
         services.AddTransient<DashboardView>();
-        // Other screen views will be registered here as they're implemented
+        services.AddTransient<ShipsView>();
+        services.AddTransient<MarketsView>();
+        services.AddTransient<ContractsView>();
+        services.AddTransient<SystemsView>();
     }
 
     private static void AddKiotaClientServices(this IServiceCollection services)

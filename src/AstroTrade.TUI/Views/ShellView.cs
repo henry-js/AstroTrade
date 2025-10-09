@@ -32,10 +32,10 @@ public partial class ShellView
         Title = "AstroTrade";
 
         // Subscribe to navigation changes
-        // _navigationManager.ScreenChanged += OnScreenChanged;
+        _navigationManager.ScreenChanged += OnScreenChanged;
 
         // Navigate to default screen
-        // _navigationManager.NavigateTo<DashboardView>();
+        _navigationManager.NavigateTo<DashboardView>();
 
         var headerVal = new HeaderLabel
         {
@@ -79,7 +79,7 @@ public partial class ShellView
         {
             defaultItems.AddRange(screenMenus);
         }
-        // menuBar.Menus = defaultItems.ToArray();
+        menuBar.Menus = defaultItems.ToArray();
     }
 
     public MenuBarItemv2[] ShellMenuItems =>
@@ -97,5 +97,37 @@ public partial class ShellView
                     },
                 ]
             ),
+            new(
+                "_Game",
+                [
+                    new MenuItemv2("_Home", "", () => HandleMenuAction("home")),
+                    new MenuItemv2("_Ships", "", () => HandleMenuAction("ships")),
+                    new MenuItemv2("_Markets", "", () => HandleMenuAction("markets")),
+                    new MenuItemv2("_Contracts", "", () => HandleMenuAction("contracts")),
+                    new MenuItemv2("_Systems", "", () => HandleMenuAction("systems")),
+                ]
+            ),
         ];
+
+    public void HandleMenuAction(string action)
+    {
+        switch (action)
+        {
+            case "home":
+                _navigationManager.NavigateTo<DashboardView>();
+                break;
+            case "ships":
+                _navigationManager.NavigateTo<ShipsView>();
+                break;
+            case "markets":
+                _navigationManager.NavigateTo<MarketsView>();
+                break;
+            case "contracts":
+                _navigationManager.NavigateTo<ContractsView>();
+                break;
+            case "systems":
+                _navigationManager.NavigateTo<SystemsView>();
+                break;
+        }
+    }
 }
