@@ -1,5 +1,7 @@
 using System.Text.Json;
 using AstroTrade.Core.Abstractions;
+using AstroTrade.Core.Mappers;
+using AstroTrade.Core.Models;
 using AstroTrade.Core.Security;
 using Mediator;
 using Microsoft.Kiota.Http.HttpClientLibrary;
@@ -9,7 +11,7 @@ using SpaceTraders.Api.Register;
 
 namespace AstroTrade.Core.Features.Agents.Register;
 
-public sealed class RegisterAgentHandler : ICommandHandler<RegisterAgentCommand, Agent>
+public sealed class RegisterAgentHandler : ICommandHandler<RegisterAgentCommand, DomainAgent>
 {
     private readonly IHttpClientFactory _httpClientFactory;
     private readonly ITokenRepository _tokenRepository;
@@ -23,7 +25,7 @@ public sealed class RegisterAgentHandler : ICommandHandler<RegisterAgentCommand,
         _tokenRepository = tokenRepository;
     }
 
-    public async ValueTask<Agent> Handle(
+    public async ValueTask<DomainAgent> Handle(
         RegisterAgentCommand command,
         CancellationToken cancellationToken
     )
@@ -57,11 +59,11 @@ public sealed class RegisterAgentHandler : ICommandHandler<RegisterAgentCommand,
             }
             await _tokenRepository.SaveTokenAsync(token);
 
-            if (response.Data?.Agent is not Agent agent)
+            if (response.Data?.Agent is not Agent apiAgent)
             {
-                throw new InvalidOperationException("Token was null");
+                throw new InvalidOperationException("Agent was null");
             }
-            return agent;
+            return apiAgent.ToDomain();
         }
         catch (Register409Error ex)
         {
