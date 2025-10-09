@@ -6,7 +6,7 @@ namespace AstroTrade.TUI.Views;
 
 public abstract class BaseScreenView : View, IScreenView
 {
-    public abstract string Title { get; }
+    public new abstract string Title { get; }
 
     public virtual object? ViewModel { get; protected set; }
 

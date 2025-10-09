@@ -18,7 +18,6 @@ public partial class ShellView : Window
     private MenuBarv2 menuBar;
     private StatusBar statusBar;
     private Shortcut f1EditMe;
-    private Label agentSymbolLabel;
 
     private void InitializeComponent()
     {

@@ -6,7 +6,7 @@
 
 namespace AstroTrade.Tests;
 
-public class GlobalHooks
+public static class GlobalHooks
 {
     [Before(TestSession)]
     public static void SetUp()

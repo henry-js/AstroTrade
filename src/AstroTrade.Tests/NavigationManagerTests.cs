@@ -65,7 +65,9 @@ public class NavigationManagerTests
     public async Task NavigateTo_InvalidScreenType_ThrowsArgumentException()
     {
         // Act & Assert
-        Assert.Throws<ArgumentException>(() => _navigationManager.NavigateTo(typeof(string)));
+        await Assert
+            .That(() => _navigationManager.NavigateTo(typeof(string)))
+            .Throws<ArgumentException>();
     }
 
     [Test]

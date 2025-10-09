@@ -51,9 +51,17 @@ public sealed class RegisterAgentHandler : ICommandHandler<RegisterAgentCommand,
                     cancellationToken: cancellationToken
                 ) ?? throw new InvalidOperationException("API response data was null");
 
-            await _tokenRepository.SaveTokenAsync(response.Data.Token);
+            if (response.Data?.Token is not string token)
+            {
+                throw new InvalidOperationException("Token was null");
+            }
+            await _tokenRepository.SaveTokenAsync(token);
 
-            return response.Data.Agent;
+            if (response.Data?.Agent is not Agent agent)
+            {
+                throw new InvalidOperationException("Token was null");
+            }
+            return agent;
         }
         catch (Register409Error ex)
         {
