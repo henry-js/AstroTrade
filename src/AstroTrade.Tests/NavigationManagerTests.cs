@@ -1,7 +1,5 @@
 using AstroTrade.TUI.Navigation;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.DependencyInjection.Extensions;
-using NSubstitute;
 using Terminal.Gui.Views;
 
 namespace AstroTrade.Tests;
@@ -14,10 +12,10 @@ public class NavigationManagerTests
     [Before(HookType.Test)]
     public void Setup()
     {
-        // var services = new ServiceCollection();
-        // services.AddSingleton<IScreenView, TestScreen>();
-        // services.AddSingleton<IScreenView, AnotherTestScreen>();
-        _serviceProvider = Substitute.For<IServiceProvider>();
+        var services = new ServiceCollection();
+        services.AddSingleton<TestScreen>();
+        services.AddSingleton<AnotherTestScreen>();
+        _serviceProvider = services.BuildServiceProvider();
         _navigationManager = new NavigationManager(_serviceProvider);
     }
 
@@ -25,10 +23,7 @@ public class NavigationManagerTests
     public async Task NavigateTo_ValidScreenType_SetsCurrentScreenAndRaisesEvent()
     {
         // Arrange
-        var mockScreen = Substitute.For<IScreenView>();
-        mockScreen.Title.Returns("Test Screen");
-        mockScreen.GetMenuItems().Returns([]);
-        _serviceProvider.GetRequiredService(typeof(TestScreen)).Returns(mockScreen);
+        var screen = _serviceProvider.GetRequiredService<TestScreen>();
 
         var eventRaised = false;
         IScreenView? previousScreen = null;
@@ -45,27 +40,25 @@ public class NavigationManagerTests
         _navigationManager.NavigateTo<TestScreen>();
 
         // Assert
-        await Assert.That(_navigationManager.CurrentScreen).IsSameReferenceAs(mockScreen);
+        await Assert.That(_navigationManager.CurrentScreen).IsSameReferenceAs(screen);
         await Assert.That(eventRaised).IsTrue();
         await Assert.That(previousScreen).IsNull();
-        await Assert.That(newScreen).IsSameReferenceAs(mockScreen);
-        mockScreen.Received(1).OnActivated();
+        await Assert.That(newScreen).IsSameReferenceAs(screen);
+        await Assert.That(screen.WasActivated).IsTrue();
     }
 
     [Test]
     public async Task NavigateTo_SameScreenType_ReturnsCachedInstance()
     {
         // Arrange
-        var mockScreen = Substitute.For<IScreenView>();
-        _serviceProvider.GetRequiredService(typeof(TestScreen)).Returns(mockScreen);
+        var screen = _serviceProvider.GetRequiredService<TestScreen>();
 
         // Act
         _navigationManager.NavigateTo<TestScreen>();
         _navigationManager.NavigateTo<TestScreen>();
 
         // Assert
-        await Assert.That(_navigationManager.CurrentScreen).IsSameReferenceAs(mockScreen);
-        _serviceProvider.Received(1).GetRequiredService(typeof(TestScreen));
+        await Assert.That(_navigationManager.CurrentScreen).IsSameReferenceAs(screen);
     }
 
     [Test]
@@ -79,19 +72,16 @@ public class NavigationManagerTests
     public async Task NavigateTo_CallsOnDeactivatedOnPreviousScreen()
     {
         // Arrange
-        var firstScreen = Substitute.For<IScreenView>();
-        var secondScreen = Substitute.For<IScreenView>();
-
-        _serviceProvider.GetRequiredService(typeof(TestScreen)).Returns(firstScreen);
-        _serviceProvider.GetRequiredService(typeof(AnotherTestScreen)).Returns(secondScreen);
+        var firstScreen = _serviceProvider.GetRequiredService<TestScreen>();
+        var secondScreen = _serviceProvider.GetRequiredService<AnotherTestScreen>();
 
         // Act
         _navigationManager.NavigateTo<TestScreen>();
         _navigationManager.NavigateTo<AnotherTestScreen>();
 
         // Assert
-        firstScreen.Received(1).OnDeactivated();
-        secondScreen.Received(1).OnActivated();
+        await Assert.That(firstScreen.WasDeactivated).IsTrue();
+        await Assert.That(secondScreen.WasActivated).IsTrue();
     }
 }
 
@@ -104,9 +94,12 @@ public class TestScreen : IScreenView
 
     public void HandleMenuAction(string action) { }
 
-    public void OnActivated() { }
+    public bool WasActivated { get; private set; }
+    public bool WasDeactivated { get; private set; }
 
-    public void OnDeactivated() { }
+    public void OnActivated() { WasActivated = true; }
+
+    public void OnDeactivated() { WasDeactivated = true; }
 }
 
 public class AnotherTestScreen : IScreenView
@@ -117,7 +110,10 @@ public class AnotherTestScreen : IScreenView
 
     public void HandleMenuAction(string action) { }
 
-    public void OnActivated() { }
+    public bool WasActivated { get; private set; }
+    public bool WasDeactivated { get; private set; }
 
-    public void OnDeactivated() { }
+    public void OnActivated() { WasActivated = true; }
+
+    public void OnDeactivated() { WasDeactivated = true; }
 }
