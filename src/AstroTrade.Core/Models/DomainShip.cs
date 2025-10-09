@@ -7,7 +7,12 @@ public class DomainShip
     public string NavStatus { get; }
     public string NavWaypointSymbol { get; }
 
-    public DomainShip(string symbol, string registrationRole, string navStatus, string navWaypointSymbol)
+    public DomainShip(
+        string symbol,
+        string registrationRole,
+        string navStatus,
+        string navWaypointSymbol
+    )
     {
         Symbol = symbol;
         RegistrationRole = registrationRole;
@@ -16,5 +21,6 @@ public class DomainShip
     }
 
     public bool IsDocked() => NavStatus == "DOCKED";
+
     public bool IsInTransit() => NavStatus == "IN_TRANSIT";
 }
