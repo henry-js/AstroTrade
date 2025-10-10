@@ -54,11 +54,11 @@ public static class Extensions
                 )
                 .Enrich.WithProperty("ApplicationName", "<APP NAME>")
                 .Enrich.With<SourceClassEnricher>()
-                .WriteTo.Console(
-                    outputTemplate: outputTemplate,
-                    theme: AnsiConsoleTheme.Sixteen,
-                    restrictedToMinimumLevel: LogEventLevel.Information
-                )
+                // .WriteTo.Console(
+                //     outputTemplate: outputTemplate,
+                //     theme: AnsiConsoleTheme.Sixteen,
+                //     restrictedToMinimumLevel: LogEventLevel.Information
+                // )
                 .CreateLogger()
         );
     }

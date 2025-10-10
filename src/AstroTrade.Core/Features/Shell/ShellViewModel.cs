@@ -28,6 +28,9 @@ public partial class ShellViewModel(IMediator mediator, IConfiguration configura
     private string? _headquarters;
 
     [ObservableProperty]
+    private string? _faction;
+
+    [ObservableProperty]
     private string? _statusMessage;
 
     // This is the most important property. It will hold the ViewModel
@@ -38,13 +41,13 @@ public partial class ShellViewModel(IMediator mediator, IConfiguration configura
     public int? Credits { get; set; }
 
     [RelayCommand]
-    private async Task RegisterAgentAsync()
+    private async Task RegisterAgentAsync(RegisterAgentParameters parameters)
     {
         try
         {
             var command = new RegisterAgentCommand(
-                "alexis",
-                "COSMIC",
+                parameters.Name,
+                parameters.Faction,
                 _configuration["SpaceTradersConfiguration:AccountToken"]
                     ?? throw new Exception("AccountToken not found")
             );
@@ -55,6 +58,7 @@ public partial class ShellViewModel(IMediator mediator, IConfiguration configura
             AgentCredits = agent.Credits.ToString();
             ShipCount = agent.ShipCount.ToString();
             Headquarters = agent.Headquarters;
+            Faction = agent.StartingFaction;
             Credits = (int)agent.Credits;
             StatusMessage = "Agent registered successfully";
         }

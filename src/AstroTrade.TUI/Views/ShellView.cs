@@ -1,18 +1,19 @@
 using System.Collections;
+using System.Collections.ObjectModel;
 using AstroTrade.Core.Features.Shell;
 using AstroTrade.TUI.Navigation;
+using Terminal.Gui;
 using Terminal.Gui.App;
 using Terminal.Gui.Input;
 using Terminal.Gui.ViewBase;
 using Terminal.Gui.Views;
-using YourApp.Views;
 
 namespace AstroTrade.TUI.Views;
 
 public partial class ShellView
 {
     private readonly INavigationManager _navigationManager = default!;
-    private readonly HeaderLabel? _agentHeaderLabel;
+    private readonly AgentBar? _agentBar;
 
     public ShellViewModel ViewModel { get; } = default!;
 
@@ -26,34 +27,22 @@ public partial class ShellView
         ViewModel = viewModel;
         Title = "AstroTrade";
 
-        // Subscribe to ViewModel changes for UI updates
-        ViewModel.PropertyChanged += OnViewModelPropertyChanged;
-
         _navigationManager.ScreenChanged += OnScreenChanged;
 
         _navigationManager.NavigateTo<DashboardView>();
 
-        _agentHeaderLabel = new HeaderLabel
+        _agentBar = new AgentBar(ViewModel)
         {
-            NameText = "AGENT",
-            ValueText = ViewModel.AgentSymbol ?? "Not Registered",
             Y = 1,
-            Width = Dim.Auto(),
-            Height = Dim.Auto(),
+            Width = Dim.Fill(),
+            Height = 1,
         };
-        headerFrame.Add(_agentHeaderLabel);
-    }
+        headerFrame.Add(_agentBar);
 
-    private void OnViewModelPropertyChanged(
-        object? sender,
-        System.ComponentModel.PropertyChangedEventArgs e
-    )
-    {
-        if (e.PropertyName == nameof(ShellViewModel.AgentSymbol) && _agentHeaderLabel != null)
-        {
-            _agentHeaderLabel.ValueText = ViewModel.AgentSymbol ?? "Not Registered";
-            Application.LayoutAndDraw();
-        }
+        // Configure StatusBar
+        // statusBar.Add(new StatusItem(Key.Q.WithCtrl, "~Ctrl+Q~ Quit", () => Application.RequestStop()));
+        // statusBar.Add(new StatusItem(Key.Empty, "API: Online", null));
+        // statusBar.Add(new StatusItem(Key.Empty, $"Time: {DateTime.UtcNow:HH:mm:ss}", null));
     }
 
     private void OnScreenChanged(object? sender, ScreenChangedEventArgs e)
@@ -118,7 +107,7 @@ public partial class ShellView
                 _navigationManager.NavigateTo<DashboardView>();
                 break;
             case "register":
-                ViewModel.RegisterAgentCommand.Execute(null);
+                ShowRegisterAgentDialog();
                 break;
             case "ships":
                 _navigationManager.NavigateTo<ShipsView>();
@@ -132,6 +121,27 @@ public partial class ShellView
             case "systems":
                 _navigationManager.NavigateTo<SystemsView>();
                 break;
+        }
+    }
+
+    private void ShowRegisterAgentDialog()
+    {
+        var dialog = new RegisterAgentDialog();
+        Application.Run(dialog);
+
+        if (!dialog.Canceled)
+        {
+            var name = dialog.NameField.Text?.ToString();
+            var faction = dialog.FactionCombo.Text?.ToString();
+
+            if (string.IsNullOrWhiteSpace(name) || string.IsNullOrWhiteSpace(faction))
+            {
+                // For now, skip validation
+                return;
+            }
+
+            var parameters = new RegisterAgentParameters { Name = name, Faction = faction };
+            ViewModel.RegisterAgentCommand.Execute(parameters);
         }
     }
 }
