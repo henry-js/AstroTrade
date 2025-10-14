@@ -1,12 +1,17 @@
 using AstroTrade.Core.Abstractions;
+using AstroTrade.Core.Features.Contracts;
+using AstroTrade.Core.Features.Ships;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using Mediator;
 using SpaceTraders.Api.Models;
 
 namespace AstroTrade.Core.Features.Dashboard;
 
-public partial class DashboardViewModel : ObservableObject
+public partial class DashboardViewModel(IMediator mediator) : ObservableObject
 {
+    private readonly IMediator _mediator = mediator;
+
     public event EventHandler<NavigationEventArgs>? NavigationRequested;
 
     [ObservableProperty]
@@ -15,11 +20,21 @@ public partial class DashboardViewModel : ObservableObject
     [ObservableProperty]
     private List<Ship>? _fleetShips;
 
-    public DashboardViewModel()
+    [ObservableProperty]
+    private string? _errorMessage;
+
+    public async Task InitializeAsync()
     {
-        // Initialize with empty lists to avoid null references
-        Contracts = new List<Contract>();
-        FleetShips = new List<Ship>();
+        try
+        {
+            Contracts = await _mediator.Send(new GetContractsQuery());
+            FleetShips = await _mediator.Send(new GetShipsQuery());
+            ErrorMessage = null;
+        }
+        catch (Exception ex)
+        {
+            ErrorMessage = ex.Message;
+        }
     }
 
     [RelayCommand]

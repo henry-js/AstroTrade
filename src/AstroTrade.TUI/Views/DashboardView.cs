@@ -18,11 +18,22 @@ public class DashboardView : BaseScreenView
     public DashboardView(DashboardViewModel viewModel, INavigationManager navigationManager)
     {
         ViewModel = viewModel ?? throw new ArgumentNullException(nameof(viewModel));
-        _navigationManager = navigationManager ?? throw new ArgumentNullException(nameof(navigationManager));
+        _navigationManager =
+            navigationManager ?? throw new ArgumentNullException(nameof(navigationManager));
 
         viewModel.NavigationRequested += OnNavigationRequested;
 
         InitializeLayout();
+    }
+
+    public override async void OnActivated()
+    {
+        base.OnActivated();
+        await ((DashboardViewModel)ViewModel!).InitializeAsync();
+        if (!string.IsNullOrEmpty(((DashboardViewModel)ViewModel).ErrorMessage))
+        {
+            MessageBox.ErrorQuery("Error", ((DashboardViewModel)ViewModel).ErrorMessage, "OK");
+        }
     }
 
     private void InitializeLayout()
