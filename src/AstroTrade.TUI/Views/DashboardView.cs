@@ -12,6 +12,8 @@ namespace AstroTrade.TUI.Views;
 public class DashboardView : BaseScreenView
 {
     private readonly INavigationManager _navigationManager;
+    private readonly ContractsListView _contractsListView;
+    private readonly FleetOverviewView _fleetOverviewView;
 
     public override string Title => "Dashboard";
 
@@ -23,6 +25,12 @@ public class DashboardView : BaseScreenView
 
         viewModel.NavigationRequested += OnNavigationRequested;
 
+        _contractsListView = new ContractsListView();
+        _contractsListView.ContractSelected += OnContractSelected;
+
+        _fleetOverviewView = new FleetOverviewView();
+        _fleetOverviewView.ShipSelected += OnShipSelected;
+
         InitializeLayout();
     }
 
@@ -30,9 +38,12 @@ public class DashboardView : BaseScreenView
     {
         base.OnActivated();
         await ((DashboardViewModel)ViewModel!).InitializeAsync();
-        if (!string.IsNullOrEmpty(((DashboardViewModel)ViewModel).ErrorMessage))
+        var vm = (DashboardViewModel)ViewModel!;
+        _contractsListView.UpdateContracts(vm.Contracts ?? new List<Contract>());
+        _fleetOverviewView.UpdateShips(vm.FleetShips ?? new List<Ship>());
+        if (!string.IsNullOrEmpty(vm.ErrorMessage))
         {
-            MessageBox.ErrorQuery("Error", ((DashboardViewModel)ViewModel).ErrorMessage, "OK");
+            MessageBox.ErrorQuery("Error", vm.ErrorMessage, "OK");
         }
     }
 
@@ -48,24 +59,7 @@ public class DashboardView : BaseScreenView
             Height = Dim.Fill(3), // Leave space for buttons
         };
 
-        var contractsList = new ListView
-        {
-            X = 0,
-            Y = 0,
-            Width = Dim.Fill(),
-            Height = Dim.Fill(),
-        };
-
-        // Bind to ViewModel
-        (ViewModel as DashboardViewModel)!.PropertyChanged += (s, e) =>
-        {
-            if (e.PropertyName == nameof(DashboardViewModel.Contracts))
-            {
-                UpdateContractsList(contractsList);
-            }
-        };
-
-        contractsFrame.Add(contractsList);
+        contractsFrame.Add(_contractsListView);
         Add(contractsFrame);
 
         // Right Panel: Fleet Overview
@@ -78,24 +72,7 @@ public class DashboardView : BaseScreenView
             Height = Dim.Fill(3),
         };
 
-        var fleetList = new ListView
-        {
-            X = 0,
-            Y = 0,
-            Width = Dim.Fill(),
-            Height = Dim.Fill(),
-        };
-
-        // Bind to ViewModel
-        (ViewModel as DashboardViewModel)!.PropertyChanged += (s, e) =>
-        {
-            if (e.PropertyName == nameof(DashboardViewModel.FleetShips))
-            {
-                UpdateFleetList(fleetList);
-            }
-        };
-
-        fleetFrame.Add(fleetList);
+        fleetFrame.Add(_fleetOverviewView);
         Add(fleetFrame);
 
         // Bottom Section: Action Buttons
@@ -126,32 +103,16 @@ public class DashboardView : BaseScreenView
         Add(navigateButton, marketButton, fulfillButton);
     }
 
-    private void UpdateContractsList(ListView list)
-    {
-        var vm = ViewModel as DashboardViewModel;
-        if (vm?.Contracts == null)
-            return;
 
-        var items = vm
-            .Contracts.Select(contract =>
-                $"{contract.Id} - {contract.Type?.ToString() ?? "Unknown"} - ¢{contract.Terms?.Payment?.OnAccepted?.ToString("N0") ?? "0"} - {contract.Terms?.Deadline?.ToString("yyyy-MM-dd") ?? "-"}"
-            )
-            .ToList();
-        list.SetSource(new ObservableCollection<string>(items));
+
+    private void OnContractSelected(object? sender, Contract? contract)
+    {
+        _navigationManager.NavigateTo<ContractsView>();
     }
 
-    private void UpdateFleetList(ListView list)
+    private void OnShipSelected(object? sender, Ship? ship)
     {
-        var vm = ViewModel as DashboardViewModel;
-        if (vm?.FleetShips == null)
-            return;
-
-        var items = vm
-            .FleetShips.Select(ship =>
-                $"{ship.Symbol} - {ship.Nav?.Route?.Destination?.Symbol ?? "Unknown"} - {ship.Nav?.Status?.ToString() ?? "Unknown"} - Cargo: {ship.Cargo?.Units ?? 0}/{ship.Cargo?.Capacity ?? 0}"
-            )
-            .ToList();
-        list.SetSource(new ObservableCollection<string>(items));
+        _navigationManager.NavigateTo<ShipsView>();
     }
 
     private void OnNavigationRequested(object? sender, NavigationEventArgs e)

@@ -95,6 +95,8 @@ public static class Extensions
         services.AddTransient<ContractsViewModel>();
         services.AddTransient<SystemsView>();
         services.AddTransient<SystemsViewModel>();
+        services.AddTransient<ContractsListView>();
+        services.AddTransient<FleetOverviewView>();
     }
 
     private static void AddKiotaClientServices(this IServiceCollection services)
