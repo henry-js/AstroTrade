@@ -1,4 +1,4 @@
-$repoRoot = Resolve-Path "$PSScriptRoot/.."
+$repoRoot = git rev-parse --show-toplevel
 
 Write-Host $repoRoot
 
