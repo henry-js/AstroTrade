@@ -103,8 +103,6 @@ public class DashboardView : BaseScreenView
         Add(navigateButton, marketButton, fulfillButton);
     }
 
-
-
     private void OnContractSelected(object? sender, Contract? contract)
     {
         _navigationManager.NavigateTo<ContractsView>();
