@@ -22,7 +22,7 @@ public class FileTokenRepository : ITokenRepository
         return await File.ReadAllTextAsync(tokenPath);
     }
 
-    public Task SaveTokenAsync(string token, string agentSymbol)
+    public async Task SaveTokenAsync(string token, string agentSymbol)
     {
         var tokenPath = GetTokenPath(agentSymbol);
 
@@ -33,7 +33,7 @@ public class FileTokenRepository : ITokenRepository
             Directory.CreateDirectory(directory);
         }
 
-        return File.WriteAllTextAsync(tokenPath, token);
+        await File.WriteAllTextAsync(tokenPath, token);
     }
 
     public async Task<string[]> GetAvailableAgentSymbolsAsync()
@@ -43,7 +43,6 @@ public class FileTokenRepository : ITokenRepository
         {
             return Array.Empty<string>();
         }
-
         var tokenFiles = Directory.GetFiles(agentsDir, "*_authtoken.txt");
         var agentSymbols = new List<string>();
 
@@ -58,8 +57,7 @@ public class FileTokenRepository : ITokenRepository
                 agentSymbols.Add(agentSymbol);
             }
         }
-
-        return agentSymbols.ToArray();
+        return await Task.FromResult(agentSymbols.ToArray());
     }
 
     private string GetTokenPath(string agentSymbol)

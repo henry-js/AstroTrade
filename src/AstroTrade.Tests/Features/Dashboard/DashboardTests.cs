@@ -11,20 +11,22 @@ using TUnit.Core;
 public class DashboardViewModelTests
 {
     private IMediator _mockMediator = null!;
+    private ICurrentAgentService _mockCurrentAgentService = null!;
     private DashboardViewModel _viewModel = null!;
 
     [Before(Test)]
     public void Setup()
     {
         _mockMediator = Substitute.For<IMediator>();
-        _viewModel = new DashboardViewModel(_mockMediator);
+        _mockCurrentAgentService = Substitute.For<ICurrentAgentService>();
+        _viewModel = new DashboardViewModel(_mockMediator, _mockCurrentAgentService);
     }
 
     [Test]
     public async Task Constructor_ValidMediator_SetsMediator()
     {
         // Arrange & Act
-        var viewModel = new DashboardViewModel(_mockMediator);
+        var viewModel = new DashboardViewModel(_mockMediator, _mockCurrentAgentService);
 
         // Assert
         await Assert.That(viewModel).IsNotNull();
@@ -34,6 +36,7 @@ public class DashboardViewModelTests
     public async Task InitializeAsync_ValidQueries_SetsContractsAndShips()
     {
         // Arrange
+        _mockCurrentAgentService.CurrentAgentSymbol.Returns("TEST_AGENT");
         var contracts = new List<Contract> { new() { Id = "1" } };
         var ships = new List<Ship> { new() { Symbol = "SHIP1" } };
         _mockMediator.Send(Arg.Any<GetContractsQuery>()).Returns(contracts);
@@ -52,6 +55,7 @@ public class DashboardViewModelTests
     public async Task InitializeAsync_QueryThrows_SetsErrorMessage()
     {
         // Arrange
+        _mockCurrentAgentService.CurrentAgentSymbol.Returns("TEST_AGENT");
         _mockMediator.Send(Arg.Any<GetContractsQuery>()).Throws(new Exception("Test error"));
 
         // Act
@@ -59,6 +63,21 @@ public class DashboardViewModelTests
 
         // Assert
         await Assert.That(_viewModel.ErrorMessage).IsEqualTo("Test error");
+        await Assert.That(_viewModel.Contracts).IsNull();
+        await Assert.That(_viewModel.FleetShips).IsNull();
+    }
+
+    [Test]
+    public async Task InitializeAsync_NoCurrentAgent_SetsErrorMessage()
+    {
+        // Arrange
+        _mockCurrentAgentService.CurrentAgentSymbol.Returns((string?)null);
+
+        // Act
+        await _viewModel.InitializeAsync();
+
+        // Assert
+        await Assert.That(_viewModel.ErrorMessage).IsEqualTo("No agent selected. Please register or select an agent.");
         await Assert.That(_viewModel.Contracts).IsNull();
         await Assert.That(_viewModel.FleetShips).IsNull();
     }

@@ -16,6 +16,7 @@ public class CurrentAgentService : ICurrentAgentService
     public async Task SetCurrentAgentAsync(string symbol)
     {
         CurrentAgentSymbol = symbol;
+        await Task.CompletedTask;
     }
 
     public async Task<string[]> GetAvailableAgentSymbolsAsync()

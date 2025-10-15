@@ -38,6 +38,8 @@ public partial class ShellViewModel(
     [ObservableProperty]
     private string? _statusMessage;
 
+    public event Action? AgentRegistered;
+
     // This is the most important property. It will hold the ViewModel
     // for whatever page is currently being displayed (e.g., ShipListViewModel).
     [ObservableProperty]
@@ -69,6 +71,9 @@ public partial class ShellViewModel(
 
             // Set the current agent in the service
             await _currentAgentService.SetCurrentAgentAsync(agent.Symbol);
+
+            // Notify that agent registration completed
+            AgentRegistered?.Invoke();
         }
         catch (Exception ex)
         {

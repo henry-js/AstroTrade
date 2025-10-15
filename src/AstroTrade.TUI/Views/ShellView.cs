@@ -1,7 +1,10 @@
 using System.Collections;
 using System.Collections.ObjectModel;
+using AstroTrade.Core.Abstractions;
 using AstroTrade.Core.Features.Shell;
+using AstroTrade.TUI.Configuration;
 using AstroTrade.TUI.Navigation;
+using Microsoft.Extensions.Configuration;
 using Terminal.Gui;
 using Terminal.Gui.App;
 using Terminal.Gui.Input;
@@ -13,14 +16,24 @@ namespace AstroTrade.TUI.Views;
 public partial class ShellView
 {
     private readonly INavigationManager _navigationManager = default!;
+    private readonly IConfiguration _configuration;
+    private readonly ICurrentAgentService _currentAgentService;
     private readonly AgentBar? _agentBar;
 
     public ShellViewModel ViewModel { get; } = default!;
 
-    public ShellView(ShellViewModel viewModel, INavigationManager navigationManager)
+    public ShellView(
+        ShellViewModel viewModel,
+        INavigationManager navigationManager,
+        IConfiguration configuration,
+        ICurrentAgentService currentAgentService
+    )
     {
         _navigationManager =
             navigationManager ?? throw new ArgumentNullException(nameof(navigationManager));
+        _configuration = configuration ?? throw new ArgumentNullException(nameof(configuration));
+        _currentAgentService =
+            currentAgentService ?? throw new ArgumentNullException(nameof(currentAgentService));
 
         InitializeComponent();
 
@@ -28,8 +41,10 @@ public partial class ShellView
         Title = "AstroTrade";
 
         _navigationManager.ScreenChanged += OnScreenChanged;
+        ViewModel.AgentRegistered += OnAgentRegistered;
 
-        _navigationManager.NavigateTo<DashboardView>();
+        // Initialize agent and navigate based on state
+        InitializeAgentAsync();
 
         _agentBar = new AgentBar(ViewModel)
         {
@@ -43,6 +58,12 @@ public partial class ShellView
         // statusBar.Add(new StatusItem(Key.Q.WithCtrl, "~Ctrl+Q~ Quit", () => Application.RequestStop()));
         // statusBar.Add(new StatusItem(Key.Empty, "API: Online", null));
         // statusBar.Add(new StatusItem(Key.Empty, $"Time: {DateTime.UtcNow:HH:mm:ss}", null));
+    }
+
+    private void OnAgentRegistered()
+    {
+        // Agent registration completed successfully - navigate to dashboard
+        NavigateToDashboard();
     }
 
     private void OnScreenChanged(object? sender, ScreenChangedEventArgs e)
@@ -122,6 +143,46 @@ public partial class ShellView
                 _navigationManager.NavigateTo<SystemsView>();
                 break;
         }
+    }
+
+    private async void InitializeAgentAsync()
+    {
+        try
+        {
+            // Load last agent symbol from configuration
+            var config = _configuration.GetSection("SpaceTradersConfiguration");
+            var lastAgentSymbol = config["LastAgentSymbol"];
+
+            if (!string.IsNullOrEmpty(lastAgentSymbol))
+            {
+                // Check if we have a token for this agent
+                var availableAgents = await _currentAgentService.GetAvailableAgentSymbolsAsync();
+                if (availableAgents.Contains(lastAgentSymbol))
+                {
+                    // Set as current agent
+                    await _currentAgentService.SetCurrentAgentAsync(lastAgentSymbol);
+                    ViewModel.AgentSymbol = lastAgentSymbol;
+
+                    // Navigate to dashboard
+                    NavigateToDashboard();
+                    return;
+                }
+            }
+
+            // No valid last agent - show registration
+            ShowRegisterAgentDialog();
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine(ex.Message);
+            // If initialization fails, show registration as fallback
+            ShowRegisterAgentDialog();
+        }
+    }
+
+    private void NavigateToDashboard()
+    {
+        _navigationManager.NavigateTo<DashboardView>();
     }
 
     private void ShowRegisterAgentDialog()

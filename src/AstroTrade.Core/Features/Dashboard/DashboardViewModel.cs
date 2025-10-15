@@ -8,9 +8,10 @@ using SpaceTraders.Api.Models;
 
 namespace AstroTrade.Core.Features.Dashboard;
 
-public partial class DashboardViewModel(IMediator mediator) : ObservableObject
+public partial class DashboardViewModel(IMediator mediator, ICurrentAgentService currentAgentService) : ObservableObject
 {
     private readonly IMediator _mediator = mediator;
+    private readonly ICurrentAgentService _currentAgentService = currentAgentService;
 
     public event EventHandler<NavigationEventArgs>? NavigationRequested;
 
@@ -27,6 +28,15 @@ public partial class DashboardViewModel(IMediator mediator) : ObservableObject
     {
         try
         {
+            // Check if we have a current agent
+            if (string.IsNullOrEmpty(_currentAgentService.CurrentAgentSymbol))
+            {
+                ErrorMessage = "No agent selected. Please register or select an agent.";
+                Contracts = null;
+                FleetShips = null;
+                return;
+            }
+
             Contracts = await _mediator.Send(new GetContractsQuery());
             FleetShips = await _mediator.Send(new GetShipsQuery());
             ErrorMessage = null;
