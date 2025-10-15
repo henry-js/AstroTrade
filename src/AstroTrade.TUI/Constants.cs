@@ -2,11 +2,11 @@ namespace AstroTrade.TUI;
 
 public static class AppConstants
 {
-    public static string AppName => "AstroTrade.TUI";
+    public static string AssemblyName => typeof(Program).Assembly.GetName().Name!;
 
     // Centralize the logic for getting the data directory
     public static string DataDirectory =>
-        Path.Combine(Xdg.Directories.BaseDirectory.DataHome, AppName.ToLower());
+        Path.Combine(Xdg.Directories.BaseDirectory.DataHome, AssemblyName);
 
     // Centralize the logic for the full database file path
 }
