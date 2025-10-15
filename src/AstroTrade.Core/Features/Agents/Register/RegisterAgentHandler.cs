@@ -62,7 +62,7 @@ public sealed class RegisterAgentHandler : ICommandHandler<RegisterAgentCommand,
                 throw new InvalidOperationException("Agent was null");
             }
 
-            await _tokenRepository.SaveTokenAsync(token);
+            await _tokenRepository.SaveTokenAsync(token, apiAgent.Symbol!);
 
             return apiAgent.ToDomain();
         }

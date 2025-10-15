@@ -1,4 +1,5 @@
 using AstroTrade.Core.Abstractions;
+using AstroTrade.Core.Services;
 using AstroTrade.Core.Features.Contracts;
 using AstroTrade.Core.Features.Dashboard;
 using AstroTrade.Core.Features.Markets;
@@ -76,6 +77,7 @@ public static class Extensions
             .AddSingleton<ITokenRepository>(sp => new FileTokenRepository(
                 AppConstants.DataDirectory
             ))
+            .AddSingleton<ICurrentAgentService, CurrentAgentService>()
             .AddMediator(options => options.Assemblies = [typeof(Core.AssemblyMarker).Assembly]);
 
         services.AddKiotaClientServices();

@@ -5,6 +5,7 @@ namespace AstroTrade.TUI.Configuration;
 public class SpaceTradersConfiguration
 {
     public string? AccountToken { get; set; }
+    public string? LastAgentSymbol { get; set; }
 }
 
 [JsonSourceGenerationOptions(

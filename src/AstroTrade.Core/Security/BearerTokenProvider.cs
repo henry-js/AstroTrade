@@ -6,10 +6,15 @@ namespace AstroTrade.Core.Security;
 public sealed class BearerTokenProvider : IAccessTokenProvider
 {
     private readonly ITokenRepository _tokenRepository;
+    private readonly ICurrentAgentService _currentAgentService;
 
-    public BearerTokenProvider(ITokenRepository tokenRepository)
+    public BearerTokenProvider(
+        ITokenRepository tokenRepository,
+        ICurrentAgentService currentAgentService
+    )
     {
         _tokenRepository = tokenRepository;
+        _currentAgentService = currentAgentService;
     }
 
     public async Task<string> GetAuthorizationTokenAsync(
@@ -25,8 +30,14 @@ public sealed class BearerTokenProvider : IAccessTokenProvider
             return string.Empty; // Return no token
         }
 
-        // For all other endpoints, fetch the token from storage.
-        return await _tokenRepository.GetTokenAsync() ?? string.Empty;
+        // For all other endpoints, fetch the token from storage using the current agent symbol.
+        var agentSymbol = _currentAgentService.CurrentAgentSymbol;
+        if (string.IsNullOrEmpty(agentSymbol))
+        {
+            return string.Empty;
+        }
+
+        return await _tokenRepository.GetTokenAsync(agentSymbol) ?? string.Empty;
     }
 
     public AllowedHostsValidator AllowedHostsValidator { get; } = new();

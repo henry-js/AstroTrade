@@ -1,4 +1,5 @@
 // File: AstroTrade.Core/Features/Shell/ShellViewModel.cs
+using AstroTrade.Core.Abstractions;
 using AstroTrade.Core.Features.Agents.Register;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
@@ -8,11 +9,15 @@ using Microsoft.Extensions.Configuration;
 namespace AstroTrade.Core.Features.Shell;
 
 // `ObservableObject` provides the implementation for INotifyPropertyChanged.
-public partial class ShellViewModel(IMediator mediator, IConfiguration configuration)
-    : ObservableObject
+public partial class ShellViewModel(
+    IMediator mediator,
+    IConfiguration configuration,
+    ICurrentAgentService currentAgentService
+) : ObservableObject
 {
     private readonly IMediator _mediator = mediator;
     private readonly IConfiguration _configuration = configuration;
+    private readonly ICurrentAgentService _currentAgentService = currentAgentService;
 
     // `[ObservableProperty]` generates the property and the OnPropertyChanged call.
     [ObservableProperty]
@@ -61,6 +66,9 @@ public partial class ShellViewModel(IMediator mediator, IConfiguration configura
             Faction = agent.StartingFaction;
             Credits = (int)agent.Credits;
             StatusMessage = "Agent registered successfully";
+
+            // Set the current agent in the service
+            await _currentAgentService.SetCurrentAgentAsync(agent.Symbol);
         }
         catch (Exception ex)
         {
