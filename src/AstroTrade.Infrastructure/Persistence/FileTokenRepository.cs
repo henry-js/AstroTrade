@@ -4,16 +4,22 @@ namespace AstroTrade.Infrastructure.Persistence;
 
 public class FileTokenRepository : ITokenRepository
 {
-    public Task<string?> GetTokenAsync()
+    private readonly string _tokenPath;
+
+    public FileTokenRepository(string dataDirectory)
     {
-        throw new NotImplementedException();
+        _tokenPath = Path.Combine(dataDirectory, "authtoken.txt");
     }
 
-    private readonly string _tokenPath = Path.Combine(
-        Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData),
-        "AstroTrade",
-        "authtoken.txt"
-    );
+    public async Task<string?> GetTokenAsync()
+    {
+        if (!File.Exists(_tokenPath))
+        {
+            return null;
+        }
+
+        return await File.ReadAllTextAsync(_tokenPath);
+    }
 
     public Task SaveTokenAsync(string token)
     {

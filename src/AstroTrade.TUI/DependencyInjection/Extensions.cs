@@ -73,7 +73,9 @@ public static class Extensions
                 configuration.GetSection(nameof(SpaceTradersConfiguration))
             )
             .AddSingleton<MyCommands>()
-            .AddSingleton<ITokenRepository, FileTokenRepository>()
+            .AddSingleton<ITokenRepository>(sp => new FileTokenRepository(
+                AppConstants.DataDirectory
+            ))
             .AddMediator(options => options.Assemblies = [typeof(Core.AssemblyMarker).Assembly]);
 
         services.AddKiotaClientServices();
