@@ -1,74 +1,25 @@
 # AstroTrade Agent Guidelines
 
-## Build/Lint/Test Commands
+## Build/Test Commands
 
-### Build Commands
+- **Build**: `dotnet run .build/targets.cs build`
+- **Test all**: `dotnet run .build/targets.cs test`
+- **Test single**: `dotnet test --filter "FullyQualifiedName~TestClass.TestMethod"`
+- **Restore**: `dotnet run .build/targets.cs restore`
 
-- **Full build**: `dotnet run .build/targets.cs build`
-- **Restore dependencies**: `dotnet run .build/targets.cs restore`
+## Code Style (.NET 10.0, Nullable enabled)
 
-### Test Commands
+- **Namespaces**: File-scoped preferred
+- **Naming**: PascalCase (classes/methods/properties), camelCase (locals/params), _camelCase (private fields)
+- **Formatting**: 4 spaces, CRLF, expression-bodied members, pattern matching, null propagation
+- **Imports**: Outside namespace, system first, separate groups
+- **Error Handling**: Specific exceptions, Serilog logging, await in try-catch
+- **Architecture**: CQRS (Mediator), MVVM (CommunityToolkit.Mvvm), DI containers, Repository pattern
+- **Testing**: TUnit framework, [Arguments]/[MethodDataSource] for data-driven tests
 
-- **Run all tests**: `dotnet run .build/targets.cs test`
-- **Run tests with coverage**: `dotnet run .build/targets.cs test` (coverage enabled by default)
+## Project Resources (.ai directory)
 
-### Alternative Scripts
-
-- **PowerShell**: `./build.ps1 <target>` (e.g., `./build.ps1 test`)
-- **Bash**: `./build.sh <target>` (e.g., `./build.sh build`)
-
-## Code Style Guidelines
-
-### General
-
-- **Target Framework**: .NET 10.0
-- **Nullable Reference Types**: Enabled
-- **Implicit Usings**: Enabled
-- **File-scoped Namespaces**: Preferred
-- **Indentation**: 4 spaces
-- **Line Endings**: CRLF
-
-### Naming Conventions
-
-- **Classes/Interfaces/Enums**: PascalCase
-- **Methods/Properties/Events**: PascalCase
-- **Local Variables/Parameters**: camelCase
-- **Private Fields**: _camelCase
-- **Constants**: PascalCase
-- **Type Parameters**: TPrefix (e.g., `TValue`)
-
-### Code Structure
-
-- **Expression-bodied Members**: Use for accessors, properties, and lambdas where appropriate
-- **Pattern Matching**: Preferred over `as` with null checks and `is` with cast checks
-- **Collection Expressions**: Use when types loosely match
-- **Null Propagation**: Preferred
-- **Object Initializers**: Preferred
-- **Auto Properties**: Preferred
-
-### Imports and Organization
-
-- **System Directives First**: Enabled
-- **Separate Import Groups**: Enabled
-- **Using Directive Placement**: Outside namespace
-
-### Error Handling
-
-- **Exception Handling**: Use try-catch blocks with specific exception types
-- **Async Error Handling**: Use `await` in try-catch blocks
-- **Logging**: Use Serilog for structured logging
-
-### Architecture Patterns
-
-- **CQRS**: Use Mediator for command/query separation
-- **MVVM**: Use CommunityToolkit.Mvvm for view models
-- **Dependency Injection**: Register services in DI containers
-- **Repository Pattern**: Use for data access abstraction
-
-### Testing
-
-- **Framework**: TUnit with Microsoft.Testing.Platform
-- **Test Organization**: Group related tests in classes
-- **Data-driven Tests**: Use `[Arguments]`, `[MethodDataSource]`, or `[DataGenerator]`
-- **Async Tests**: Use `async Task` for asynchronous test methods
-- **Quality Tracking**: Monitor mutation testing scores and test robustness metrics separately from coverage; update this section with quarterly summaries
+- **.ai/checklists/**: Test quality checklist for code reviews
+- **.ai/designs/**: Detailed TUI screen designs and layouts
+- **.ai/guidelines/**: Comprehensive unit testing guidelines and standards
+- **.ai/plans/**: Implementation plans for features (dashboard, subcomponents, etc.)
