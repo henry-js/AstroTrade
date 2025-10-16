@@ -1,5 +1,4 @@
 using AstroTrade.Core.Abstractions;
-using AstroTrade.Core.Services;
 using AstroTrade.Core.Features.Contracts;
 using AstroTrade.Core.Features.Dashboard;
 using AstroTrade.Core.Features.Markets;
@@ -7,6 +6,7 @@ using AstroTrade.Core.Features.Shell;
 using AstroTrade.Core.Features.Ships;
 using AstroTrade.Core.Features.Systems;
 using AstroTrade.Core.Security;
+using AstroTrade.Core.Services;
 using AstroTrade.Infrastructure.Persistence;
 using AstroTrade.TUI.Commands;
 using AstroTrade.TUI.Configuration;

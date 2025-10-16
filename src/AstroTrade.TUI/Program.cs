@@ -32,7 +32,7 @@ Application.Run(provider.GetRequiredService<ShellView>());
 Application.Top?.Dispose();
 Application.Shutdown();
 
-ConsoleApp.ServiceProvider = services.BuildServiceProvider();
+ConsoleApp.ServiceProvider = provider;
 
 var app = ConsoleApp.Create();
 
