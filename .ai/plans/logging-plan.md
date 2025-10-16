@@ -7,8 +7,9 @@ This document describes a pragmatic, layered plan to introduce source-generated,
 Goals
 
 - Provide consistent, low-allocation logging via LoggerMessage source generation.
-- Organize logs into strongly-typed static classes per logical area (Domain, Infrastructure, TUI, API client, Persistence, Security, Startup).
+- Organize logs into strongly-typed static classes per logical area (Domain, Infrastructure, TUI, Persistence, Security, Startup).
 - Reserve event id ranges to make it easy to search and filter logs.
+-
 - Provide clear message templates and typed parameters so logs are queryable and useful in production.
 
 Event ID allocation
@@ -16,7 +17,7 @@ Event ID allocation
 - 1000-1099 — Core (domain, validation, features)
 - 1100-1199 — Infrastructure (HTTP clients, repositories, persistence helpers)
 - 1200-1299 — TUI (navigation, commands, UI components)
-- 1300-1399 — SpaceTraders.Api client (requests, responses, retries)
+- 1300-1399 — Reserved (previously SpaceTraders.Api, excluded as Kiota-generated)
 - 1400-1499 — Persistence/DbContext (EF lifecycle, queries, transactions)
 - 1500-1599 — Security (auth, token refresh, permission failures)
 - 1600-1699 — Startup/host/DI and configuration loading
@@ -72,19 +73,6 @@ Suggested messages (examples):
 
 - NavigationLog.NavigateStart(logger, from, to) — "Navigating from {From} to {To}" (1201)
 - CommandLog.CommandFailed(logger, commandName, reason, ex) — "Command {Command} failed: {Reason}" (1202)
-
-SpaceTraders.Api client (src/SpaceTraders.Api/) — event IDs 1300-1399
-
-- Folder: `src/SpaceTraders.Api/Logging/`
-- Files to add:
-  - `ApiRequestLog.cs` — outgoing request metadata.
-  - `ApiResponseLog.cs` — response success/failure, deserialization errors.
-  - `ApiRetryLog.cs` — if retries are used, log retry attempts and backoff durations.
-
-Suggested messages (examples):
-
-- ApiRequestLog.RequestSent(logger, operation, url, correlationId) — "API request {Operation} -> {Url} (corr: {CorrelationId})" (1301)
-- ApiResponseLog.ResponseError(logger, operation, statusCode, bodySnippet) — "API {Operation} returned {StatusCode}: {BodySnippet}" (1302)
 
 Persistence / DbContext (src/AstroTrade.Infrastructure/Persistence/) — event IDs 1400-1499
 
@@ -143,7 +131,7 @@ Unit testing and verification
 - Add a small set of unit tests using a capturing `ILoggerProvider` to assert that critical events are produced with expected template keys and values.
 - Tests should cover:
   - Happy path feature start/completion logged (Core FeatureLog)
-  - API client response error logged (SpaceTraders.Api)
+  - HttpClient response error logged (Infrastructure)
   - DbContext slow query logged (Persistence)
 
 Quality gates & build steps
@@ -172,12 +160,267 @@ Acceptance criteria
 
 Next steps (recommended order)
 
-1. Add the `Core` logging classes (1000-1099). This gives domain observability and is low risk.
-2. Add `Startup` logging in `AstroTrade.TUI` (1600-1699) to get host-level messages on start/stop and DI registration.
-3. Add `SpaceTraders.Api` client logging (1300-1399) to capture API interactions.
-4. Add Infrastructure and Persistence logging (1100-1199, 1400-1499).
-5. Add Security logs (1500-1599).
-6. Build, fix generator issues, and run tests. Replace inline logs gradually.
+1. ✅ COMPLETED: Add the `Core` logging classes (1000-1099). This gives domain observability and is low risk.
+2. ✅ COMPLETED: Add `Startup` logging in `AstroTrade.TUI` (1600-1699) to get host-level messages on start/stop and DI registration.
+3. ✅ COMPLETED: Add Infrastructure and Persistence logging (1100-1199, 1400-1499).
+4. Add Security logs (1500-1599).
+5. Build, fix generator issues, and run tests. Replace inline logs gradually.
+
+## Logging Enhancement Plan (Post-Implementation)
+
+Based on review of the implemented logging system, the following enhancements address gaps in usage, configuration, and tracing capabilities.
+
+### Enhancement 1: Expand Logging Usage Across Codebase
+
+**Objective**: Increase logging coverage from current ~5 files to comprehensive observability across all major components.
+
+**Current Usage Analysis**:
+
+- ✅ Startup/DI (Extensions.cs)
+- ✅ Repository operations (FileTokenRepository.cs)
+- ✅ UI exceptions (ExceptionFilter.cs)
+- ✅ Feature operations (ShellViewModel.cs)
+- ✅ Configuration loading (MyCommands.cs)
+
+**Missing Coverage Areas**:
+
+#### Phase 1A: Core Query Handlers (High Priority)
+
+- **GetContractsQueryHandler.cs**: Add FeatureLog calls for query start/completion
+- **GetShipsQueryHandler.cs**: Add FeatureLog calls for query start/completion
+- **GetMarketsQueryHandler.cs**: Add FeatureLog calls for query start/completion
+- **GetSystemsQueryHandler.cs**: Add FeatureLog calls for query start/completion
+
+**Implementation Pattern**:
+
+```csharp
+public async Task<List<Contract>> Handle(GetContractsQuery query, CancellationToken ct)
+{
+    var correlationId = Guid.NewGuid().ToString();
+    FeatureLog.FeatureStarted(_logger, "GetContracts", correlationId);
+    var stopwatch = Stopwatch.StartNew();
+
+    try
+    {
+        // existing logic
+        var result = await _apiClient.My.Contracts.GetAsync(cancellationToken: ct);
+
+        FeatureLog.FeatureCompleted(_logger, "GetContracts", correlationId, stopwatch.ElapsedMilliseconds);
+        return result.Data.Select(c => c.ToDomain()).ToList();
+    }
+    catch (Exception ex)
+    {
+        FeatureLog.FeatureFailed(_logger, "GetContracts", correlationId, ex.Message, ex);
+        throw;
+    }
+}
+```
+
+#### Phase 1B: ViewModel Operations (Medium Priority)
+
+- **DashboardViewModel.InitializeAsync()**: Add FeatureLog for dashboard loading
+- **ShipsViewModel**: Add NavigationLog for ship operations
+- **MarketsViewModel**: Add FeatureLog for market data fetching
+- **ContractsViewModel**: Add FeatureLog for contract operations
+
+#### Phase 1C: API Client Operations (Medium Priority)
+
+- **ApiClient usage**: Add HttpClientLog calls in request adapter or client wrapper
+- **Token refresh**: Add SecurityLog calls in BearerTokenProvider
+
+#### Phase 1D: Navigation Events (Low Priority)
+
+- **NavigationManager**: Add NavigationLog calls for view transitions
+- **View activation**: Add NavigationLog in base view classes
+
+**Success Metrics**:
+
+- 80% of query handlers have logging
+- All ViewModels have initialization logging
+- API calls are logged at HttpClient level
+
+### Enhancement 3: Enable Console Logging for Development
+
+**Objective**: Improve development experience by enabling console output while maintaining file logging for production.
+
+**Current Configuration** (Extensions.cs lines 59-63):
+
+```csharp
+// .WriteTo.Console(
+//     outputTemplate: outputTemplate,
+//     theme: AnsiConsoleTheme.Sixteen,
+//     restrictedToMinimumLevel: LogEventLevel.Information
+// )
+```
+
+**Proposed Changes**:
+
+#### Option A: Environment-Based Configuration (Recommended)
+
+```csharp
+public static void ConfigureSerilog(this ILoggingBuilder builder)
+{
+    const string outputTemplate = "[{Timestamp:HH:mm:ss} {Level:u3}] ({SourceClass}) {Message:lj}{NewLine}{Exception}";
+
+    var config = new LoggerConfiguration()
+        .MinimumLevel.Debug()
+        .WriteTo.File(
+            formatter: new MessageTemplateTextFormatter(outputTemplate),
+            Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "logs", "app-.log"),
+            restrictedToMinimumLevel: LogEventLevel.Debug,
+            shared: true,
+            rollingInterval: RollingInterval.Day
+        )
+        .Enrich.WithProperty("ApplicationName", "AstroTrade")
+        .Enrich.With<SourceClassEnricher>();
+
+    // Enable console logging in Development
+    var environment = Environment.GetEnvironmentVariable("DOTNET_ENVIRONMENT")
+                     ?? Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT")
+                     ?? "Production";
+
+    if (environment == "Development")
+    {
+        config.WriteTo.Console(
+            outputTemplate: outputTemplate,
+            theme: AnsiConsoleTheme.Sixteen,
+            restrictedToMinimumLevel: LogEventLevel.Information
+        );
+    }
+
+    builder.AddSerilog(config.CreateLogger());
+}
+```
+
+**Benefits**:
+
+- Development: Real-time console feedback
+- Production: Clean file-only logging
+- No performance impact in production
+
+### Enhancement 4: Implement Correlation IDs for Better Tracing
+
+**Objective**: Enable end-to-end request tracing across async operations and component boundaries.
+
+**Current State**: FeatureLog has correlation ID parameters but they're not being used consistently.
+
+**Implementation Plan**:
+
+#### Phase 4A: Correlation ID Infrastructure (High Priority)
+
+Create a correlation context service:
+
+**ICorrelationContext.cs**:
+
+```csharp
+public interface ICorrelationContext
+{
+    string CurrentId { get; }
+    IDisposable BeginScope(string? id = null);
+}
+```
+
+**CorrelationContext.cs**:
+
+```csharp
+public class CorrelationContext : ICorrelationContext
+{
+    private readonly AsyncLocal<string> _currentId = new();
+
+    public string CurrentId => _currentId.Value ??= Guid.NewGuid().ToString();
+
+    public IDisposable BeginScope(string? id = null)
+    {
+        var previousId = _currentId.Value;
+        _currentId.Value = id ?? Guid.NewGuid().ToString();
+        return new CorrelationScope(this, previousId);
+    }
+
+    private class CorrelationScope : IDisposable
+    {
+        private readonly CorrelationContext _context;
+        private readonly string? _previousId;
+
+        public CorrelationScope(CorrelationContext context, string? previousId)
+        {
+            _context = context;
+            _previousId = previousId;
+        }
+
+        public void Dispose() => _context._currentId.Value = _previousId;
+    }
+}
+```
+
+Register in DI:
+
+```csharp
+services.AddSingleton<ICorrelationContext, CorrelationContext>();
+```
+
+#### Phase 4B: Update FeatureLog Usage (Medium Priority)
+
+Modify existing and new FeatureLog calls to use correlation context:
+
+```csharp
+public async Task<List<Contract>> Handle(GetContractsQuery query, CancellationToken ct)
+{
+    using var scope = _correlationContext.BeginScope();
+    var correlationId = _correlationContext.CurrentId;
+
+    FeatureLog.FeatureStarted(_logger, "GetContracts", correlationId);
+    var stopwatch = Stopwatch.StartNew();
+
+    try
+    {
+        // If this calls other handlers, they inherit the correlation ID
+        var result = await _apiClient.My.Contracts.GetAsync(cancellationToken: ct);
+
+        FeatureLog.FeatureCompleted(_logger, "GetContracts", correlationId, stopwatch.ElapsedMilliseconds);
+        return result.Data.Select(c => c.ToDomain()).ToList();
+    }
+    catch (Exception ex)
+    {
+        FeatureLog.FeatureFailed(_logger, "GetContracts", correlationId, ex.Message, ex);
+        throw;
+    }
+}
+```
+
+#### Phase 4C: Navigation Correlation (Low Priority)
+
+Link navigation events to feature operations:
+
+```csharp
+public async Task NavigateToAsync<TView>(NavigationParameters? parameters = null)
+{
+    var correlationId = _correlationContext.CurrentId;
+    NavigationLog.NavigateStart(_logger, CurrentView?.GetType().Name, typeof(TView).Name,
+                               parameters?.ToString(), correlationId);
+
+    // navigation logic
+
+    NavigationLog.NavigateComplete(_logger, typeof(TView).Name, elapsedMs, correlationId);
+}
+```
+
+**Benefits**:
+
+- Trace requests across component boundaries
+- Debug complex async flows
+- Correlate logs from different layers
+- Support distributed tracing if needed later
+
+### Enhancement Implementation Timeline
+
+**Week 1**: Enhancements 1A + 3 (Query handlers + Console logging)
+**Week 2**: Enhancements 1B + 4A (ViewModels + Correlation infrastructure)
+**Week 3**: Enhancements 1C + 4B (API logging + Correlation usage)
+**Week 4**: Enhancements 1D + 4C (Navigation + Final correlation integration)
+
+**Testing**: Add integration tests to verify correlation IDs flow correctly across components.
+
+This enhancement plan provides systematic expansion of logging capabilities while maintaining the high-quality foundation already established.
 
 Appendix — mapping to todo list
 
@@ -185,8 +428,4 @@ Appendix — mapping to todo list
 
 ---
 
-If you'd like, I can now:
-
-- create the `Core` logger files and a sample unit test (task 1), or
-- add startup logs directly to `src/AstroTrade.TUI/DependencyInjection/Extensions.cs` (task 7), or
-- both in one PR.
+Last updated: 2025-10-16 (Enhanced with post-implementation expansion plan)
