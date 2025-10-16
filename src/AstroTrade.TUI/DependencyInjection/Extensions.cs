@@ -1,3 +1,4 @@
+using System.Linq;
 using AstroTrade.Core.Abstractions;
 using AstroTrade.Core.Features.Contracts;
 using AstroTrade.Core.Features.Dashboard;
@@ -75,13 +76,35 @@ public static class Extensions
             )
             .AddSingleton<MyCommands>()
             .AddSingleton<ITokenRepository>(sp => new FileTokenRepository(
-                AppConstants.DataDirectory
+                AppConstants.DataDirectory,
+                sp.GetRequiredService<ILogger<FileTokenRepository>>()
             ))
             .AddSingleton<ICurrentAgentService, CurrentAgentService>()
             .AddMediator(options => options.Assemblies = [typeof(Core.AssemblyMarker).Assembly]);
 
         services.AddKiotaClientServices();
         services.AddTUIViews();
+
+        // Emit startup-level logs (configuration loaded, service registration summary)
+        // We build a short-lived ServiceProvider here to obtain an ILoggerFactory that
+        // is already configured by the previous AddLogging call. This is intentional
+        // for early startup observability.
+        using (var sp = services.BuildServiceProvider())
+        {
+            var loggerFactory = sp.GetRequiredService<ILoggerFactory>();
+            var logger = loggerFactory.CreateLogger("Startup");
+            var env =
+                Environment.GetEnvironmentVariable("DOTNET_ENVIRONMENT")
+                ?? Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT")
+                ?? "Production";
+
+            StartupLog.ApplicationStarting(logger, env);
+
+            var providerCount = (configuration as IConfigurationRoot)?.Providers?.Count() ?? 1;
+            StartupLog.ConfigurationLoaded(logger, providerCount);
+
+            StartupLog.ServiceRegistrationSummary(logger, services.Count);
+        }
     }
 
     private static void AddTUIViews(this IServiceCollection services)

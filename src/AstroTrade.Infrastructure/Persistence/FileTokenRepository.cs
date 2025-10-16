@@ -1,14 +1,18 @@
 using AstroTrade.Core.Abstractions;
+using AstroTrade.Infrastructure.Logging;
+using Microsoft.Extensions.Logging;
 
 namespace AstroTrade.Infrastructure.Persistence;
 
 public class FileTokenRepository : ITokenRepository
 {
     private readonly string _dataDirectory;
+    private readonly ILogger<FileTokenRepository> _logger;
 
-    public FileTokenRepository(string dataDirectory)
+    public FileTokenRepository(string dataDirectory, ILogger<FileTokenRepository> logger)
     {
         _dataDirectory = dataDirectory;
+        _logger = logger;
     }
 
     public async Task<string?> GetTokenAsync(string agentSymbol)
@@ -16,10 +20,13 @@ public class FileTokenRepository : ITokenRepository
         var tokenPath = GetTokenPath(agentSymbol);
         if (!File.Exists(tokenPath))
         {
+            RepositoryLog.EntityNotFound(_logger, nameof(FileTokenRepository), agentSymbol);
             return null;
         }
 
-        return await File.ReadAllTextAsync(tokenPath);
+        var text = await File.ReadAllTextAsync(tokenPath);
+        RepositoryLog.QueryExecuted(_logger, "ReadToken");
+        return text;
     }
 
     public async Task SaveTokenAsync(string token, string agentSymbol)
@@ -34,6 +41,7 @@ public class FileTokenRepository : ITokenRepository
         }
 
         await File.WriteAllTextAsync(tokenPath, token);
+        RepositoryLog.CacheStatus(_logger, "saved", agentSymbol);
     }
 
     public async Task<string[]> GetAvailableAgentSymbolsAsync()
@@ -57,6 +65,7 @@ public class FileTokenRepository : ITokenRepository
                 agentSymbols.Add(agentSymbol);
             }
         }
+        RepositoryLog.QueryExecuted(_logger, "ListAvailableAgentSymbols");
         return await Task.FromResult(agentSymbols.ToArray());
     }
 

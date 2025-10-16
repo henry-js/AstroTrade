@@ -8,7 +8,10 @@ using SpaceTraders.Api.Models;
 
 namespace AstroTrade.Core.Features.Dashboard;
 
-public partial class DashboardViewModel(IMediator mediator, ICurrentAgentService currentAgentService) : ObservableObject
+public partial class DashboardViewModel(
+    IMediator mediator,
+    ICurrentAgentService currentAgentService
+) : ObservableObject
 {
     private readonly IMediator _mediator = mediator;
     private readonly ICurrentAgentService _currentAgentService = currentAgentService;

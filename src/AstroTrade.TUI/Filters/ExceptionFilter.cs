@@ -1,3 +1,4 @@
+using AstroTrade.TUI.Logging;
 using ConsoleAppFramework;
 using Microsoft.Extensions.Logging;
 using Spectre.Console;
@@ -21,7 +22,7 @@ internal sealed class ExceptionFilter(ConsoleAppFilter next, ILoggerFactory fact
         catch (Exception ex)
         {
             AnsiConsole.MarkupLineInterpolated($"[red]{ex.Message}[/]");
-            logger.LogError(ex, "Program stopped");
+            UiLog.ComponentIssue(logger, "Program", "Unhandled exception in program", ex);
         }
     }
 }

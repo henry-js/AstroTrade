@@ -77,7 +77,9 @@ public class DashboardViewModelTests
         await _viewModel.InitializeAsync();
 
         // Assert
-        await Assert.That(_viewModel.ErrorMessage).IsEqualTo("No agent selected. Please register or select an agent.");
+        await Assert
+            .That(_viewModel.ErrorMessage)
+            .IsEqualTo("No agent selected. Please register or select an agent.");
         await Assert.That(_viewModel.Contracts).IsNull();
         await Assert.That(_viewModel.FleetShips).IsNull();
     }

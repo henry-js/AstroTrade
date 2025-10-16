@@ -1,6 +1,7 @@
 using System.Text.Json;
 using AstroTrade.Core.Features.Agents.Register;
 using AstroTrade.TUI.Configuration;
+using AstroTrade.TUI.Logging;
 using ConsoleAppFramework;
 using Mediator;
 using Microsoft.Extensions.Configuration;
@@ -30,7 +31,7 @@ public class MyCommands(
         );
         var newAgent = await _mediator.Send(command);
         var opts = options;
-        logger.LogInformation("Displaying IOptions wrapped config");
+        UiLog.ConfigurationLoaded(logger, nameof(SpaceTradersConfiguration));
 
         var text = JsonSerializer.Serialize(
             config,

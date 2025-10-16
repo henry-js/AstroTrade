@@ -9,10 +9,14 @@ using Microsoft.Extensions.Configuration;
 namespace AstroTrade.Core.Features.Shell;
 
 // `ObservableObject` provides the implementation for INotifyPropertyChanged.
+using AstroTrade.Core.Logging;
+using Microsoft.Extensions.Logging;
+
 public partial class ShellViewModel(
     IMediator mediator,
     IConfiguration configuration,
-    ICurrentAgentService currentAgentService
+    ICurrentAgentService currentAgentService,
+    ILogger<ShellViewModel> logger
 ) : ObservableObject
 {
     private readonly IMediator _mediator = mediator;
@@ -78,6 +82,13 @@ public partial class ShellViewModel(
         catch (Exception ex)
         {
             StatusMessage = $"Registration failed: {ex.Message}";
+            FeatureLog.FeatureFailed(
+                logger,
+                "RegisterAgent",
+                Guid.NewGuid().ToString(),
+                ex.Message,
+                ex
+            );
         }
     }
 }
