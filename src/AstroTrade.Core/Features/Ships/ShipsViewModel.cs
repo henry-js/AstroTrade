@@ -1,11 +1,18 @@
 using AstroTrade.Core.Abstractions;
+using AstroTrade.Core.Logging;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using Microsoft.Extensions.Logging;
 
 namespace AstroTrade.Core.Features.Ships;
 
-public partial class ShipsViewModel : ObservableObject
+public partial class ShipsViewModel(
+    ILogger<ShipsViewModel> logger,
+    ICorrelationContext correlationContext) : ObservableObject
 {
+    private readonly ILogger<ShipsViewModel> _logger = logger;
+    private readonly ICorrelationContext _correlationContext = correlationContext;
+
     public event EventHandler<NavigationEventArgs>? NavigationRequested;
 
     [RelayCommand]

@@ -44,25 +44,35 @@ public static class Extensions
     {
         const string outputTemplate =
             "[{Timestamp:HH:mm:ss} {Level:u3}] ({SourceClass}) {Message:lj}{NewLine}{Exception}";
-        builder.AddSerilog(
-            new LoggerConfiguration()
-                .MinimumLevel.Debug()
-                .WriteTo.File(
-                    formatter: new MessageTemplateTextFormatter(outputTemplate),
-                    Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "logs", "app-.log"),
-                    restrictedToMinimumLevel: LogEventLevel.Debug,
-                    shared: true,
-                    rollingInterval: RollingInterval.Day
-                )
-                .Enrich.WithProperty("ApplicationName", "<APP NAME>")
-                .Enrich.With<SourceClassEnricher>()
-                // .WriteTo.Console(
-                //     outputTemplate: outputTemplate,
-                //     theme: AnsiConsoleTheme.Sixteen,
-                //     restrictedToMinimumLevel: LogEventLevel.Information
-                // )
-                .CreateLogger()
-        );
+
+        var config = new LoggerConfiguration()
+            .MinimumLevel.Debug()
+            .WriteTo.File(
+                formatter: new MessageTemplateTextFormatter(outputTemplate),
+                Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "logs", "app-.log"),
+                restrictedToMinimumLevel: LogEventLevel.Debug,
+                shared: true,
+                rollingInterval: RollingInterval.Day
+            )
+            .Enrich.WithProperty("ApplicationName", "AstroTrade")
+            .Enrich.With<SourceClassEnricher>();
+
+        // Enable console logging in Development
+        var environment =
+            Environment.GetEnvironmentVariable("DOTNET_ENVIRONMENT")
+            ?? Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT")
+            ?? "Production";
+
+        if (environment == "Development")
+        {
+            config.WriteTo.Console(
+                outputTemplate: outputTemplate,
+                theme: AnsiConsoleTheme.Sixteen,
+                restrictedToMinimumLevel: LogEventLevel.Information
+            );
+        }
+
+        builder.AddSerilog(config.CreateLogger());
     }
 
     public static void AddProjectServices(this IServiceCollection services)
@@ -80,6 +90,10 @@ public static class Extensions
                 sp.GetRequiredService<ILogger<FileTokenRepository>>()
             ))
             .AddSingleton<ICurrentAgentService, CurrentAgentService>()
+            .AddSingleton<
+                AstroTrade.Core.Abstractions.ICorrelationContext,
+                AstroTrade.Core.Services.CorrelationContext
+            >()
             .AddMediator(options => options.Assemblies = [typeof(Core.AssemblyMarker).Assembly]);
 
         services.AddKiotaClientServices();

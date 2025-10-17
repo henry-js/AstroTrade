@@ -1,11 +1,18 @@
 using AstroTrade.Core.Abstractions;
+using AstroTrade.Core.Logging;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using Microsoft.Extensions.Logging;
 
 namespace AstroTrade.Core.Features.Systems;
 
-public partial class SystemsViewModel : ObservableObject
+public partial class SystemsViewModel(
+    ILogger<SystemsViewModel> logger,
+    ICorrelationContext correlationContext) : ObservableObject
 {
+    private readonly ILogger<SystemsViewModel> _logger = logger;
+    private readonly ICorrelationContext _correlationContext = correlationContext;
+
     public event EventHandler<NavigationEventArgs>? NavigationRequested;
 
     [RelayCommand]

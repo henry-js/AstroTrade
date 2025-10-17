@@ -3,6 +3,9 @@ using AstroTrade.Core.Features.Contracts;
 using AstroTrade.Core.Features.Dashboard;
 using AstroTrade.Core.Features.Ships;
 using Mediator;
+
+using Microsoft.Extensions.Logging.Abstractions;
+
 using NSubstitute;
 using NSubstitute.ExceptionExtensions;
 using SpaceTraders.Api.Models;
@@ -12,6 +15,8 @@ public class DashboardViewModelTests
 {
     private IMediator _mockMediator = null!;
     private ICurrentAgentService _mockCurrentAgentService = null!;
+    private ICorrelationContext _mockCorrelationContext = null!;
+    private NullLogger<DashboardViewModel> _logger = null!;
     private DashboardViewModel _viewModel = null!;
 
     [Before(Test)]
@@ -19,14 +24,17 @@ public class DashboardViewModelTests
     {
         _mockMediator = Substitute.For<IMediator>();
         _mockCurrentAgentService = Substitute.For<ICurrentAgentService>();
-        _viewModel = new DashboardViewModel(_mockMediator, _mockCurrentAgentService);
+        _mockCorrelationContext = Substitute.For<ICorrelationContext>();
+        _mockCorrelationContext.CurrentId.Returns("test-correlation-id");
+        _logger = new NullLogger<DashboardViewModel>();
+        _viewModel = new DashboardViewModel(_mockMediator, _mockCurrentAgentService, _logger, _mockCorrelationContext);
     }
 
     [Test]
     public async Task Constructor_ValidMediator_SetsMediator()
     {
         // Arrange & Act
-        var viewModel = new DashboardViewModel(_mockMediator, _mockCurrentAgentService);
+        var viewModel = new DashboardViewModel(_mockMediator, _mockCurrentAgentService, _logger, _mockCorrelationContext);
 
         // Assert
         await Assert.That(viewModel).IsNotNull();
